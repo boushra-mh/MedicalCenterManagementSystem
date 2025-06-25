@@ -13,6 +13,6 @@ class Specialty extends Model
 
      public function doctors()
      {
-        return $this->hasMany(Doctor::class);
+        return $this->belongsToMany(Doctor::class);
      }
 }

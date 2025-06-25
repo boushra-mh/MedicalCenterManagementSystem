@@ -9,13 +9,13 @@ enum UserRole:String
     case ADMIN ='admin';
 
     case DOCTOR ='doctor';
-    case PATIENT = 'patient';
+    case USER = 'user';
     public function guard()
     {
         return match ($this) {
             self::ADMIN => 'admin',
             self::DOCTOR => 'doctor',
-            self::PATIENT => 'patient',
+            self::USER=> 'user',
         };
     }
 
