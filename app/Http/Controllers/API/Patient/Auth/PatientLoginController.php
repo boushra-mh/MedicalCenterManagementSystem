@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\API\Patient\Auth;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\API\Patient\PatientLoginRequest;
+use App\Http\Requests\API\Patient\Auth\PatientLoginRequest;
 use App\Http\Resources\API\Patient\Auth\PatientLoginResource;
 use App\Models\User;
 use App\Traits\ResponceTrait;
