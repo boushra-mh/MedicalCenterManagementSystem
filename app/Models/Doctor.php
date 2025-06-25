@@ -5,17 +5,26 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Doctor extends Model
+use Spatie\Permission\Traits\HasRoles;
+use Illuminate\Foundation\Auth\User as Authenticatable;
+use Laravel\Sanctum\HasApiTokens;
+
+class Doctor extends Authenticatable
 {
     /** @use HasFactory<\Database\Factories\DoctorFactory> */
-    use HasFactory;
+    use HasFactory ,HasRoles ,HasApiTokens;
+    protected $guard_name = 'doctor';
+
     protected $fillable = ['name','email','password'];
 
     public function specialties()
     {
-        return $this->hasMany(Specialty::class);
+
+        return $this->belongsToMany(Specialty::class);
     }
-    public function appointements()
+ 
+    public function appointments()
+
     {
         return $this->hasMany(Appointment::class);
     }

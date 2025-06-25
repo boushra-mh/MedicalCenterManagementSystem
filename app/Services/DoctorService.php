@@ -26,6 +26,7 @@ class DoctorService
     if (!empty($data['specialties'])) {
             $doctor->specialties()->sync($data['specialties']);
         }
+        return $doctor;
         
     }
     public function find($id)
@@ -47,5 +48,5 @@ class DoctorService
 
         return true;
     }
-
 }
+

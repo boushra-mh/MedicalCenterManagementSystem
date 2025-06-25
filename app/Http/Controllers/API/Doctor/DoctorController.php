@@ -12,23 +12,24 @@ use Illuminate\Http\Request;
 class DoctorController extends Controller
 {
     use ResponceTrait;
+
     protected $doctorService;
 
     public function __construct(DoctorService $doctorService)
     {
         $this->doctorService = $doctorService;
     }
+
     /**
      * Display a listing of the resource.
      */
-
-
-     public function index()
+    public function index()
     {
         $doctors = $this->doctorService->getAllDoctors();
-        return $this->sendResponce(DoctorResource::collection($doctors),'Doctors_retrieved_successfully');
-        
+        return $this->sendResponce(DoctorResource::collection($doctors), 'Doctors_retrieved_successfully');
     }
+
+    /** Display a listing of the resource. */
 
     /**
      * Show the form for creating a new resource.
@@ -43,9 +44,8 @@ class DoctorController extends Controller
      */
     public function store(DoctorRequest $request)
     {
-        $doctor= $this->doctorService->create($request->validated());
-        return $this->sendResponce(new DoctorResource($doctor),'Doctor_stored_successfully');
-        //
+        $doctor = $this->doctorService->create($request->validated());
+        return $this->sendResponce(new DoctorResource($doctor), 'Doctor_stored_successfully');
     }
 
     /**
@@ -53,9 +53,10 @@ class DoctorController extends Controller
      */
     public function show(string $id)
     {
-        $doctor= $this->doctorService->find($id);
-         return $this->sendResponce(new DoctorResource($doctor),'Doctor_retrived_successfully');
+        $doctor = $this->doctorService->find($id);
+        return $this->sendResponce(new DoctorResource($doctor), 'Doctor_retrived_successfully');
 
+        //
     }
 
     /**
@@ -71,8 +72,8 @@ class DoctorController extends Controller
      */
     public function update(DoctorRequest $request, string $id)
     {
-        $doctor= $this->doctorService->update($request->validated(),$id);
-        return $this->sendResponce(new DoctorResource($doctor),'Doctor_updated_successfully');
+        $doctor = $this->doctorService->update($request->validated(), $id);
+        return $this->sendResponce(new DoctorResource($doctor), 'Doctor_updated_successfully');
     }
 
     /**
@@ -80,7 +81,7 @@ class DoctorController extends Controller
      */
     public function destroy(string $id)
     {
-        $doctor= $this->doctorService->delete($id);
-        return $this->sendResponce(null,'Doctor_deleted_successfully');
+        $doctor = $this->doctorService->delete($id);
+        return $this->sendResponce(null, 'Doctor_deleted_successfully');
     }
 }
