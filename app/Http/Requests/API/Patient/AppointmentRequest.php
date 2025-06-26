@@ -1,11 +1,13 @@
 <?php
 
-namespace App\Http\Requests\API\Patient\Auth;
+namespace App\Http\Requests\API\Patient;
 
-use App\Http\Requests\APIRequest;
+use App\Enums\AppointementStatus;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
+use Illuminate\Validation\Rules\Exists;
 
-class patientRegisterRequest extends APIRequest
+class AppointmentRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -22,10 +24,11 @@ class patientRegisterRequest extends APIRequest
      */
     public function rules(): array
     {
-        return [
-              'name' => ['required', 'string', 'max:255'],
-        'email' => ['required', 'email', 'unique:users,email'],
-        'password' => ['required', 'string', 'min:8'],
-        ];
+
+         return [
+        'doctor_id' => ['required', 'exists:doctors,id'],
+        'date' => ['required', 'date', 'after_or_equal:today'],
+        'time' => ['required', 'date_format:H:i'],
+    ];
     }
 }

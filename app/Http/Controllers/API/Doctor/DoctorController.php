@@ -4,7 +4,9 @@ namespace App\Http\Controllers\API\Doctor;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\API\Doctor\DoctorRequest;
+use App\Http\Resources\API\Appointment\AppointmentResource;
 use App\Http\Resources\API\Doctor\DoctorResource;
+use App\Services\AppointmentService;
 use App\Services\DoctorService;
 use App\Traits\ResponceTrait;
 use Illuminate\Http\Request;
@@ -14,11 +16,15 @@ class DoctorController extends Controller
     use ResponceTrait;
 
     protected $doctorService;
-
-    public function __construct(DoctorService $doctorService)
+    protected $appointmentService;
+    public function __construct(AppointmentService $appointmentService,DoctorService $doctorService)
     {
-        $this->doctorService = $doctorService;
+
+        $this->appointmentService = $appointmentService;
+         $this->doctorService = $doctorService;
     }
+
+   
 
     /**
      * Display a listing of the resource.
@@ -83,5 +89,11 @@ class DoctorController extends Controller
     {
         $doctor = $this->doctorService->delete($id);
         return $this->sendResponce(null, 'Doctor_deleted_successfully');
+    }
+    public function doctorAppointments()
+    {
+        $doctor_id=auth('doctor')->id();
+        $appointments =$this->appointmentService->getAppointmentsByDoctor($doctor_id);
+        return $this->sendResponce( AppointmentResource::collection($appointments),'Ap');
     }
 }

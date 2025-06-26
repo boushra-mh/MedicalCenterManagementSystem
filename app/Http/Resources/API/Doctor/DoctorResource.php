@@ -19,7 +19,13 @@ class DoctorResource extends JsonResource
             'id'         => $this->id,
             'name'       => $this->name,
             'email'      => $this->email,
-            'specialties' => $this->specialties->pluck('name'),
+          'specialties' => $this->specialties->map(function ($specialty) {
+    return [
+        'id' => $specialty->id,
+        'name' => $specialty->getTranslation('name', app()->getLocale()),
+    ];
+}),
+
             'created_at' => $this->created_at?->format('Y-m-d H:i:s'),
         ];
 
