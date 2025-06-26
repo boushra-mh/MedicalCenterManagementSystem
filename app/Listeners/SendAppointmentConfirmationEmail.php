@@ -3,9 +3,12 @@
 namespace App\Listeners;
 
 use App\Events\AppointmentBooked;
+
+use App\Mail\AppointmentConfirmedMail;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Mail;
 use PgSql\Lob;
 
 class SendAppointmentConfirmationEmail
@@ -24,11 +27,13 @@ class SendAppointmentConfirmationEmail
      */
     public function handle(AppointmentBooked $event): void
     {
-             $msg = 'AppointmentBooked event fired for appointment ID: ' . $event->appointment->id;
-        Log::info($msg);
+              $appointment = $event->appointment;
 
-        // خزّن الرسالة للاختبا
-        self::$message = $msg;
+
+        Mail::to($appointment->user->email)->send(new AppointmentConfirmedMail($appointment));
+
+
+        Mail::to($appointment->doctor->email)->send(new AppointmentConfirmedMail($appointment));
 
     }
 }

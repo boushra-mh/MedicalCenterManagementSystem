@@ -1,12 +1,16 @@
-<x-mail::message>
-# Introduction
+@component('mail::message')
+ {{ __('Appointment Confirmation') }}
 
-The body of your message.
+{{ __('Dear') }} {{ $user->name }},
 
-<x-mail::button :url="''">
-Button Text
-</x-mail::button>
+{{ __('Your appointment has been booked successfully.') }}
 
-Thanks,<br>
-{{ config('app.name') }}
-</x-mail::message>
+{{ __('Appointment Details:') }}
+
+- {{ __('Doctor') }}: {{ $doctor->name }}
+- {{ __('Date') }}: {{ $appointment->date }}
+- {{ __('Time') }}: {{ $appointment->time }}
+
+{{ __('Thank you for choosing our medical center!') }}
+
+@endcomponent

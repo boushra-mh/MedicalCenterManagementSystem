@@ -2,6 +2,7 @@
 
 namespace App\Mail;
 
+use App\Models\Appointment;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
@@ -13,12 +14,13 @@ class AppointmentConfirmedMail extends Mailable
 {
     use Queueable, SerializesModels;
 
+    public $appointment;
     /**
      * Create a new message instance.
      */
-    public function __construct()
+    public function __construct(Appointment $appointment)
     {
-        //
+        $this->appointment = $appointment;
     }
 
     /**
@@ -36,9 +38,14 @@ class AppointmentConfirmedMail extends Mailable
      */
     public function content(): Content
     {
-        return new Content(
-            markdown: 'emails.appointments.confirmed',
-        );
+       return new Content(
+        markdown: 'emails.appointments.confirmed',
+        with: [
+            'appointment' => $this->appointment,
+            'user' => $this->appointment->user,
+            'doctor' => $this->appointment->doctor,
+        ]
+    );
     }
 
     /**
