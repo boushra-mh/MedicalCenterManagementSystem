@@ -14,11 +14,15 @@ return new class extends Migration
         Schema::create('doctors', function (Blueprint $table) {
             $table->id();
             $table->string('name');
+<<<<<<< HEAD
 
             $table->string('email');
 
             $table->string('email')->unique();
 
+=======
+            $table->string('email')->unique();
+>>>>>>> 3aa0de5 (SpecialtiesPanel)
             $table->string('password');
             $table->timestamps();
         });

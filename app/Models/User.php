@@ -8,11 +8,19 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use Spatie\Permission\Traits\HasRoles;
+<<<<<<< HEAD
+=======
+
+>>>>>>> 3aa0de5 (SpecialtiesPanel)
 
 class User extends Authenticatable
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
+<<<<<<< HEAD
     use HasFactory, Notifiable, HasRoles, HasApiTokens;
+=======
+    use HasFactory, Notifiable,HasRoles,HasApiTokens;
+>>>>>>> 3aa0de5 (SpecialtiesPanel)
 
     /**
      * The attributes that are mass assignable.
@@ -35,8 +43,12 @@ class User extends Authenticatable
         'remember_token',
     ];
 
+<<<<<<< HEAD
     protected $guard_name = 'user';
 
+=======
+        protected $guard_name = 'user';
+>>>>>>> 3aa0de5 (SpecialtiesPanel)
     /**
      * Get the attributes that should be cast.
      *
@@ -49,7 +61,10 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+<<<<<<< HEAD
 
+=======
+>>>>>>> 3aa0de5 (SpecialtiesPanel)
     public function appointments()
     {
         return $this->hasMany(Appointment::class);

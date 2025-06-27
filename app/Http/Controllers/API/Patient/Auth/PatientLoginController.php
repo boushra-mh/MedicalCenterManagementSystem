@@ -3,7 +3,11 @@
 namespace App\Http\Controllers\API\Patient\Auth;
 
 use App\Http\Controllers\Controller;
+<<<<<<< HEAD
 use App\Http\Requests\API\Patient\Auth\PatientLoginRequest;
+=======
+use App\Http\Requests\API\Patient\PatientLoginRequest;
+>>>>>>> 3aa0de5 (SpecialtiesPanel)
 use App\Http\Resources\API\Patient\Auth\PatientLoginResource;
 use App\Models\User;
 use App\Traits\ResponceTrait;

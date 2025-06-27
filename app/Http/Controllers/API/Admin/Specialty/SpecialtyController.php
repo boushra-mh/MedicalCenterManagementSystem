@@ -5,8 +5,11 @@ namespace App\Http\Controllers\API\Admin\Specialty;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\API\Admin\Specialty\SpecialtyStoreRequest;
 use App\Http\Resources\API\Admin\Specialty\SpecialtyResource;
+<<<<<<< HEAD
 use App\Http\Resources\API\Doctor\DoctorResource;
 use App\Models\Specialty;
+=======
+>>>>>>> 3aa0de5 (SpecialtiesPanel)
 use App\Services\SpecialtyService;
 use App\Traits\ResponceTrait;
 use Illuminate\Database\Eloquent\Collection;
@@ -55,6 +58,7 @@ class SpecialtyController extends Controller
         return $this->sendResponce(null,
         "Speciality_deleted_Succesfully");
 }
+<<<<<<< HEAD
 public function doctors($id)
 {
       
@@ -62,4 +66,6 @@ public function doctors($id)
 
     return $this->sendResponce(DoctorResource::collection($specialty->doctors) ,'Doctors_in_this_specialty');
 }
+=======
+>>>>>>> 3aa0de5 (SpecialtiesPanel)
 }

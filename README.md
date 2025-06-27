@@ -1,71 +1,110 @@
-<<<<<<< HEAD
-<<<<<<< HEAD
-# MedicalCenterManagementSystem
-=======
-=======
->>>>>>> 3aa0de54eaf285b9a954a3013aab357c6a425dfa
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Medical Center Management System
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+## Project Overview
 
-## About Laravel
+This project is a web application built with Laravel to manage a medical center efficiently. It supports three main user roles with distinct functionalities:
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+- **Admin**: Manage specialties and doctors.
+- **Doctor**: View appointments and manage their schedule.
+- **Patient (User)**: Browse specialties and doctors, book and manage appointments.
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+The system uses Laravel Sanctum for multi-guard authentication, Spatie Laravel Permission for role and permission management, and Spatie Laravel Translatable for multilingual support (English and Arabic). It implements event-driven architecture with events and listeners, and sends email notifications upon key actions like appointment booking.
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+---
 
-## Learning Laravel
+## Features
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+### Authentication & Authorization
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+- Multi-guard authentication with Sanctum for Admin, Doctor, and Patient.
+- Role-based access control with Spatie Laravel Permission.
+- Route protection based on roles and permissions.
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+### User Roles and Permissions
 
-## Laravel Sponsors
+- **Admin**: Can create, edit, and delete specialties and doctors.
+- **Doctor**: Can view their booked appointments.
+- **Patient**: Can browse specialties, view doctors, book and cancel appointments.
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+### Appointments
 
-### Premium Partners
+- Unified working schedule for all doctors with allowed time slots.
+- Appointment booking with validation for availability and schedule.
+- Appointment cancellation by patients.
+- Status management via PHP Enums (Pending, Confirmed, Canceled).
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+### Multilingual Support
 
-## Contributing
+- Specialty names and UI content are translatable in English and Arabic.
+- Translations stored in JSON columns using Spatie Laravel Translatable.
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+### Events and Notifications
 
-## Code of Conduct
+- Event triggered on appointment booking (`AppointmentBooked`).
+- Listeners send confirmation emails to both patient and doctor.
+- Email templates support multilingual content.
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+### Services and Architecture
 
-## Security Vulnerabilities
+- Business logic encapsulated in service classes (AppointmentService, DoctorService, SpecialtyService).
+- Clean separation of concerns and dependency injection.
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+---
+
+## Technology Stack
+
+- PHP 8.1+
+- Laravel 12
+- Laravel Sanctum (API Authentication)
+- Spatie Laravel Permission (Roles & Permissions)
+- Spatie Laravel Translatable (Localization)
+- MySQL or any relational DB
+- PHPUnit for testing
+
+---
+
+## Database Schema (Summary)
+
+| Table             | Description                            |
+|-------------------|--------------------------------------|
+| users             | Patients                             |
+| doctors           | Doctors                             |
+| admins            | Admin users                         |
+| specialties       | Medical specialties (translatable)  |
+| doctor_specialty  | Pivot table for doctor specialties   |
+| appointments      | Appointment records                  |
+| roles             | Spatie roles                        |
+| permissions       | Spatie permissions                  |
+
+---
+
+## Setup Instructions
+
+1. Clone the repository.
+2. Run `composer install`.
+3. Copy `.env.example` to `.env` and set database and mail configurations.
+4. Run `php artisan migrate --seed` to create tables and seed initial data.
+5. Run `php artisan serve` to start the development server.
+6. Use API tools like Postman to test the endpoints.
+
+---
+
+## API Endpoints Overview
+
+- `/api/patient/register` - Patient registration
+- `/api/patient/login` - Patient login
+- `/api/doctor/login` - Doctor login
+- `/api/admin/login` - Admin login
+- Protected routes for managing specialties, doctors, appointments with role-based middleware.
+
+---
+
+## Contribution
+
+Contributions are welcome! Please open issues or submit pull requests for bug fixes or feature suggestions.
+
+---
 
 ## License
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
-<<<<<<< HEAD
->>>>>>> 503b3ba (first commit)
-=======
->>>>>>> 3aa0de54eaf285b9a954a3013aab357c6a425dfa
+This project is open-source and licensed under the MIT License.
