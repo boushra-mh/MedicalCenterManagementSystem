@@ -11,7 +11,7 @@ use Illuminate\Database\Eloquent\Model;
 class Admin extends Authenticatable
 {
     /** @use HasFactory<\Database\Factories\AdminFactory> */
-    use HasFactory,HasApiTokens ;
+    use HasFactory,HasApiTokens,HasRoles ;
     protected $fillable = ['name','email','password'];
 
 
