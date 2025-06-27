@@ -2,10 +2,6 @@
 
 namespace App\Services;
 
-<<<<<<< HEAD
-
-=======
->>>>>>> 3aa0de5 (SpecialtiesPanel)
 use App\Models\Specialty;
 
 class SpecialtyService
@@ -61,9 +57,6 @@ class SpecialtyService
 
 
     }
-<<<<<<< HEAD
 
-=======
->>>>>>> 3aa0de5 (SpecialtiesPanel)
 
 }

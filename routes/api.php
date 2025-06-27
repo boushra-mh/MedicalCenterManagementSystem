@@ -1,29 +1,22 @@
 <?php
 
 use App\Http\Controllers\API\Admin\Auth\AdminLoginController;
+use App\Http\Controllers\API\Admin\AdminController; 
 use App\Http\Controllers\API\Admin\Specialty\SpecialtyController;
-use App\Http\Controllers\API\Admin\AdminController;
-<<<<<<< HEAD
 use App\Http\Controllers\API\Doctor\Auth\DoctorLoginController;
 use App\Http\Controllers\API\Doctor\DoctorController;
+
 use App\Http\Controllers\API\Patient\Auth\PatientLoginController;
 use App\Http\Controllers\API\Patient\Auth\PatientRegisterController;
 use App\Http\Controllers\API\Patient\AppointmentController;
-=======
-use App\Http\Controllers\API\Admin\Auth\AdminLoginController;
-use App\Http\Controllers\API\Admin\Specialty\SpecialtyController;
-use App\Http\Controllers\API\Doctor\Auth\DoctorLoginController;
-use App\Http\Controllers\API\Doctor\DoctorController;
-use App\Http\Controllers\API\Patient\Auth\PatientLoginController;
->>>>>>> 3aa0de5 (SpecialtiesPanel)
-use App\Http\Controllers\API\Patient\PatientController;
+
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/user', function (Request $request) {
     return $request->user();
 })->middleware('auth:sanctum');
-<<<<<<< HEAD
+
 
 
 // 🔐 Authentication Routes
@@ -56,23 +49,6 @@ Route::prefix('doctor')->middleware(['auth:doctor', 'role:doctor'])->group(funct
         Route::get('appointments', [DoctorController::class, 'doctorAppointments']);
     });
 });
-
-=======
-    Route::post('admin/login', [AdminLoginController::class, 'login']);
-        Route::post('doctor/login', [DoctorLoginController::class, 'login']);
- Route::post('patient/login', [PatientLoginController::class, 'login']);
-Route::prefix('admin')->middleware('auth:admin')->group(function () {
-Route::resource('specialties',SpecialtyController::class);
-});
-
-Route::prefix('doctor')->middleware('auth:doctor')->group(function () {
-
-});
-
-Route::prefix('patient')->middleware('auth:patient')->group(function () {
-   
-});
->>>>>>> 3aa0de5 (SpecialtiesPanel)
 
 // 👤 Patient Panel (User)
 

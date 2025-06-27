@@ -13,29 +13,27 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-<<<<<<< HEAD
-<<<<<<< HEAD
+
         // User::factory(10)->create();
 
         User::factory()->create([
             'name' => 'Test User',
             'email' => 'test@example.com',
         ]);
-=======
+
         $this->call([
         RoleSeeder::class,
         UserSeeder::class,
         PermissionSeeder::class
 
     ]);
->>>>>>> 3aa0de54eaf285b9a954a3013aab357c6a425dfa
-=======
+
         $this->call([
         RoleSeeder::class,
         UserSeeder::class,
         PermissionSeeder::class
 
     ]);
->>>>>>> 3aa0de5 (SpecialtiesPanel)
+
     }
 }
