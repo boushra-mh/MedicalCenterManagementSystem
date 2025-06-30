@@ -14,16 +14,16 @@ class PermissionSeeder extends Seeder
     public function run(): void
     {
          $permissions = [
-            // Guard: admin
+
             'admin' => [
                 'manage_specialties',
                 'manage_doctors',
             ],
-            // Guard: doctor
+
             'doctor' => [
                 'view_appointment',
             ],
-            // Guard: user (patient)
+
             'user' => [
                 'book_appointment',
             ],
@@ -37,6 +37,6 @@ class PermissionSeeder extends Seeder
                 ]);
             }
         }
-    
+
     }
 }

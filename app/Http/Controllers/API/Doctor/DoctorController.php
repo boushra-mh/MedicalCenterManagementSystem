@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers\API\Doctor;
 
+use App\Events\AppointmentStatusUpdated;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\API\Doctor\DoctorRequest;
 use App\Http\Resources\API\Appointment\AppointmentResource;
 use App\Http\Resources\API\Doctor\DoctorResource;
+use App\Mail\AppointmentStatusMail;
 use App\Services\AppointmentService;
 use App\Services\DoctorService;
 use App\Traits\ResponceTrait;
@@ -95,5 +97,19 @@ class DoctorController extends Controller
         $doctor_id=auth('doctor')->id();
         $appointments =$this->appointmentService->getAppointmentsByDoctor($doctor_id);
         return $this->sendResponce( AppointmentResource::collection($appointments),'Ap');
+    }
+
+    public function reject(string $id)
+    {
+         $appointment=$this->doctorService->rejectAppointment($id);
+          event(new AppointmentStatusUpdated($appointment));
+        return $this->sendResponce(null, 'you_reject_this_appointment_successfully');
+    }
+     public function accept(string $id)
+    {
+        $appointment= $this->doctorService->acceptAppointment($id);
+         event(new AppointmentStatusUpdated($appointment));
+
+        return $this->sendResponce(null, 'you_accept_this_appointment_successfully');
     }
 }

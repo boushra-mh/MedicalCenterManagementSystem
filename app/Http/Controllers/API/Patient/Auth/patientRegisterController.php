@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\API\Patient\Auth;
 
+use App\Events\UserRegistered;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\API\Patient\Auth\patientRegisterRequest;
 use App\Models\User;
@@ -17,6 +18,7 @@ class patientRegisterController extends Controller
 
 
          $token=$user->createToken('user_token')->plainTextToken;
+         event( new UserRegistered($user ) );
          return $this->sendResponce(['access-token'=>$token],'you are register successfully');
 
 

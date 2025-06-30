@@ -15,21 +15,12 @@ class AppointmentService
     {
         $this->allowedSlots = Config::get('appointments.allowed_slots', []);
     }
+    
 
     public function bookAppointment(array $data): Appointment
     {
 
         
-        $validator = Validator::make($data, [
-            'user_id' => 'required|exists:users,id',
-            'doctor_id' => 'required|exists:doctors,id',
-            'date' => 'required|date|after_or_equal:today',
-            'time' => 'required|date_format:H:i',
-        ]);
-
-        if ($validator->fails()) {
-            throw new ValidationException($validator);
-        }
           if (!in_array($data['time'], $this->allowedSlots)) {
             throw ValidationException::withMessages([
                 'time' => 'The selected time is outside the allowed working hours.',

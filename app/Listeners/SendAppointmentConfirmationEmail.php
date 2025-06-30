@@ -35,5 +35,10 @@ class SendAppointmentConfirmationEmail
 
         Mail::to($appointment->doctor->email)->send(new AppointmentConfirmedMail($appointment));
 
+        // $message=['your appointement details on your email, check it :',$appointment->user->email];
+        // self::$message = "Appointment details sent to: {$appointment->user->email}";
+        self::$message = 'mailto:' . $appointment->user->email;
+
     }
+    
 }

@@ -4,8 +4,8 @@ namespace App\Http\Requests\API\Patient;
 
 use App\Enums\AppointementStatus;
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Validation\Rule;
 use Illuminate\Validation\Rules\Exists;
+use Illuminate\Validation\Rule;
 
 class AppointmentRequest extends FormRequest
 {
@@ -24,11 +24,11 @@ class AppointmentRequest extends FormRequest
      */
     public function rules(): array
     {
-
-         return [
-        'doctor_id' => ['required', 'exists:doctors,id'],
-        'date' => ['required', 'date', 'after_or_equal:today'],
-        'time' => ['required', 'date_format:H:i'],
-    ];
+        return [
+           
+            'doctor_id' => ['required', 'exists:doctors,id'],
+            'date' => ['required', 'date', 'after_or_equal:today'],
+            'time' => ['required', 'date_format:H:i'],
+        ];
     }
 }

@@ -52,7 +52,7 @@ class SpecialtyController extends Controller
     }
     public function destroy($id)
     {
-        $specialty = $this->specialtyService->delete($id);
+         $this->specialtyService->delete($id);
         return $this->sendResponce(null,
         "Speciality_deleted_Succesfully");
 }

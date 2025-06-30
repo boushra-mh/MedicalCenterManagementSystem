@@ -2,7 +2,11 @@
 
 namespace App\Services;
 
+use App\Enums\AppointementStatus;
+use App\Enums\UserRole;
+use App\Models\Appointment;
 use App\Models\Doctor;
+use Illuminate\Validation\ValidationException;
 
 class DoctorService
 {
@@ -12,8 +16,8 @@ class DoctorService
     }
     public function getAllDoctors()
     {
-        $doctors = Doctor::all();
-        return $doctors;
+       
+        return   Doctor::all(); 
     }
     public function create(array $data)
     {
@@ -26,8 +30,10 @@ class DoctorService
     if (!empty($data['specialties'])) {
             $doctor->specialties()->sync($data['specialties']);
         }
+
+         $doctor->assignRole(UserRole::DOCTOR);
         return $doctor;
-        
+
     }
     public function find($id)
     {
@@ -47,6 +53,42 @@ class DoctorService
         $this->getById($id)->delete();
 
         return true;
+    }
+    public function rejectAppointment($id)
+    {
+        $doctor = auth('doctor')->user()->id;
+
+        $appointment= Appointment::where('doctor_id', $doctor)
+        ->where('id', $id)
+        ->where('status', AppointementStatus::PENDING->value)
+        ->first();
+          if (!$appointment) {
+        throw ValidationException::withMessages([
+            'appointment' => 'Appointment not found or cannot be rejected.',
+        ]);
+    }
+          $appointment->status = AppointementStatus::CANCELLED->value;
+          $appointment->save();
+          return $appointment;
+    }
+
+    public function acceptAppointment($id)
+    {
+          $doctor = auth('doctor')->user()->id;
+
+        $appointment= Appointment::where('doctor_id', $doctor)
+        ->where('id', $id)
+        ->where('status', AppointementStatus::PENDING->value)
+        ->first();
+          if (!$appointment) {
+        throw ValidationException::withMessages([
+            'appointment' => 'Appointment not found or cannot be rejected.',
+        ]);
+    }
+          $appointment->status = AppointementStatus::CONFIRMED->value;
+          $appointment->save();
+          return $appointment;
+
     }
 }
 

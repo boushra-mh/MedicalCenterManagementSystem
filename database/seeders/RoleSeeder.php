@@ -16,14 +16,14 @@ class RoleSeeder extends Seeder
      */
     public function run(): void
     {
-        // إنشاء الأدوار
+
         foreach (UserRole::cases() as $roleEnum) {
             Role::updateOrCreate(
                 ['name' => $roleEnum->value, 'guard_name' => $roleEnum->guard()]
             );
         }
 
-        // إنشاء الصلاحيات وربطها بالرول المناسب
+
         foreach (PermissionEnum::cases() as $permissionEnum) {
             $permission = Permission::updateOrCreate([
                 'name' => $permissionEnum->value,

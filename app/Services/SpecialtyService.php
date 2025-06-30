@@ -3,18 +3,19 @@
 namespace App\Services;
 
 use App\Models\Specialty;
+use Illuminate\Queue\Middleware\ThrottlesExceptions;
 
 class SpecialtyService
 {
     public function getById($id)
     {
-        $specialty= Specialty::findOrFail($id);
-        return $specialty;
+       return Specialty::findOrFail($id);
+       
     }
     public function getAllSpecialties()
     {
-        $specialties= Specialty::paginate(10);
-        return $specialties;
+          return Specialty::paginate(10);
+       
 
 
     }
@@ -22,11 +23,15 @@ class SpecialtyService
     {
         $specialty= new Specialty();
        
+
         $specialty->setTranslations('name', [
             'en' => $data['name_en'],
             'ar' => $data['name_ar']
         ]);
+       
+        
         $specialty->save();
+       
 
         return $specialty ;
 
