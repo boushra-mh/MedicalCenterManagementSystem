@@ -37,11 +37,36 @@ public function scopeCanceled($query)
 public function scopeByUser($query,$user_id)
 {
     return $query->where('user_id',$user_id);
-   
+
 }
 public function scopeByDoctor($query,$doctor_id)
 {
     return $query->where('doctor_id',$doctor_id);
+}
+
+public function scopeFilter($query,$filter)
+{
+    if(!empty($filter['status']))
+    {
+        $query->where('status', $filter['status']);
+    }
+    if(!empty($filter['date']))
+    {
+        $query->where('date', $filter['date']);
+    }
+    if(!empty($filter['from_date']) && !empty($filter['to_date']) && $filter['from_date'] <= $filter['to_date'])
+    {
+        $query->whereBetween('date',[$filter['from_date'], $filter['to_date']]);
+    }
+    if(!empty($filter['time']))
+    {
+        $query->where('time', $filter['time']);
+    }
+    if(!empty($filter['doctor_id']))
+    {
+        $query->where('doctor_id', $filter['doctor_id']);
+    }
+    return $query;
 }
 
 }

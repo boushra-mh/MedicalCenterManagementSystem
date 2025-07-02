@@ -60,9 +60,9 @@ Route::prefix('doctor')->middleware(['auth:doctor', 'role:doctor'])->group(funct
     //  view_appointment
      Route::middleware('permission:view_appointment')->group(function () {
         Route::get('appointments', [DoctorController::class, 'doctorAppointments']);
-       
+
     });
-    
+
 
      Route::get('appointments/confirmed', [DoctorController::class,'getConfirmedAppointment']);
       Route::get('appointments/canceled', [DoctorController::class,'getCancledAppointment']);
@@ -83,6 +83,8 @@ Route::prefix('patient')->middleware(['auth:user', 'role:user'])->group(function
       Route::get('appointments/confirmed', [AppointmentController::class,'getConfirmedAppointment']);
       Route::get('appointments/canceled', [AppointmentController::class,'getCancledAppointment']);
       Route::get('appointments/pending', [AppointmentController::class,'getPendingAppointment']);
+      Route::get('appointments/filter', [AppointmentController::class,'filter']);
+
 
 
     //  book_appointment

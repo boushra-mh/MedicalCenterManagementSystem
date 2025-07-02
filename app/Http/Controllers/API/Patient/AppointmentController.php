@@ -10,6 +10,7 @@ use App\Listeners\SendAppointmentConfirmationEmail;
 use App\Models\Appointment;
 use App\Services\AppointmentService;
 use App\Traits\ResponceTrait;
+use Illuminate\Http\Request;
 
 class AppointmentController extends Controller
 {
@@ -45,13 +46,13 @@ class AppointmentController extends Controller
        $this->appointmentService->cancelAppointment($id);
         return $this->sendResponce(null, 'appointment_canceled_successfully');
     }
- 
+
         public function getConfirmedAppointment()
 {
     $user_id=auth('user')->id();
 
     $appointments=Appointment::ByUser( $user_id)->confirmed()->get();
-    
+
     return $this->sendResponce(AppointmentResource::collection($appointments),'your_Appointment');
 }
 public function getCancledAppointment()
@@ -70,6 +71,16 @@ public function getPendingAppointment()
     $appointments=Appointment::ByUser( $user_id)->pending()->get();
 
     return $this->sendResponce(AppointmentResource::collection($appointments),'your_Appointment_Pending');
+
+}
+public function filter(Request $request)
+{
+      $user_id=auth('user')->id();
+
+      $filters=$request->only(['status','date','from_date' ,'to_date','time','doctor_id']);
+     $appointments=Appointment::ByUser( $user_id)->filter($filters)->get();
+     return $this->sendResponce(AppointmentResource::collection($appointments),'');
+
 
 }
 }
