@@ -58,9 +58,9 @@ class DoctorService
     {
         $doctor = auth('doctor')->user()->id;
 
-        $appointment= Appointment::where('doctor_id', $doctor)
+        $appointment= Appointment::byDoctor($doctor)
         ->where('id', $id)
-        ->where('status', AppointementStatus::PENDING->value)
+        ->pending()
         ->first();
           if (!$appointment) {
         throw ValidationException::withMessages([
@@ -76,9 +76,9 @@ class DoctorService
     {
           $doctor = auth('doctor')->user()->id;
 
-        $appointment= Appointment::where('doctor_id', $doctor)
+        $appointment= Appointment::byDoctor($doctor)
         ->where('id', $id)
-        ->where('status', AppointementStatus::PENDING->value)
+        ->pending()
         ->first();
           if (!$appointment) {
         throw ValidationException::withMessages([

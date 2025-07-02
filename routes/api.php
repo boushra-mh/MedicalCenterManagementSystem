@@ -55,13 +55,19 @@ Route::prefix('admin')->middleware(['auth:admin', 'role:admin'])->group(function
 });
 
 
-// 🧑‍⚕️ Doctor Panel
+//  Doctor Panel
 Route::prefix('doctor')->middleware(['auth:doctor', 'role:doctor'])->group(function () {
     //  view_appointment
-    Route::middleware('permission:view_appointment')->group(function () {
+     Route::middleware('permission:view_appointment')->group(function () {
         Route::get('appointments', [DoctorController::class, 'doctorAppointments']);
+       
     });
     
+
+     Route::get('appointments/confirmed', [DoctorController::class,'getConfirmedAppointment']);
+      Route::get('appointments/canceled', [DoctorController::class,'getCancledAppointment']);
+     // Appointment_reject/accept
+
     Route::post('appointment/{id}/reject',[DoctorController::class,'reject']);
      Route::post('appointment/{id}/accept',[DoctorController::class,'accept']);
 });
@@ -74,6 +80,10 @@ Route::prefix('patient')->middleware(['auth:user', 'role:user'])->group(function
     //  Publicly viewable
     Route::get('specialties', [SpecialtyController::class, 'index']);
     Route::get('specialty/{id}/doctors', [SpecialtyController::class, 'doctors']);
+      Route::get('appointments/confirmed', [AppointmentController::class,'getConfirmedAppointment']);
+      Route::get('appointments/canceled', [AppointmentController::class,'getCancledAppointment']);
+      Route::get('appointments/pending', [AppointmentController::class,'getPendingAppointment']);
+
 
     //  book_appointment
     Route::middleware('permission:book_appointment')->group(function () {
@@ -99,3 +109,4 @@ Route::prefix('patient')->middleware(['auth:user', 'role:user'])->group(function
         Route::post('appointments/{id}/cancel', [AppointmentController::class, 'cancel']);
     });
 });
+

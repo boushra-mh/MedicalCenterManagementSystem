@@ -8,6 +8,7 @@ use App\Http\Requests\API\Doctor\DoctorRequest;
 use App\Http\Resources\API\Appointment\AppointmentResource;
 use App\Http\Resources\API\Doctor\DoctorResource;
 use App\Mail\AppointmentStatusMail;
+use App\Models\Appointment;
 use App\Services\AppointmentService;
 use App\Services\DoctorService;
 use App\Traits\ResponceTrait;
@@ -26,7 +27,7 @@ class DoctorController extends Controller
          $this->doctorService = $doctorService;
     }
 
-   
+
 
     /**
      * Display a listing of the resource.
@@ -112,4 +113,24 @@ class DoctorController extends Controller
 
         return $this->sendResponce(null, 'you_accept_this_appointment_successfully');
     }
+
+    public function getConfirmedAppointment()
+{
+    $doctor_id=auth('doctor')->id();
+
+    $appointments=Appointment::ByDoctor($doctor_id)->confirmed()->get();
+
+    return $this->sendResponce(AppointmentResource::collection($appointments),'your_Appointment');
+}
+public function getCancledAppointment()
+{
+     $doctor_id=auth('doctor')->id();
+
+    $appointments=Appointment::ByDoctor( $doctor_id)->Canceled()->get();
+
+    return $this->sendResponce(AppointmentResource::collection($appointments),'your_Appointment_canceled');
+
+    
+
+}
 }

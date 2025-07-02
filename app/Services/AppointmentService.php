@@ -27,7 +27,9 @@ class AppointmentService
             ]);
         }
 
-        $exists = Appointment::where('doctor_id', $data['doctor_id'])
+        
+
+        $exists = Appointment::byDoctor($data['doctor_id'])
             ->where('date', $data['date'])
             ->where('time', $data['time'])
             ->whereIn('status', [AppointementStatus::PENDING->value, AppointementStatus::CONFIRMED->value])
@@ -64,11 +66,11 @@ class AppointmentService
 
     public function getAppointmentsByUser(int $userId)
     {
-        return Appointment::where('user_id', $userId)->get();
+        return Appointment::byUser( $userId)->get();
     }
 
     public function getAppointmentsByDoctor(int $doctorId)
     {
-        return Appointment::where('doctor_id', $doctorId)->get();
+        return Appointment::byDoctor( $doctorId)->get();
     }
 }

@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\API\Patient\AppointmentRequest;
 use App\Http\Resources\API\Appointment\AppointmentResource;
 use App\Listeners\SendAppointmentConfirmationEmail;
+use App\Models\Appointment;
 use App\Services\AppointmentService;
 use App\Traits\ResponceTrait;
 
@@ -41,7 +42,34 @@ class AppointmentController extends Controller
 
     public function cancel($id)
     {
-        $appointment = $this->appointmentService->cancelAppointment($id);
+       $this->appointmentService->cancelAppointment($id);
         return $this->sendResponce(null, 'appointment_canceled_successfully');
     }
+ 
+        public function getConfirmedAppointment()
+{
+    $user_id=auth('user')->id();
+
+    $appointments=Appointment::ByUser( $user_id)->confirmed()->get();
+    
+    return $this->sendResponce(AppointmentResource::collection($appointments),'your_Appointment');
+}
+public function getCancledAppointment()
+{
+     $user_id=auth('user')->id();
+
+    $appointments=Appointment::ByUser( $user_id)->Canceled()->get();
+
+    return $this->sendResponce(AppointmentResource::collection($appointments),'your_Appointment_canceled');
+
+}
+public function getPendingAppointment()
+{
+     $user_id=auth('user')->id();
+
+    $appointments=Appointment::ByUser( $user_id)->pending()->get();
+
+    return $this->sendResponce(AppointmentResource::collection($appointments),'your_Appointment_Pending');
+
+}
 }
