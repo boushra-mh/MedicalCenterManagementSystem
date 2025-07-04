@@ -23,6 +23,9 @@ class AppointmentController extends Controller
         $this->appointmentService = $appointmentService;
     }
 
+    /**
+     * عرض كل المواعيد الخاصة بالمريض المسجل
+     */
     public function index()
     {
         $userId = auth('user')->id();
@@ -31,6 +34,10 @@ class AppointmentController extends Controller
         return $this->sendResponce(AppointmentResource::collection($appointment), 'Appointments_retrieved');
     }
 
+    /**
+     * حجز موعد جديد بواسطة المريض
+     * مع التحقق من صحة البيانات وإرسال حدث حجز الموعد
+     */
     public function store(AppointmentRequest $request)
     {
         $data = $request->validated();
@@ -41,56 +48,67 @@ class AppointmentController extends Controller
         return $this->sendResponce(['appointment' => new AppointmentResource($appointment), 'event_message' => $message], 'appointment_booked_successfully');
     }
 
-  
-  public function forceDelete($id)
-{
-    $user_id = auth('user')->id();
+    /**
+     * حذف موعد بشكل مؤرشف (Force Delete) فقط إذا كان المريض يملك الموعد
+     */
+    public function forceDelete($id)
+    {
+        $user_id = auth('user')->id();
+        $this->appointmentService->deleteByUser($user_id, $id);
 
-    $this->appointmentService->deleteByUser($user_id, $id);
+        return $this->sendResponce(null, 'Appointment permanently deleted');
+    }
 
-    return $this->sendResponce(null, 'Appointment permanently deleted');
-}
-
-
-
+    /**
+     * إلغاء موعد من قبل المريض
+     */
     public function cancel($id)
     {
-       $this->appointmentService->cancelAppointment($id);
+        $this->appointmentService->cancelAppointment($id);
         return $this->sendResponce(null, 'appointment_canceled_successfully');
     }
 
-        public function getConfirmedAppointment()
-{
-    $user_id=auth('user')->id();
+    /**
+     * جلب المواعيد المؤكدة الخاصة بالمريض
+     */
+    public function getConfirmedAppointment()
+    {
+        $user_id = auth('user')->id();
+        $appointments = Appointment::ByUser($user_id)->confirmed()->get();
 
-    $appointments=Appointment::ByUser( $user_id)->confirmed()->get();
+        return $this->sendResponce(AppointmentResource::collection($appointments), 'your_Appointment');
+    }
 
-    return $this->sendResponce(AppointmentResource::collection($appointments),'your_Appointment');
-}
-public function getCancledAppointment()
-{
-     $user_id=auth('user')->id();
+    /**
+     * جلب المواعيد الملغاة الخاصة بالمريض
+     */
+    public function getCancledAppointment()
+    {
+        $user_id = auth('user')->id();
+        $appointments = Appointment::ByUser($user_id)->Canceled()->get();
 
-    $appointments=Appointment::ByUser( $user_id)->Canceled()->get();
+        return $this->sendResponce(AppointmentResource::collection($appointments), 'your_Appointment_canceled');
+    }
 
-    return $this->sendResponce(AppointmentResource::collection($appointments),'your_Appointment_canceled');
+    /**
+     * جلب المواعيد المعلقة (قيد الانتظار) الخاصة بالمريض
+     */
+    public function getPendingAppointment()
+    {
+        $user_id = auth('user')->id();
+        $appointments = Appointment::ByUser($user_id)->pending()->get();
 
-}
-public function getPendingAppointment()
-{
-     $user_id=auth('user')->id();
+        return $this->sendResponce(AppointmentResource::collection($appointments), 'your_Appointment_Pending');
+    }
 
-    $appointments=Appointment::ByUser( $user_id)->pending()->get();
+    /**
+     * تصفية المواعيد حسب شروط معينة يرسلها المريض (مثل التاريخ، الحالة، ...الخ)
+     */
+    public function filter(Request $request)
+    {
+        $user_id = auth('user')->id();
+        $appointments = Appointment::ByUser($user_id)->filter($request->all())->get();
 
-    return $this->sendResponce(AppointmentResource::collection($appointments),'your_Appointment_Pending');
-
-}
-public function filter(Request $request)
-{
-      $user_id=auth('user')->id();
-     $appointments=Appointment::ByUser( $user_id)->filter($request->all())->get();
-     return $this->sendResponce(AppointmentResource::collection($appointments),'');
-
-
-}
+        return $this->sendResponce(AppointmentResource::collection($appointments), '');
+    }
 }

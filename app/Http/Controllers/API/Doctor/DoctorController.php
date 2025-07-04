@@ -7,7 +7,6 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\API\Doctor\DoctorRequest;
 use App\Http\Resources\API\Appointment\AppointmentResource;
 use App\Http\Resources\API\Doctor\DoctorResource;
-use App\Mail\AppointmentStatusMail;
 use App\Models\Appointment;
 use App\Services\AdminSevice;
 use App\Services\AppointmentService;
@@ -21,19 +20,17 @@ class DoctorController extends Controller
 
     protected $doctorService;
     protected $appointmentService;
-    protected $adminservice;
-    public function __construct(AppointmentService $appointmentService,DoctorService $doctorService,AdminSevice $adminservice)
-    {
+   
 
+    public function __construct(AppointmentService $appointmentService, DoctorService $doctorService)
+    {
         $this->appointmentService = $appointmentService;
-         $this->doctorService = $doctorService;
-         $this->adminservice = $adminservice;
+        $this->doctorService = $doctorService;
+       
     }
 
-
-
     /**
-     * Display a listing of the resource.
+     * 📋 عرض جميع الأطباء (للاستخدام من قبل الإدمن)
      */
     public function index()
     {
@@ -41,18 +38,8 @@ class DoctorController extends Controller
         return $this->sendResponce(DoctorResource::collection($doctors), 'Doctors_retrieved_successfully');
     }
 
-    /** Display a listing of the resource. */
-
     /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
+     * ➕ إنشاء طبيب جديد (يُستخدم من قبل الإدمن)
      */
     public function store(DoctorRequest $request)
     {
@@ -61,26 +48,16 @@ class DoctorController extends Controller
     }
 
     /**
-     * Display the specified resource.
+     * 👁️ عرض بيانات طبيب محدد
      */
     public function show(string $id)
     {
         $doctor = $this->doctorService->find($id);
         return $this->sendResponce(new DoctorResource($doctor), 'Doctor_retrived_successfully');
-
-        //
     }
 
     /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
+     * ✏️ تحديث بيانات طبيب محدد
      */
     public function update(DoctorRequest $request, string $id)
     {
@@ -89,66 +66,85 @@ class DoctorController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * 🗑️ حذف طبيب
      */
     public function destroy(string $id)
     {
-         $this->doctorService->delete($id);
+        $this->doctorService->delete($id);
         return $this->sendResponce(null, 'Doctor_deleted_successfully');
     }
+
+    /**
+     * 📅 عرض مواعيد الطبيب الحالية
+     */
     public function doctorAppointments()
     {
-        $doctor_id=auth('doctor')->id();
-        $appointments =$this->appointmentService->getAppointmentsByDoctor($doctor_id);
-        return $this->sendResponce( AppointmentResource::collection($appointments),'Ap');
+        $doctor_id = auth('doctor')->id();
+        $appointments = $this->appointmentService->getAppointmentsByDoctor($doctor_id);
+        return $this->sendResponce(AppointmentResource::collection($appointments), 'You_appointments');
     }
 
+    /**
+     * ❌ رفض موعد من قبل الطبيب
+     */
     public function reject(string $id)
     {
-         $appointment=$this->doctorService->rejectAppointment($id);
-          event(new AppointmentStatusUpdated($appointment));
-        return $this->sendResponce(null, 'you_reject_this_appointment_successfully');
+        $appointment = $this->doctorService->rejectAppointment($id);
+        event(new AppointmentStatusUpdated($appointment));
+        return $this->sendResponce(null, 'you_reject_to_this_appointment_successfully');
     }
-     public function accept(string $id)
+
+    /**
+     * ✅ قبول موعد من قبل الطبيب
+     */
+    public function accept(string $id)
     {
-        $appointment= $this->doctorService->acceptAppointment($id);
-         event(new AppointmentStatusUpdated($appointment));
-
-        return $this->sendResponce(null, 'you_accept_this_appointment_successfully');
+        $appointment = $this->doctorService->acceptAppointment($id);
+        event(new AppointmentStatusUpdated($appointment));
+        return $this->sendResponce(null, 'you_accept_to_this_appointment_successfully');
     }
 
+    /**
+     * ✅ عرض المواعيد المؤكدة للطبيب
+     */
     public function getConfirmedAppointment()
-{
-    $doctor_id=auth('doctor')->id();
+    {
+        $doctor_id = auth('doctor')->id();
+        $appointments = Appointment::ByDoctor($doctor_id)->confirmed()->get();
+        return $this->sendResponce(AppointmentResource::collection($appointments), 'your_Appointment_confirmed');
+    }
 
-    $appointments=Appointment::ByDoctor($doctor_id)->confirmed()->get();
+    /**
+     * ❌ عرض المواعيد الملغاة للطبيب
+     */
+    public function getCancledAppointment()
+    {
+        $doctor_id = auth('doctor')->id();
+        $appointments = Appointment::ByDoctor($doctor_id)->Canceled()->get();
+        return $this->sendResponce(AppointmentResource::collection($appointments), 'your_Appointment_canceled');
+    }
 
-    return $this->sendResponce(AppointmentResource::collection($appointments),'your_Appointment');
-}
-public function getCancledAppointment()
-{
-     $doctor_id=auth('doctor')->id();
+    /**
+     * 🔎 تصفية المواعيد حسب الفلاتر (تاريخ، حالة، ...إلخ)
+     */
+    public function filter(Request $request)
+    {
+        $doctor_id = auth('doctor')->id();
+        $appointments = Appointment::ByDoctor($doctor_id)->filter($request->all())->get();
+        return $this->sendResponce(AppointmentResource::collection($appointments), '');
+    }
 
-    $appointments=Appointment::ByDoctor( $doctor_id)->Canceled()->get();
+    /**
+     * 📆 عرض مواعيد اليوم للطبيب
+     */
+    public function appointmentsForToday()
+    {
+        $doctor_id = auth('doctor')->id();
+        $appointments = Appointment::ByDoctor($doctor_id)
+            ->AppointmentsForToday()
+            ->orderBy('created_at', 'desc')
+            ->get();
+        return $this->sendResponce(AppointmentResource::collection($appointments), 'your_appointments_for_today');
+    }
 
-    return $this->sendResponce(AppointmentResource::collection($appointments),'your_Appointment_canceled');
-    
-}
-public function filter(Request $request)
-{
-    $doctor_id=auth('doctor')->id();
-    $appointments=Appointment::ByDoctor($doctor_id)->filter($request->all())->get();
-    return $this->sendResponce(AppointmentResource::collection($appointments),'');
-
-}
-public function appointmentsForToday()
-{
-    $doctor_id=auth('doctor')->id();
-    $appointments=Appointment::ByDoctor($doctor_id)
-    ->AppointmentsForToday()
-    ->orderBy('created_at','desc')
-    ->get();
-    return $this->sendResponce(AppointmentResource::collection($appointments)
-    ,'your_appointments_for_today');
-}
 }

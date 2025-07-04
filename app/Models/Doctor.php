@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enums\StatusEnum;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Spatie\Permission\Traits\HasRoles;
@@ -14,7 +15,8 @@ class Doctor extends Authenticatable
     use HasFactory ,HasRoles ,HasApiTokens,SoftDeletes;
     protected $guard_name = 'doctor';
 
-    protected $fillable = ['name','email','password'];
+    protected $fillable = ['name','email','password','status'];
+    protected  $casts = ['status'=>StatusEnum::class];
 
     public function specialties()
     {

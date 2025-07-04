@@ -18,6 +18,8 @@ class DoctorResource extends JsonResource
             'id' => $this->id,
             'name' => $this->name,
             'email' => $this->email,
+            'status' => $this->status,
+
             'specialties' => $this->specialties->map(function ($specialty) {
                 return [
                     'id' => $specialty->id,
