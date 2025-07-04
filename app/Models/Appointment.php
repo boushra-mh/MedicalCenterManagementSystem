@@ -3,10 +3,13 @@
 namespace App\Models;
 
 use App\Enums\AppointementStatus;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Appointment extends Model
 {
+    use SoftDeletes;
 protected $fillable = ['user_id','doctor_id','date','time','status'];
 protected $casts = ['status'=>AppointementStatus::class];
 public function doctor()
@@ -67,6 +70,10 @@ public function scopeFilter($query,$filter)
         $query->where('doctor_id', $filter['doctor_id']);
     }
     return $query;
+}
+public function scopeAppointmentsForToday($query)
+{
+    return $query->where('date', '=',Carbon::today()->toDateString());
 }
 
 }

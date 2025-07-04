@@ -7,7 +7,6 @@ use App\Http\Requests\API\Doctor\DoctorLoginRequest;
 use App\Http\Resources\API\Doctor\Auth\DoctorLoginResource;
 use App\Models\Doctor;
 use App\Traits\ResponceTrait;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 
 class DoctorLoginController extends Controller

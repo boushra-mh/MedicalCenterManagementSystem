@@ -10,8 +10,7 @@ use App\Http\Resources\API\Doctor\DoctorResource;
 use App\Models\Specialty;
 use App\Services\SpecialtyService;
 use App\Traits\ResponceTrait;
-use Illuminate\Database\Eloquent\Collection;
-use Illuminate\Http\Request;
+
 
 class SpecialtyController extends Controller
 {
@@ -58,7 +57,7 @@ class SpecialtyController extends Controller
 }
 public function doctors($id)
 {
-      
+
     $specialty = Specialty::with('doctors')->findOrFail($id);
 
     return $this->sendResponce(DoctorResource::collection($specialty->doctors) ,'Doctors_in_this_specialty');

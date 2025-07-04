@@ -9,6 +9,7 @@ use App\Http\Resources\API\Appointment\AppointmentResource;
 use App\Http\Resources\API\Doctor\DoctorResource;
 use App\Mail\AppointmentStatusMail;
 use App\Models\Appointment;
+use App\Services\AdminSevice;
 use App\Services\AppointmentService;
 use App\Services\DoctorService;
 use App\Traits\ResponceTrait;
@@ -20,11 +21,13 @@ class DoctorController extends Controller
 
     protected $doctorService;
     protected $appointmentService;
-    public function __construct(AppointmentService $appointmentService,DoctorService $doctorService)
+    protected $adminservice;
+    public function __construct(AppointmentService $appointmentService,DoctorService $doctorService,AdminSevice $adminservice)
     {
 
         $this->appointmentService = $appointmentService;
          $this->doctorService = $doctorService;
+         $this->adminservice = $adminservice;
     }
 
 
@@ -90,7 +93,7 @@ class DoctorController extends Controller
      */
     public function destroy(string $id)
     {
-        $doctor = $this->doctorService->delete($id);
+         $this->doctorService->delete($id);
         return $this->sendResponce(null, 'Doctor_deleted_successfully');
     }
     public function doctorAppointments()
@@ -129,8 +132,23 @@ public function getCancledAppointment()
     $appointments=Appointment::ByDoctor( $doctor_id)->Canceled()->get();
 
     return $this->sendResponce(AppointmentResource::collection($appointments),'your_Appointment_canceled');
-
     
+}
+public function filter(Request $request)
+{
+    $doctor_id=auth('doctor')->id();
+    $appointments=Appointment::ByDoctor($doctor_id)->filter($request->all())->get();
+    return $this->sendResponce(AppointmentResource::collection($appointments),'');
 
+}
+public function appointmentsForToday()
+{
+    $doctor_id=auth('doctor')->id();
+    $appointments=Appointment::ByDoctor($doctor_id)
+    ->AppointmentsForToday()
+    ->orderBy('created_at','desc')
+    ->get();
+    return $this->sendResponce(AppointmentResource::collection($appointments)
+    ,'your_appointments_for_today');
 }
 }

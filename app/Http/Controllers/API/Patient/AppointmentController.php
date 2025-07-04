@@ -41,6 +41,18 @@ class AppointmentController extends Controller
         return $this->sendResponce(['appointment' => new AppointmentResource($appointment), 'event_message' => $message], 'appointment_booked_successfully');
     }
 
+  
+  public function forceDelete($id)
+{
+    $user_id = auth('user')->id();
+
+    $this->appointmentService->deleteByUser($user_id, $id);
+
+    return $this->sendResponce(null, 'Appointment permanently deleted');
+}
+
+
+
     public function cancel($id)
     {
        $this->appointmentService->cancelAppointment($id);
@@ -76,9 +88,7 @@ public function getPendingAppointment()
 public function filter(Request $request)
 {
       $user_id=auth('user')->id();
-
-      $filters=$request->only(['status','date','from_date' ,'to_date','time','doctor_id']);
-     $appointments=Appointment::ByUser( $user_id)->filter($filters)->get();
+     $appointments=Appointment::ByUser( $user_id)->filter($request->all())->get();
      return $this->sendResponce(AppointmentResource::collection($appointments),'');
 
 

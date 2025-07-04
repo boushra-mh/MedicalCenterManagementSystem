@@ -5,29 +5,24 @@ namespace App\Services;
 use App\Enums\AppointementStatus;
 use App\Models\Appointment;
 use Illuminate\Support\Facades\Config;
-use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\ValidationException;
 
 class AppointmentService
 {
-        protected  $allowedSlots ;
-         public function __construct()
+    protected $allowedSlots;
+
+    public function __construct()
     {
         $this->allowedSlots = Config::get('appointments.allowed_slots', []);
     }
-    
 
     public function bookAppointment(array $data): Appointment
     {
-
-        
-          if (!in_array($data['time'], $this->allowedSlots)) {
+        if (!in_array($data['time'], $this->allowedSlots)) {
             throw ValidationException::withMessages([
                 'time' => 'The selected time is outside the allowed working hours.',
             ]);
         }
-
-        
 
         $exists = Appointment::byDoctor($data['doctor_id'])
             ->where('date', $data['date'])
@@ -66,11 +61,26 @@ class AppointmentService
 
     public function getAppointmentsByUser(int $userId)
     {
-        return Appointment::byUser( $userId)->get();
+        return Appointment::byUser($userId)->get();
     }
 
     public function getAppointmentsByDoctor(int $doctorId)
     {
-        return Appointment::byDoctor( $doctorId)->get();
+        return Appointment::byDoctor($doctorId)->get();
+    }
+
+    public function deleteByUser($userId, $appointmentId)
+    {
+        $appointment = Appointment::byUser($userId)
+            ->where('id', $appointmentId)
+            ->pending()
+            ->first();
+            if (!$appointment) {
+            throw ValidationException::withMessages([
+                 'appointment' => 'Appointment is not pending or not found.',
+            ]);
+            }
+
+        return $appointment->delete();
     }
 }

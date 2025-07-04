@@ -8,7 +8,6 @@ use App\Http\Requests\API\Admin\AdminLoginRequest ;
 use App\Http\Resources\API\Admin\Auth\AdminLoginResource;
 use App\Models\Admin;
 use App\Traits\ResponceTrait;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 
 class AdminLoginController extends Controller
