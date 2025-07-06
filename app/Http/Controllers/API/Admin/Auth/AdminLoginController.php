@@ -25,7 +25,7 @@ class AdminLoginController extends Controller
 
        $admin->access_token = $admin->createToken('admin_token',['admin'])->plainTextToken;
 
-        return $this->sendResponce(new AdminLoginResource($admin),'User Logged in successfully');
+        return $this->sendResponce(new AdminLoginResource($admin),__('welcome_you_logged_in_successfully'));
 
     }
       public function logout()
@@ -39,7 +39,7 @@ class AdminLoginController extends Controller
         // remove received token
         $user->currentAccessToken()->delete();
 
-        return $this->sendResponce(null ,'user logout successfully');
+        return $this->sendResponce(null ,__('you_logout_successfully'));
 
     }
 }

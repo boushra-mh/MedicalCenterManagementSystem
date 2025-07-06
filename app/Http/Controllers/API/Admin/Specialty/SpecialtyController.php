@@ -32,7 +32,7 @@ class SpecialtyController extends Controller
 
         return $this->sendResponce(
             SpecialtyResource::collection($specialties),
-            "Speciality_retrieved_successfully",
+            __("Speciality_retrieved_successfully"),
             200,
             true
         );
@@ -50,7 +50,7 @@ class SpecialtyController extends Controller
 
         return $this->sendResponce(
             SpecialtyResource::make($specialty),
-            "Speciality_Stored_Succesfully"
+            __("Speciality_Stored_Succesfully")
         );
     }
 
@@ -66,7 +66,7 @@ class SpecialtyController extends Controller
 
         return $this->sendResponce(
             SpecialtyResource::make($specialty),
-            "Speciality_retrieved_Succesfully"
+            __("Speciality_retrieved_Succesfully")
         );
     }
 
@@ -83,7 +83,7 @@ class SpecialtyController extends Controller
 
         return $this->sendResponce(
             SpecialtyResource::make($specialty),
-            "Speciality_updated_Succesfully"
+            __("Speciality_updated_Succesfully")
         );
     }
 
@@ -99,7 +99,7 @@ class SpecialtyController extends Controller
 
         return $this->sendResponce(
             null,
-            "Speciality_deleted_Succesfully"
+            __("Speciality_deleted_Succesfully")
         );
     }
 
@@ -115,7 +115,7 @@ class SpecialtyController extends Controller
 
         return $this->sendResponce(
             DoctorResource::collection($specialty->doctors),
-            'Doctors_in_this_specialty'
+            __('Doctors_in_this_specialty')
         );
     }
 }

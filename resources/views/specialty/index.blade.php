@@ -1,0 +1,37 @@
+@extends('layouts.admin')
+@section('content')
+<div class="container">
+    <h2>Specialties</h2>
+    @if(session('success')) <div class="alert alert-success">{{ session('success') }}</div> @endif
+
+    <a href="{{ route('admin.specialties.create') }}" class="btn btn-primary mb-3">+ Add New</a>
+
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Name (EN)</th>
+                <th>Name (AR)</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach($specialties as $specialty)
+                <tr>
+                    <td>{{ $loop->iteration }}</td>
+                    <td>{{ $specialty->getTranslation('name', 'en') }}</td>
+                    <td>{{ $specialty->getTranslation('name', 'ar') }}</td>
+                    <td>
+                        <a href="{{ route('admin.specialties.edit', $specialty->id) }}" class="btn btn-sm btn-warning">Edit</a>
+                        <form action="{{ route('admin.specialties.destroy', $specialty->id) }}" method="POST" style="display:inline;" onsubmit="return confirm('Are you sure?')">
+                            @csrf @method('DELETE')
+                            <button class="btn btn-sm btn-danger">Delete</button>
+                        </form>
+                    </td>
+                </tr>
+            @endforeach
+        </tbody>
+    </table>
+    {{ $specialties->links() }}
+</div>
+@endsection

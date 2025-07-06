@@ -37,7 +37,7 @@ class AppointmentService
         $exists = Appointment::byDoctor($data['doctor_id'])
             ->where('date', $data['date'])
             ->where('time', $data['time'])
-            
+
             ->exists();
 
         if ($exists) {

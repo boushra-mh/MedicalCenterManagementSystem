@@ -19,7 +19,7 @@ class DoctorLoginController extends Controller
         $doctor = Doctor::where('email',$data['email'])->first();
 
         if(!$doctor || !Hash::check($data['password'] ,$doctor->password )){
-            return $this->sendError('Invalid credentials');
+            return $this->sendError(__('Invalid_credentials'));
         }
 
        $doctor->access_token = $doctor->createToken('doctor_token',['doctor'])->plainTextToken;

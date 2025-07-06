@@ -30,7 +30,7 @@ class AdminManagementPanel extends Controller
     public function deleteTashedAppointments(int $id)
     {
         $this->adminSevice->deleteAppointments($id);
-        return $this->sendResponce(null, "Deleted_success");
+        return $this->sendResponce(null, __("your_Deleted_success"));
     }
 
     /**
@@ -48,15 +48,15 @@ class AdminManagementPanel extends Controller
     public function dailyAppointments()
     {
         $data = Appointment::AppointmentsForToday()->get();
-        return $this->sendResponce(AppointmentResource::collection($data), 'Appointments_for_Today');
+        return $this->sendResponce(AppointmentResource::collection($data),__ ('Appointments_for_Today'));
     }
 
-    //  تعطيل او تفعيل حساب طبيب 
+    //  تعطيل او تفعيل حساب طبيب
     public function toggleStatusForDoctor($id)
      {
         $doctor= $this->adminSevice->toggleDoctorStatus($id);
 
-      
-        return $this->sendResponce(new DoctorResource($doctor),'Status Updated Successfully');
+
+        return $this->sendResponce(new DoctorResource($doctor),__('Status_Updated_Successfully'));
     }
 }
