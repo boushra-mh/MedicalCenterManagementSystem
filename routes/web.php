@@ -1,14 +1,18 @@
 <?php
 
+
+use App\Http\Controllers\Web\Doctor\DoctorController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\WEB\Admin\Auth\AdminDashboardController;
 use App\Http\Controllers\WEB\Admin\Auth\AdminLoginController;
 use App\Http\Controllers\WEB\User\Auth\UserRegisterController;
 use App\Http\Controllers\WEB\Doctor\Auth\DoctorRegisterController;
+use App\Http\Controllers\WEB\Doctor\DoctorPanelController;
 use App\Http\Controllers\WEB\Doctor\Auth\DoctorLoginController;
 use App\Http\Controllers\WEB\User\Auth\UserLoginController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\WEB\Admin\Specialty\SpecialtyController;
+
 
 Route::get('/', function () {
     return view('welcome');
@@ -62,23 +66,41 @@ Route::prefix('user')->middleware('auth')->group(function () {
     // تسجيل خروج
     Route::post('logout', [UserLoginController::class, 'logout'])->name('user.logout');
 });
-Route::prefix('doctor')->middleware('guest:doctor_web')->group(function () {
-    Route::get('register', [DoctorRegisterController::class, 'showRegisterForm'])->name('doctor.register');
-    Route::post('register', [DoctorRegisterController::class, 'register']);
 
-    Route::get('login', [DoctorLoginController::class, 'showLoginForm'])->name('doctor.login');
-    Route::post('login', [DoctorLoginController::class, 'login']);
-});
-
-Route::prefix('doctor')->middleware('auth:doctor_web')->group(function () {
+Route::prefix('doctor')->group(function () {
     Route::get('dashboard', function () {
         return view('doctor.dashboard');
     })->name('doctor.dashboard');
-
+ Route::get('login', [DoctorLoginController::class, 'showLoginForm'])->name('doctor.login');
+    Route::post('login', [DoctorLoginController::class, 'login']);
     Route::post('logout', [DoctorLoginController::class, 'logout'])->name('doctor.logout');
 });
 // routes/web.php
 // routes/web.php
+
+
+
+
+Route::prefix('doctor')->name('doctor.')->middleware('auth:doctor_web')->group(function () {
+    // لوحة التحكم (مواعيد اليوم + إحصائيات)
+    Route::get('/dashboard', [DoctorPanelController::class, 'dashboard'])->name('dashboard');
+
+    // عرض جميع المواعيد مع فلاتر
+    Route::get('/appointments', [DoctorPanelController::class, 'allAppointments'])->name('appointments.index');
+
+    // تأكيد موعد
+    Route::post('/appointments/{id}/confirm', [DoctorPanelController::class, 'confirm'])->name('appointments.confirm');
+
+    // إلغاء موعد
+    Route::post('/appointments/{id}/cancel', [DoctorPanelController::class, 'cancel'])->name('appointments.cancel');
+
+    // الملف الشخصي للطبيب
+    Route::get('/profile', function () {
+        return view('doctor.dashboard.profile');
+    })->name('profile');
+});
+
+
 
 
 
@@ -93,3 +115,12 @@ Route::prefix('admin/specialties')
         Route::put('/{id}', [SpecialtyController::class, 'update'])->name('update');      // 🔄 تحديث التخصص
         Route::delete('/{id}', [SpecialtyController::class, 'destroy'])->name('destroy'); // 🗑️ حذف التخصص
     });
+    Route::prefix('admin/doctors')->name('admin.doctors.')->middleware(['auth:admin_web'])->group(function () {
+    Route::get('/', [DoctorController::class, 'index'])->name('index');
+    Route::get('/create', [DoctorController::class, 'create'])->name('create');
+    Route::post('/', [DoctorController::class, 'store'])->name('store');
+    Route::get('/{id}/edit', [DoctorController::class, 'edit'])->name('edit');
+    Route::put('/{id}', [DoctorController::class, 'update'])->name('update');
+    Route::delete('/{id}', [DoctorController::class, 'destroy'])->name('destroy');
+});
+

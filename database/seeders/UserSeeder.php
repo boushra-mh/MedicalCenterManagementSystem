@@ -22,12 +22,12 @@ class UserSeeder extends Seeder
         );
         $admin->assignRole('admin');
 
-        // Doctor
-        $doctor = Doctor::updateOrCreate(
-            ['email' => 'doctor@example.com'],
-            ['name' => 'Dr.Ahmed', 'password' => Hash::make('password')]
-        );
-        $doctor->assignRole('doctor');
+        // // Doctor
+        // $doctor = Doctor::updateOrCreate(
+        //     ['email' => 'doctor@example.com'],
+        //     ['name' => 'Dr.Ahmed', 'password' => Hash::make('password')]
+        // );
+        // $doctor->assignRole('doctor');
 
         // User
         $user = User::updateOrCreate(
