@@ -1,26 +1,37 @@
+@php
+    use App\Enums\AppointementStatus;
+@endphp
+
 <div class="card mb-3">
     <div class="card-body">
-        <h5 class="card-title">المريض: {{ $appointment->patient->name ?? 'غير متوفر' }}</h5>
-        <p class="card-text">التاريخ: {{ $appointment->date }}</p>
-        <p class="card-text">الوقت: {{ $appointment->start_time }} - {{ $appointment->end_time }}</p>
-        <p class="card-text">الحالة:
-            @if($appointment->status == \App\Enums\AppointementStatus::PENDING->value)
-                <span class="badge bg-warning text-dark">قيد الانتظار</span>
-            @elseif($appointment->status == \App\Enums\AppointementStatus::CONFIRMED->value)
-                <span class="badge bg-success">مؤكد</span>
-            @elseif($appointment->status == \App\Enums\AppointementStatus::CANCELLED->value)
-                <span class="badge bg-danger">ملغي</span>
-            @endif
+        <p><strong>المريض:</strong> {{ $appointment->user->name ?? 'غير متوفر' }}</p>
+        <p><strong>التاريخ:</strong> {{ $appointment->date }}</p>
+        <p><strong>الوقت:</strong> {{ $appointment->time ?? '-' }}</p>
+        <p><strong>الحالة:</strong>
+            @switch($appointment->status->value)
+                @case(AppointementStatus::CONFIRMED->value)
+                    مؤكد
+                    @break
+                @case(AppointementStatus::PENDING->value)
+                    قيد الانتظار
+                    @break
+                @case(AppointementStatus::CANCELLED->value)
+                    ملغي
+                    @break
+                @default
+                    غير معروف
+            @endswitch
         </p>
-
-        @if($appointment->status == \App\Enums\AppointementStatus::PENDING->value)
+        
+        @if(($appointment->status->value ?? $appointment->status) === AppointementStatus::PENDING->value)
             <form action="{{ route('doctor.appointments.confirm', $appointment->id) }}" method="POST" class="d-inline">
                 @csrf
-                <button class="btn btn-sm btn-success">تأكيد</button>
+                <button type="submit" class="btn btn-success btn-sm">✅ موافقة</button>
             </form>
-            <form action="{{ route('doctor.appointments.cancel', $appointment->id) }}" method="POST" class="d-inline" onsubmit="return confirm('هل أنت متأكد؟')">
+
+            <form action="{{ route('doctor.appointments.cancel', $appointment->id) }}" method="POST" class="d-inline">
                 @csrf
-                <button class="btn btn-sm btn-danger">إلغاء</button>
+                <button type="submit" class="btn btn-danger btn-sm">❌ رفض</button>
             </form>
         @endif
     </div>

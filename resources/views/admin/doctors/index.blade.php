@@ -40,8 +40,23 @@
                         @endif
                     </td>
                     <td>
+                        <!-- زر التبديل -->
+                        <form action="{{ route('admin.doctors.toggleStatus', $doctor->id) }}" method="POST" style="display:inline-block;">
+                            @csrf
+                            @method('PATCH')
+                            <button class="btn btn-sm btn-outline-primary" type="submit">
+                                @if($doctor->status == \App\Enums\StatusEnum::Active->value)
+                                    تعطيل
+                                @else
+                                    تفعيل
+                                @endif
+                            </button>
+                        </form>
+
+                        <!-- زر التعديل -->
                         <a href="{{ route('admin.doctors.edit', $doctor->id) }}" class="btn btn-sm btn-warning">تعديل</a>
 
+                        <!-- زر الحذف -->
                         <form action="{{ route('admin.doctors.destroy', $doctor->id) }}" method="POST" style="display:inline-block" onsubmit="return confirm('هل أنت متأكد من حذف هذا الطبيب؟');">
                             @csrf
                             @method('DELETE')

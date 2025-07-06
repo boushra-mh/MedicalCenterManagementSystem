@@ -1,3 +1,6 @@
+@php
+    use App\Enums\AppointementStatus;
+@endphp
 @extends('doctor.layouts.app')
 @section('title', 'كل المواعيد')
 
@@ -10,15 +13,29 @@
             <label class="form-label">الحالة</label>
             <select name="status" class="form-select">
                 <option value="">الكل</option>
-                <option value="confirmed" {{ request('status') == 'confirmed' ? 'selected' : '' }}>مؤكد</option>
-                <option value="cancelled" {{ request('status') == 'cancelled' ? 'selected' : '' }}>ملغي</option>
-                <option value="pending" {{ request('status') == 'pending' ? 'selected' : '' }}>قيد الانتظار</option>
+                <option value="confirmed" {{ request('status') == AppointementStatus::CONFIRMED->value ? 'selected' : ''}}>مؤكد</option> 
+                <option value="cancelled" {{ request('status') == AppointementStatus::CANCELLED->value ? 'selected' : '' }}>ملغي</option>
+                <option value="pending" {{ request('status') == AppointementStatus::PENDING->value ? 'selected' : '' }}>قيد الانتظار</option>
             </select>
         </div>
         <div class="col-md-4">
             <label class="form-label">التاريخ</label>
             <input type="date" name="date" class="form-control" value="{{ request('date') }}">
         </div>
+         <div class="col-md-3">
+        <label class="form-label">من تاريخ</label>
+        <input type="date" name="from_date" class="form-control" value="{{ request('from_date') }}">
+    </div>
+
+    <div class="col-md-3">
+        <label class="form-label">إلى تاريخ</label>
+        <input type="date" name="to_date" class="form-control" value="{{ request('to_date') }}">
+    </div>
+
+    <div class="col-md-3">
+        <label class="form-label">الوقت</label>
+        <input type="time" name="time" class="form-control" value="{{ request('time') }}">
+    </div>
         <div class="col-md-4 align-self-end">
             <button class="btn btn-primary">تصفية</button>
         </div>

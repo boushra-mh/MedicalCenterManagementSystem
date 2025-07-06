@@ -34,14 +34,36 @@
                     </td>
                     <td>
                         <?php if($doctor->status == \App\Enums\StatusEnum::Active->value): ?>
-                            <span class="badge bg-success">نشط</span>
-                        <?php else: ?>
-                            <span class="badge bg-secondary">غير نشط</span>
-                        <?php endif; ?>
+                         <form action="<?php echo e(route('admin.doctors.toggleStatus', $doctor->id)); ?>" method="POST" style="display:inline-block;">
+                            <?php echo csrf_field(); ?>
+                            <?php echo method_field('PATCH'); ?>
+                            <button class="btn btn-sm btn-outline-primary" type="submit">
+                                <?php if($doctor->status == \App\Enums\StatusEnum::Active->value): ?>
+                                    تعطيل
+                                <?php else: ?>
+                                    تفعيل
+                                <?php endif; ?>
+                            </button>
+                        </form>
                     </td>
                     <td>
+                        <!-- زر التبديل -->
+                        <form action="<?php echo e(route('admin.doctors.toggleStatus', $doctor->id)); ?>" method="POST" style="display:inline-block;">
+                            <?php echo csrf_field(); ?>
+                            <?php echo method_field('PATCH'); ?>
+                            <button class="btn btn-sm btn-outline-primary" type="submit">
+                                <?php if($doctor->status == \App\Enums\StatusEnum::Active->value): ?>
+                                    تعطيل
+                                <?php else: ?>
+                                    تفعيل
+                                <?php endif; ?>
+                            </button>
+                        </form>
+
+                        <!-- زر التعديل -->
                         <a href="<?php echo e(route('admin.doctors.edit', $doctor->id)); ?>" class="btn btn-sm btn-warning">تعديل</a>
 
+                        <!-- زر الحذف -->
                         <form action="<?php echo e(route('admin.doctors.destroy', $doctor->id)); ?>" method="POST" style="display:inline-block" onsubmit="return confirm('هل أنت متأكد من حذف هذا الطبيب؟');">
                             <?php echo csrf_field(); ?>
                             <?php echo method_field('DELETE'); ?>

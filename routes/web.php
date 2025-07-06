@@ -1,6 +1,6 @@
 <?php
 
-
+use App\Http\Controllers\Web\Admin\AdminPanelController;
 use App\Http\Controllers\Web\Doctor\DoctorController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\WEB\Admin\Auth\AdminDashboardController;
@@ -122,5 +122,7 @@ Route::prefix('admin/specialties')
     Route::get('/{id}/edit', [DoctorController::class, 'edit'])->name('edit');
     Route::put('/{id}', [DoctorController::class, 'update'])->name('update');
     Route::delete('/{id}', [DoctorController::class, 'destroy'])->name('destroy');
+    Route::patch('/{doctor}/toggle-status', [AdminPanelController::class, 'toggleStatusForDoctor'])->name('toggleStatus');
+
 });
 

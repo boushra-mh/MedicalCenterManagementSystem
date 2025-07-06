@@ -85,8 +85,7 @@ class DoctorService
      * ثم يتم تحديث الحالة إلى ملغي
      */
     public function rejectAppointment($id)
-    {
-        $doctor = auth('doctor')->user()->id;
+    {   $doctor = auth('doctor')->id() ?? auth('doctor_web')->id() ;
 
         $appointment = Appointment::byDoctor($doctor)
             ->where('id', $id)
@@ -111,7 +110,9 @@ class DoctorService
      */
     public function acceptAppointment($id)
     {
-        $doctor = auth('doctor')->user()->id;
+       $doctor = auth('doctor')->id() ?? auth('doctor_web')->id() ;
+
+
 
         $appointment = Appointment::byDoctor($doctor)
             ->where('id', $id)
