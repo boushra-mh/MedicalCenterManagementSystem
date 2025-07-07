@@ -2,11 +2,12 @@
 
 ## 📋 Project Overview
 
-This is a Laravel-based web application designed to efficiently manage a medical center. It supports **three main user roles** with clearly defined permissions:
+This is a **Laravel 12** based web application designed to efficiently manage a medical center with full multi-role access and dynamic appointment handling.  
+The system supports **three user roles**, each with their own dashboard and feature set:
 
-- **Admin**: Manages medical specialties and doctors.
-- **Doctor**: Views and manages their appointments.
-- **Patient (User)**: Browses specialties and doctors, books and manages appointments.
+- **Admin**: Manages specialties, doctors, appointments, and permissions.
+- **Doctor**: Views and manages their appointment schedule.
+- **Patient (User)**: Browses specialties, selects doctors, and books or manages appointments.
 
 ---
 
@@ -14,94 +15,126 @@ This is a Laravel-based web application designed to efficiently manage a medical
 
 ### 🔐 Authentication & Authorization
 
-- Multi-guard authentication powered by **Laravel Sanctum** for `admin`, `doctor`, and `patient` guards.
+- Multi-guard authentication using **Laravel Sanctum** for:
+  - `admin_web`
+  - `doctor_web`
+  - `web` (user/patient)
 - Role and permission management using **Spatie Laravel Permission**.
-- Middleware-protected routes based on roles and permissions.
-
-### 👥 User Roles and Permissions
-
-| Role   | Permissions                 |
-|--------|-----------------------------|
-| Admin  | `manage_specialties`, `manage_doctors` |
-| Doctor | `view_appointment`          |
-| User   | `book_appointment`          |
-
-- Roles and permissions are seeded using enums (`UserRole`, `PermissionEnum`) for consistency and type-safety.
+- Permissions are seeded and managed via Enums for clarity and type-safety.
 
 ---
 
-## 📅 Appointments Module
+### 👥 User Roles & Permissions
 
-- Patients can **book appointments** with doctors for predefined time slots.
-- Unified daily working schedule for all doctors (e.g., hourly slots between 9:00 AM and 5:00 PM).
-- Appointment statuses handled via **PHP Enums**: `Pending`, `Confirmed`, `Canceled`.
-- Patients can cancel appointments.
-- Doctors can confirm or reject appointments.
+| Role   | Permissions                             |
+|--------|-----------------------------------------|
+| Admin  | `manage_specialties`, `manage_doctors`, `manage_patients`, `manage_appointments` |
+| Doctor | `view_appointment`, `manage_own_appointments` |
+| User   | `book_appointment`, `cancel_own_appointments`, `delete_pending_appointments`     |
+
+> ✅ Permissions are defined using `PermissionEnum` and `UserRole` Enums for easy management and seeding.
+
+---
+
+## 📊 Dashboards
+
+### 🛡️ Admin Dashboard
+- View system stats (doctors, appointments, specialties).
+- Manage:
+  - Specialties (CRUD with multilingual names).
+  - Doctors (CRUD + status toggling).
+  - Patients list.
+  - Soft-deleted appointments.
+
+### 🩺 Doctor Dashboard
+- View today's appointments.
+- Confirm or reject (cancel) appointments.
+- View full appointment history.
+
+### 👤 Patient (User) Dashboard
+- View today’s appointments and stats (confirmed/pending/canceled).
+- Access specialty directory.
+- Browse doctors by specialty.
+- Book new appointments.
+- Cancel or delete (if pending) own appointments.
+
+---
+
+## 📅 Appointment Management
+
+- Unified working hours for all doctors (configurable via `config/appointments.php`).
+- Time slot validation when booking.
+- Enum-based appointment statuses:
+  - `Pending`
+  - `Confirmed`
+  - `Canceled`
+- Logic handled in `AppointmentService`:
+  - Validates slot availability.
+  - Cancels or deletes appointments securely.
+- Patients can:
+  - Cancel confirmed appointments.
+  - Delete pending ones.
 
 ---
 
 ## 🌐 Multilingual Support
 
-- Application content and specialty names are **translatable** (English & Arabic).
-- Built using **Spatie Laravel Translatable**.
-- Translation stored in **JSON columns** in the database (e.g., `name` in `specialties` table).
+- All specialties and UI messages support **Arabic and English**.
+- Powered by **Spatie Laravel Translatable**.
+- Translation stored as **JSON columns** in the DB.
 
 ---
 
-## 🧠 Services and Architecture
+## 🧠 Architecture
 
-- Business logic is encapsulated within **Service classes**:
-  - `AppointmentService`, `DoctorService`, `SpecialtyService`, etc.
-- Uses **Custom Eloquent Scopes** like `byUser()`, `byDoctor()` for clean and reusable query logic.
-- Controllers are slim and only coordinate data flow, adhering to **Separation of Concerns (SoC)**.
-- **Soft deletes** are enabled for appointments. Methods like `withTrashed()` are used where necessary.
-- **Dependency injection** is used to inject services and improve testability and maintainability.
-
----
-
-## 📣 Events & Notifications
-
-- Event-driven design using Laravel’s **event/listener system**.
-- Event: `AppointmentBooked` is dispatched on successful booking.
-- Listener sends **email notifications** to both the patient and the doctor.
-- Email templates support **multilingual messages**.
+- **Service Layer** (e.g., `AppointmentService`, `DoctorService`) for clean business logic.
+- **Custom Eloquent scopes**:
+  - `byUser()`
+  - `byDoctor()`
+  - `pending()`, `confirmed()`, `canceled()`
+- **Controller-Service separation**: Controllers remain slim and focused.
+- Event-driven design using Laravel **Events & Listeners**.
+- **Soft Deletes** used for appointments.
 
 ---
 
-## 🧪 Testing
+## 📣 Notifications & Events
 
-- Written with testability in mind.
-- Services and controllers are loosely coupled.
-- Use **PHPUnit** to write and run tests (`php artisan test`).
-
----
-
-## 🛠 Technology Stack
-
-- **PHP**: 8.1+
-- **Laravel**: 12
-- **Laravel Sanctum**: API authentication
-- **Spatie Laravel Permission**: Roles & permissions
-- **Spatie Laravel Translatable**: Localization
-- **MySQL**: Relational database
-- **PHPUnit**: Testing framework
+- On booking, `AppointmentBooked` event is fired.
+- Listener sends **email notification** to both:
+  - Doctor
+  - Patient
+- Email content is multilingual.
 
 ---
 
-## 🗂️ Database Schema Overview
+## 🗂️ Database Overview
 
-| Table              | Description                           |
-|--------------------|---------------------------------------|
-| `users`            | Patients                              |
-| `doctors`          | Doctors                               |
-| `admins`           | Admin users                           |
-| `specialties`      | Medical specialties (translatable)    |
-| `doctor_specialty` | Pivot table for doctor-specialty link |
-| `appointments`     | Appointment records                   |
-| `roles`            | Roles (Spatie)                        |
-| `permissions`      | Permissions (Spatie)                  |
-| `model_has_roles`  | Model-role pivot (Spatie)             |
-| `model_has_permissions` | Model-permission pivot (Spatie)  |
+| Table                  | Description                           |
+|------------------------|---------------------------------------|
+| `users`                | Patients                              |
+| `doctors`              | Doctors                               |
+| `admins`               | Admins                                |
+| `specialties`          | Medical specialties (translatable)    |
+| `doctor_specialty`     | Pivot linking doctors & specialties   |
+| `appointments`         | Appointment records                   |
+| `roles`, `permissions` | Handled via Spatie                    |
+| `model_has_roles`      | Role assignments                      |
+| `model_has_permissions`| Permission assignments                |
+
+---
+
+## 🧩 UX Enhancements
+
+- Sidebar links for:
+  - Dashboard
+  - View Specialties
+  - Browse Doctors by Specialty
+  - My Appointments
+- Dynamic action buttons:
+  - Delete button shows **only** for pending appointments.
+  - Cancel button shows **only** for confirmed appointments.
+- Interactive confirmation dialogs (JS confirm).
 
 ---
 
@@ -110,4 +143,45 @@ This is a Laravel-based web application designed to efficiently manage a medical
 1. **Clone the repository**
    ```bash
    git clone https://github.com/boushra-mh/MedicalCenterManagementSystem.git
-   cd medical-center
+   cd MedicalCenterManagementSystem
+   ```
+
+2. **Install dependencies**
+   ```bash
+   composer install
+   npm install && npm run dev
+   ```
+
+3. **Configure environment**
+   ```bash
+   cp .env.example .env
+   php artisan key:generate
+   ```
+
+4. **Set DB credentials in `.env`**, then run:
+   ```bash
+   php artisan migrate --seed
+   ```
+
+5. **Serve the app**
+   ```bash
+   php artisan serve
+   ```
+
+---
+
+## 🧪 Testing
+
+- Run unit tests:
+  ```bash
+  php artisan test
+  ```
+
+---
+
+## 📌 Future Improvements
+
+- Live notifications for appointment status.
+- Timezone-based working hours per doctor.
+- Calendar-based booking view.
+- Admin appointment analytics & charts.
