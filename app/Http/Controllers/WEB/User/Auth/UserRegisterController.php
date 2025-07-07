@@ -33,7 +33,7 @@ class UserRegisterController extends Controller
 
         Auth::login($user);
 
-        return redirect()->route('user.dashboard');
+        return redirect()->route('dashboard');
     }
 }
 

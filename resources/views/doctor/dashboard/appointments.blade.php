@@ -1,50 +1,74 @@
-@php
-    use App\Enums\AppointementStatus;
-@endphp
-@extends('doctor.layouts.app')
-@section('title', 'كل المواعيد')
+@extends('layouts.doctor') {{-- تأكد من استخدام اللayout الصحيح --}}
+
+@section('title', 'قائمة المواعيد')
 
 @section('content')
 <div class="container mt-4">
-    <h2>كل المواعيد</h2>
+    <h2 class="mb-4">قائمة المواعيد</h2>
 
-    <form method="GET" class="row g-3 mb-3">
-        <div class="col-md-4">
-            <label class="form-label">الحالة</label>
-            <select name="status" class="form-select">
-                <option value="">الكل</option>
-                <option value="confirmed" {{ request('status') == AppointementStatus::CONFIRMED->value ? 'selected' : ''}}>مؤكد</option> 
-                <option value="cancelled" {{ request('status') == AppointementStatus::CANCELLED->value ? 'selected' : '' }}>ملغي</option>
-                <option value="pending" {{ request('status') == AppointementStatus::PENDING->value ? 'selected' : '' }}>قيد الانتظار</option>
-            </select>
+    @if(session('success'))
+        <div class="alert alert-success">{{ session('success') }}</div>
+    @endif
+
+    @if($appointments->isEmpty())
+        <div class="alert alert-info text-center">لا توجد مواعيد حالياً.</div>
+    @else
+        <table class="table table-bordered table-striped text-center align-middle">
+            <thead class="table-dark">
+                <tr>
+                    <th>اسم المريض</th>
+                    <th>تاريخ الموعد</th>
+                    <th>الوقت</th>
+                    <th>الحالة</th>
+                    <th>الإجراءات</th>
+                </tr>
+            </thead>
+            <tbody>
+                @php
+                    $statusColors = [
+                        'pending' => 'warning',
+                        'confirmed' => 'success',
+                        'canceled' => 'danger',
+                    ];
+                @endphp
+
+                @foreach($appointments as $appointment)
+                    @php
+                        $statusValue = $appointment->status instanceof \BackedEnum ? $appointment->status->value : $appointment->status;
+                    @endphp
+                    <tr>
+                        <td>{{ $appointment->user->name ?? '—' }}</td>
+                        <td>{{ $appointment->date }}</td>
+                        <td>{{ $appointment->time }}</td>
+                        <td>
+                            <span class="badge bg-{{ $statusColors[$statusValue] ?? 'secondary' }}">
+                                {{ ucfirst(__($statusValue)) }}
+                            </span>
+                        </td>
+                        <td>
+                            @if($statusValue === 'pending')
+                                <form action="{{ route('doctor.appointments.confirm', $appointment->id) }}" method="POST" style="display:inline-block;">
+                                    @csrf
+                                    <button class="btn btn-sm btn-success" type="submit">✅ تأكيد</button>
+                                </form>
+
+                                <form action="{{ route('doctor.appointments.cancel', $appointment->id) }}" method="POST" style="display:inline-block;" onsubmit="return confirm('هل أنت متأكد من إلغاء الموعد؟');">
+                                    @csrf
+                                    <button class="btn btn-sm btn-danger" type="submit">❌ إلغاء</button>
+                                </form>
+                            @else
+                                <span>—</span>
+                            @endif
+                        </td>
+                    </tr>
+                @endforeach
+            </tbody>
+        </table>
+
+        {{-- روابط الصفحات --}}
+        <div>
+            {{ $appointments->links() }}
         </div>
-        <div class="col-md-4">
-            <label class="form-label">التاريخ</label>
-            <input type="date" name="date" class="form-control" value="{{ request('date') }}">
-        </div>
-         <div class="col-md-3">
-        <label class="form-label">من تاريخ</label>
-        <input type="date" name="from_date" class="form-control" value="{{ request('from_date') }}">
-    </div>
-
-    <div class="col-md-3">
-        <label class="form-label">إلى تاريخ</label>
-        <input type="date" name="to_date" class="form-control" value="{{ request('to_date') }}">
-    </div>
-
-    <div class="col-md-3">
-        <label class="form-label">الوقت</label>
-        <input type="time" name="time" class="form-control" value="{{ request('time') }}">
-    </div>
-        <div class="col-md-4 align-self-end">
-            <button class="btn btn-primary">تصفية</button>
-        </div>
-    </form>
-
-    @foreach($appointments as $appointment)
-        @include('doctor.dashboard.partials._appointment_card', ['appointment' => $appointment])
-    @endforeach
-
-    {{ $appointments->withQueryString()->links() }}
+    @endif
 </div>
 @endsection

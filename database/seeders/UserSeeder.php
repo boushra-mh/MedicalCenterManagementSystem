@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Enums\StatusEnum;
 use App\Models\Admin;
 use App\Models\Doctor;
 use App\Models\User;
@@ -23,11 +24,15 @@ class UserSeeder extends Seeder
         $admin->assignRole('admin');
 
         // // Doctor
-        // $doctor = Doctor::updateOrCreate(
-        //     ['email' => 'doctor@example.com'],
-        //     ['name' => 'Dr.Ahmed', 'password' => Hash::make('password')]
-        // );
-        // $doctor->assignRole('doctor');
+      $doctor = Doctor::updateOrCreate(
+    ['email' => 'doctor@example.com'],
+    [
+        'name' => 'Dr.Ahmed',
+        'password' => Hash::make('password'),
+        'status' => StatusEnum::Active->value
+    ]
+);
+        $doctor->assignRole('doctor');
 
         // User
         $user = User::updateOrCreate(

@@ -33,30 +33,20 @@
                         @endforeach
                     </td>
                     <td>
-                        @if($doctor->status == \App\Enums\StatusEnum::Active->value)
-                            <span class="badge bg-success">نشط</span>
-                        @else
-                            <span class="badge bg-secondary">غير نشط</span>
-                        @endif
-                    </td>
-                    <td>
-                        <!-- زر التبديل -->
-                        <form action="{{ route('admin.doctors.toggleStatus', $doctor->id) }}" method="POST" style="display:inline-block;">
+                        <form action="{{ route('admin.doctors.toggleStatus', $doctor->id) }}" method="POST">
                             @csrf
                             @method('PATCH')
-                            <button class="btn btn-sm btn-outline-primary" type="submit">
-                                @if($doctor->status == \App\Enums\StatusEnum::Active->value)
-                                    تعطيل
-                                @else
-                                    تفعيل
-                                @endif
+                            <button type="submit"
+                                class="badge border-0 {{ $doctor->status == \App\Enums\StatusEnum::Active->value ? 'bg-success' : 'bg-secondary' }}"
+                                style="cursor: pointer;"
+                            >
+                                {{ $doctor->status == \App\Enums\StatusEnum::Active->value ? 'نشط' : 'غير نشط' }}
                             </button>
                         </form>
-
-                        <!-- زر التعديل -->
+                    </td>
+                    <td>
                         <a href="{{ route('admin.doctors.edit', $doctor->id) }}" class="btn btn-sm btn-warning">تعديل</a>
 
-                        <!-- زر الحذف -->
                         <form action="{{ route('admin.doctors.destroy', $doctor->id) }}" method="POST" style="display:inline-block" onsubmit="return confirm('هل أنت متأكد من حذف هذا الطبيب؟');">
                             @csrf
                             @method('DELETE')

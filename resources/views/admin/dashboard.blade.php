@@ -1,0 +1,137 @@
+@extends('layouts.admin')
+
+@section('title', 'لوحة تحكم الإدارة')
+
+@section('styles')
+<style>
+    .cursor-pointer {
+        cursor: pointer;
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+    .cursor-pointer:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+        text-decoration: none !important;
+    }
+    a > .card {
+        color: inherit;
+    }
+</style>
+@endsection
+
+@section('content')
+<div class="container mt-5">
+    <h2 class="mb-4">لوحة تحكم الإدارة - الإحصائيات</h2>
+
+    <div class="row">
+        <!-- بطاقة الأطباء مع رابط -->
+        <div class="col-md-3">
+            <a href="{{ route('admin.doctors.index') }}" style="text-decoration: none;">
+                <div class="card text-white bg-primary mb-3 cursor-pointer">
+                    <div class="card-body">
+                        <h5 class="card-title">عدد الأطباء</h5>
+                        <p class="card-text fs-2">{{ $statsArray['total_doctors'] }}</p>
+                    </div>
+                </div>
+            </a>
+        </div>
+
+        <!-- بطاقة المرضى مع رابط -->
+        <div class="col-md-3">
+            <a href="{{ route('admin.patients.index') }}" style="text-decoration: none;">
+                <div class="card text-white bg-success mb-3 cursor-pointer">
+                    <div class="card-body">
+                        <h5 class="card-title">عدد المرضى</h5>
+                        <p class="card-text fs-2">{{ $statsArray['total_patients'] }}</p>
+                    </div>
+                </div>
+            </a>
+        </div>
+
+        <!-- بطاقة المواعيد الكلي مع رابط -->
+        <div class="col-md-3">
+            <a href="{{ route('admin.appointments.index') }}" style="text-decoration: none;">
+                <div class="card text-white bg-info mb-3 cursor-pointer">
+                    <div class="card-body">
+                        <h5 class="card-title">عدد المواعيد الكلي</h5>
+                        <p class="card-text fs-2">{{ $statsArray['total_appointments'] }}</p>
+                    </div>
+                </div>
+            </a>
+        </div>
+
+        <!-- بطاقة المواعيد المحذوفة مؤقتاً مع رابط -->
+        <div class="col-md-3">
+            <a href="{{ route('admin.appointments.trashed') }}" style="text-decoration: none;">
+                <div class="card text-white bg-danger mb-3 cursor-pointer">
+                    <div class="card-body">
+                        <h5 class="card-title">المواعيد المحذوفة مؤقتاً</h5>
+                        <p class="card-text fs-2">{{ $statsArray['total_appointmentsWithTrashed'] }}</p>
+                    </div>
+                </div>
+            </a>
+        </div>
+    </div>
+
+    <!-- رسم بياني دائري (Pie Chart) -->
+    <div class="card mt-4">
+        <div class="card-header">
+            إحصائيات عامة (رسم بياني دائري)
+        </div>
+        <div class="card-body">
+            <canvas id="pieChart" height="200"></canvas>
+        </div>
+    </div>
+</div>
+@endsection
+
+@section('scripts')
+<!-- استدعاء Chart.js من CDN -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    const ctx = document.getElementById('pieChart').getContext('2d');
+    const pieChart = new Chart(ctx, {
+        type: 'pie',
+        data: {
+            labels: ['الأطباء', 'المرضى', 'المواعيد', 'المواعيد المحذوفة'],
+            datasets: [{
+                data: [
+                    {{ $statsArray['total_doctors'] }},
+                    {{ $statsArray['total_patients'] }},
+                    {{ $statsArray['total_appointments'] }},
+                    {{ $statsArray['total_appointmentsWithTrashed'] }}
+                ],
+                backgroundColor: [
+                    'rgba(13, 110, 253, 0.8)',  
+                    'rgba(25, 135, 84, 0.8)',   
+                    'rgba(13, 202, 240, 0.8)',  
+                    'rgba(220, 53, 69, 0.8)'    
+                ],
+                borderColor: '#fff',
+                borderWidth: 2,
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                legend: {
+                    position: 'bottom',
+                    labels: {
+                        font: { size: 14 }
+                    }
+                },
+                tooltip: {
+                    enabled: true,
+                    callbacks: {
+                        label: function(context) {
+                            const label = context.label || '';
+                            const value = context.parsed || 0;
+                            return label + ': ' + value;
+                        }
+                    }
+                }
+            }
+        }
+    });
+</script>
+@endsection

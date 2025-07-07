@@ -25,6 +25,7 @@ class DoctorController extends Controller
         $doctors = $this->doctorService->getAllDoctors();
         return view('admin.doctors.index', compact('doctors'));
     }
+    
 
     /**
      * ➕ عرض نموذج إنشاء طبيب

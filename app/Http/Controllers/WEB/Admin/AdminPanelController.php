@@ -17,10 +17,25 @@ class AdminPanelController extends Controller
         $this->adminService = $adminService;
     }
 
+       public function index()
+    {
+        // جلب البيانات الإحصائية
+        $stats = $this->adminService->statistics();
+
+        // البيانات بالصيغة العادية (array)
+        $statsArray = [
+            'total_doctors' => $stats['total_doctors'],
+            'total_patients' => $stats['total_patients'],
+            'total_appointments' => $stats['total_appointments'],
+            'total_appointmentsWithTrashed' => $stats['total_appointmentsWithTrashed'],
+        ];
+
+        return view('admin.dashboard', compact('statsArray'));
+    }
     public function toggleStatusForDoctor($id): RedirectResponse
     {
         $doctor = $this->adminService->toggleDoctorStatus($id);
-
-        return redirect()->back()->with('success', 'تم تحديث حالة الطبيب بنجاح');
+ return redirect()->back()->with('success', 'تم تحديث حالة الطبيب بنجاح');
+       
     }
 }

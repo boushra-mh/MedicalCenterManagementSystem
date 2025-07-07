@@ -32,5 +32,14 @@
                 {{ $slot }}
             </main>
         </div>
+            <div class="d-flex">
+        @include('layouts.partials.admin-sidebar') {{-- الشريط الجانبي --}}
+        
+        <div class="flex-grow-1 p-4">
+            @yield('content')
+        </div>
+    </div>
+
+    @yield('scripts')
     </body>
 </html>

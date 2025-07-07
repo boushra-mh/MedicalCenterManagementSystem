@@ -36,17 +36,17 @@ class AdminSevice
      */
     public function statistics()
     {
-        $doctors = Doctor::count();
-        $patients = User::count();
-        $appointments = Appointment::count();
-        $appointmentsWithTrashed = Appointment::onlyTrashed()->count();
+        // $doctors = Doctor::count();
+        // $patients = User::count();
+        // $appointments = Appointment::count();
+        // $appointmentsWithTrashed = Appointment::onlyTrashed()->count();
 
-        return response()->json([
-            'total_doctors' => $doctors,
-            'total_patients' => $patients,
-            'total_appointments' => $appointments,
-            'total_appointmentsWithTrashed' => $appointmentsWithTrashed
-        ]);
+       return [
+        'total_doctors' => Doctor::count(),
+        'total_patients' => User::count(),
+        'total_appointments' => Appointment::count(),
+        'total_appointmentsWithTrashed' => Appointment::onlyTrashed()->count()
+    ];
     }
     public function toggleDoctorStatus($id )
     {
