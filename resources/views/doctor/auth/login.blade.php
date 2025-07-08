@@ -1,23 +1,40 @@
-<!DOCTYPE html>
-<html>
-<head><title>Doctor Login</title></head>
-<body>
-    <h2>Doctor Login</h2>
+@extends('layouts.doctor.auth')
 
-    <form method="POST" action="{{ route('doctor.login') }}">
-        @csrf
-        <label>Email:</label>
-        <input type="email" name="email" value="{{ old('email') }}" required><br>
+@section('title', 'تسجيل دخول الطبيب')
 
-        <label>Password:</label>
-        <input type="password" name="password" required><br>
+@section('content')
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-5">
+            <div class="card shadow">
+                <div class="card-header text-center bg-primary text-white">
+                    <h4>تسجيل دخول الطبيب</h4>
+                </div>
+                <div class="card-body">
+                    <form method="POST" action="{{ route('doctor.login') }}">
+                        @csrf
 
-        <button type="submit">Login</button>
-    </form>
+                        <div class="mb-3">
+                            <label for="email" class="form-label">البريد الإلكتروني</label>
+                            <input type="email" name="email" value="{{ old('email') }}" class="form-control" required>
+                        </div>
 
-    @if ($errors->any())
-    <div style="color: red;">{{ $errors->first() }}</div>
-    @endif
-</body>
-</html>
-    
+                        <div class="mb-3">
+                            <label for="password" class="form-label">كلمة المرور</label>
+                            <input type="password" name="password" class="form-control" required>
+                        </div>
+
+                        @if ($errors->any())
+                            <div class="alert alert-danger">{{ $errors->first() }}</div>
+                        @endif
+
+                        <div class="d-grid">
+                            <button type="submit" class="btn btn-primary">دخول</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@endsection

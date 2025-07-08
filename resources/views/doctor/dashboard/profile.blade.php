@@ -16,7 +16,7 @@
                 <span class="badge bg-secondary">غير نشط</span>
             @endif
         </p>
-        {{-- يمكنك لاحقاً إضافة زر لتعديل البيانات --}}
+
     </div>
 </div>
 @endsection

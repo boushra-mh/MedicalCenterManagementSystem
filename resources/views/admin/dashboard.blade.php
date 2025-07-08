@@ -1,4 +1,5 @@
-@extends('layouts.admin')
+
+@extends('layouts.admin.admin')
 
 @section('title', 'لوحة تحكم الإدارة')
 
@@ -21,72 +22,84 @@
 
 @section('content')
 <div class="container mt-5">
-    <h2 class="mb-4">لوحة تحكم الإدارة - الإحصائيات</h2>
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2 class="fw-bold">لوحة تحكم الإدارة</h2>
+        <span class="text-muted">مرحباً بك 👋</span>
+    </div>
 
-    <div class="row">
-        <!-- بطاقة الأطباء مع رابط -->
+    <div class="row g-4">
+        <!-- عدد الأطباء -->
         <div class="col-md-3">
-            <a href="{{ route('admin.doctors.index') }}" style="text-decoration: none;">
-                <div class="card text-white bg-primary mb-3 cursor-pointer">
-                    <div class="card-body">
-                        <h5 class="card-title">عدد الأطباء</h5>
-                        <p class="card-text fs-2">{{ $statsArray['total_doctors'] }}</p>
+            <a href="{{ route('admin.doctors.index') }}" class="text-decoration-none">
+                <div class="card bg-primary text-white shadow-sm cursor-pointer">
+                    <div class="card-body text-center">
+                        <i class="bi bi-person-badge fs-1 mb-2"></i>
+                        <h5>عدد الأطباء</h5>
+                        <h3>{{ $statsArray['total_doctors'] }}</h3>
                     </div>
                 </div>
             </a>
         </div>
 
-        <!-- بطاقة المرضى مع رابط -->
+        <!-- عدد المرضى -->
         <div class="col-md-3">
-            <a href="{{ route('admin.patients.index') }}" style="text-decoration: none;">
-                <div class="card text-white bg-success mb-3 cursor-pointer">
-                    <div class="card-body">
-                        <h5 class="card-title">عدد المرضى</h5>
-                        <p class="card-text fs-2">{{ $statsArray['total_patients'] }}</p>
+            <a href="{{ route('admin.patients.index') }}" class="text-decoration-none">
+                <div class="card bg-success text-white shadow-sm cursor-pointer">
+                    <div class="card-body text-center">
+                        <i class="bi bi-people fs-1 mb-2"></i>
+                        <h5>عدد المرضى</h5>
+                        <h3>{{ $statsArray['total_patients'] }}</h3>
                     </div>
                 </div>
             </a>
         </div>
 
-        <!-- بطاقة المواعيد الكلي مع رابط -->
+        <!-- عدد المواعيد -->
         <div class="col-md-3">
-            <a href="{{ route('admin.appointments.index') }}" style="text-decoration: none;">
-                <div class="card text-white bg-info mb-3 cursor-pointer">
-                    <div class="card-body">
-                        <h5 class="card-title">عدد المواعيد الكلي</h5>
-                        <p class="card-text fs-2">{{ $statsArray['total_appointments'] }}</p>
+            <a href="{{ route('admin.appointments.index') }}" class="text-decoration-none">
+                <div class="card bg-info text-white shadow-sm cursor-pointer">
+                    <div class="card-body text-center">
+                        <i class="bi bi-calendar-check fs-1 mb-2"></i>
+                        <h5>عدد المواعيد</h5>
+                        <h3>{{ $statsArray['total_appointments'] }}</h3>
                     </div>
                 </div>
             </a>
         </div>
 
-        <!-- بطاقة المواعيد المحذوفة مؤقتاً مع رابط -->
+        <!-- عدد المحذوفة -->
         <div class="col-md-3">
-            <a href="{{ route('admin.appointments.trashed') }}" style="text-decoration: none;">
-                <div class="card text-white bg-danger mb-3 cursor-pointer">
-                    <div class="card-body">
-                        <h5 class="card-title">المواعيد المحذوفة مؤقتاً</h5>
-                        <p class="card-text fs-2">{{ $statsArray['total_appointmentsWithTrashed'] }}</p>
+            <a href="{{ route('admin.appointments.trashed') }}" class="text-decoration-none">
+                <div class="card bg-danger text-white shadow-sm cursor-pointer">
+                    <div class="card-body text-center">
+                        <i class="bi bi-trash fs-1 mb-2"></i>
+                        <h5>المواعيد المحذوفة</h5>
+                        <h3>{{ $statsArray['total_appointmentsWithTrashed'] }}</h3>
                     </div>
                 </div>
             </a>
         </div>
     </div>
 
-    <!-- رسم بياني دائري (Pie Chart) -->
-    <div class="card mt-4">
-        <div class="card-header">
-            إحصائيات عامة (رسم بياني دائري)
+    <!-- رسم بياني -->
+    <div class="card mt-5 shadow-sm">
+        <div class="card-header bg-light fw-bold">
+            إحصائيات مرئية
         </div>
-        <div class="card-body">
-            <canvas id="pieChart" height="200"></canvas>
+        <div class="card-body d-flex justify-content-center">
+            <div style="width: 320px; height: 320px;">
+                <canvas id="pieChart"></canvas>
+            </div>
         </div>
     </div>
 </div>
 @endsection
 
 @section('scripts')
-<!-- استدعاء Chart.js من CDN -->
+<!-- Bootstrap icons (اختياري) -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+
+<!-- Chart.js -->
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
     const ctx = document.getElementById('pieChart').getContext('2d');
@@ -102,10 +115,10 @@
                     {{ $statsArray['total_appointmentsWithTrashed'] }}
                 ],
                 backgroundColor: [
-                    'rgba(13, 110, 253, 0.8)',  
-                    'rgba(25, 135, 84, 0.8)',   
-                    'rgba(13, 202, 240, 0.8)',  
-                    'rgba(220, 53, 69, 0.8)'    
+                    '#0d6efd',
+                    '#198754',
+                    '#0dcaf0',
+                    '#dc3545'
                 ],
                 borderColor: '#fff',
                 borderWidth: 2,
@@ -121,12 +134,11 @@
                     }
                 },
                 tooltip: {
-                    enabled: true,
                     callbacks: {
                         label: function(context) {
                             const label = context.label || '';
                             const value = context.parsed || 0;
-                            return label + ': ' + value;
+                            return `${label}: ${value}`;
                         }
                     }
                 }

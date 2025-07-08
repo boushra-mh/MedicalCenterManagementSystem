@@ -1,4 +1,4 @@
-@extends('layouts.admin')
+@extends('layouts.admin.admin')
 
 @section('title', 'قائمة المواعيد')
 
@@ -31,6 +31,10 @@
                 @endforeach
             </tbody>
         </table>
+        <div class="d-flex justify-content-center">
+    {{ $appointments->links() }}
+</div>
+
     @endif
 </div>
 @endsection

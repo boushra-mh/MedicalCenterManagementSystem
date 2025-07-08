@@ -3,14 +3,14 @@ namespace App\Http\Controllers\WEB\Admin\Appointments;
 
 use App\Http\Controllers\Controller;
 use App\Models\Appointment;
-use Illuminate\Http\Request;
+
 
 class AppointmentController extends Controller
 {
     // عرض المواعيد الحالية
     public function index()
     {
-        $appointments = Appointment::with(['doctor', 'user'])->latest()->get();
+        $appointments = Appointment::with(['doctor', 'user'])->paginate(10);
         return view('admin.appointments.index', compact('appointments'));
     }
 

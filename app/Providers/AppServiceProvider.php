@@ -6,6 +6,7 @@ use App\Events\AppointmentBooked;
 use App\Events\AppointmentStatusUpdated;
 use App\Listeners\SendAppointmentConfirmationEmail;
 use App\Listeners\SendAppointmentStatusNotification;
+use Illuminate\Pagination\Paginator;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Event;
 class AppServiceProvider extends ServiceProvider
@@ -32,6 +33,7 @@ class AppServiceProvider extends ServiceProvider
 
 SendAppointmentStatusNotification ::class
     );
+    Paginator::useBootstrap(); 
 
       
     }

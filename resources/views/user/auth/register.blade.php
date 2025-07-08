@@ -1,34 +1,56 @@
-<!DOCTYPE html>
-<html>
-<head><title>User Register</title></head>
-<body>
-    <h2>User Register</h2>
+@extends('layouts.user.auth')
 
-    <form method="POST" action="{{ route('user.register') }}">
-        @csrf
-        <label>Name:</label>
-        <input type="text" name="name" value="{{ old('name') }}" required><br>
+@section('title', 'تسجيل حساب جديد للمريض')
 
-        <label>Email:</label>
-        <input type="email" name="email" value="{{ old('email') }}" required><br>
+@section('content')
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card shadow">
+                <div class="card-header bg-info text-white text-center">
+                    <h4>تسجيل حساب مريض</h4>
+                </div>
+                <div class="card-body">
+                    <form method="POST" action="{{ route('user.register') }}">
+                        @csrf
 
-        <label>Password:</label>
-        <input type="password" name="password" required><br>
+                        <div class="mb-3">
+                            <label class="form-label">الاسم</label>
+                            <input type="text" name="name" value="{{ old('name') }}" class="form-control" required>
+                        </div>
 
-        <label>Confirm Password:</label>
-        <input type="password" name="password_confirmation" required><br>
+                        <div class="mb-3">
+                            <label class="form-label">البريد الإلكتروني</label>
+                            <input type="email" name="email" value="{{ old('email') }}" class="form-control" required>
+                        </div>
 
-        <button type="submit">Register</button>
-    </form>
+                        <div class="mb-3">
+                            <label class="form-label">كلمة المرور</label>
+                            <input type="password" name="password" class="form-control" required>
+                        </div>
 
-    @if ($errors->any())
-    <div style="color: red;">
-        <ul>
-            @foreach($errors->all() as $error)
-                <li>{{ $error }}</li>
-            @endforeach
-        </ul>
+                        <div class="mb-3">
+                            <label class="form-label">تأكيد كلمة المرور</label>
+                            <input type="password" name="password_confirmation" class="form-control" required>
+                        </div>
+
+                        @if ($errors->any())
+                            <div class="alert alert-danger">
+                                <ul class="mb-0">
+                                    @foreach($errors->all() as $error)
+                                        <li>{{ $error }}</li>
+                                    @endforeach
+                                </ul>
+                            </div>
+                        @endif
+
+                        <div class="d-grid">
+                            <button type="submit" class="btn btn-info">تسجيل</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
     </div>
-    @endif
-</body>
-</html>
+</div>
+@endsection

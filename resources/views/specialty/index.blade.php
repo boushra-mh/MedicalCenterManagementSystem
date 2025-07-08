@@ -1,4 +1,4 @@
-@extends('layouts.admin')
+@extends('layouts.admin.admin')
 @section('content')
 <div class="container">
     <h2>Specialties</h2>
@@ -32,6 +32,9 @@
             @endforeach
         </tbody>
     </table>
+         <div class="d-flex justify-content-center">
     {{ $specialties->links() }}
+</div>
+
 </div>
 @endsection

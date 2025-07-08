@@ -85,7 +85,7 @@ class DoctorService
      * ثم يتم تحديث الحالة إلى ملغي
      */
     public function rejectAppointment($id)
-    {   $doctor = auth('doctor')->id() ?? auth('doctor_web')->id() ;
+    {   $doctor = auth('doctor_web')->id() ?? auth('doctor')->id() ;
 
         $appointment = Appointment::byDoctor($doctor)
             ->where('id', $id)
@@ -110,14 +110,12 @@ class DoctorService
      */
     public function acceptAppointment($id)
     {
-       $doctor = auth('doctor')->id() ?? auth('doctor_web')->id() ;
-
-
-
-        $appointment = Appointment::byDoctor($doctor)
-            ->where('id', $id)
-            ->pending()
-            ->first();
+        
+       $doctor =auth('doctor_web')->id()?? auth('doctor')->id();
+           $appointment = Appointment::byDoctor($doctor)
+        ->where('id', $id)
+        ->pending()
+        ->first();
 
         if (!$appointment) {
             throw ValidationException::withMessages([

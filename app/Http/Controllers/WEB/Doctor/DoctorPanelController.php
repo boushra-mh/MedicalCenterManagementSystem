@@ -29,7 +29,6 @@ class DoctorPanelController extends Controller
 
         $appointments = Appointment::byDoctor($doctorId)
             ->with('user')
-            ->filter($request->all())
             ->orderBy('date', 'desc')
             ->paginate(10);
 
@@ -39,13 +38,15 @@ class DoctorPanelController extends Controller
     /**
      * عرض لوحة تحكم الطبيب مع مواعيد اليوم والإحصائيات
      */
-    public function dashboard()
+    public function dashboard(Request $request)
     {
         $doctorId = auth('doctor_web')->id();
 
         $appointmentsToday = Appointment::byDoctor($doctorId)
             ->appointmentsForToday()
             ->with(relations: 'user')
+            
+            ->filter($request->all())
             ->orderBy('date')
             ->get();
 
@@ -62,20 +63,25 @@ class DoctorPanelController extends Controller
     /**
      * قبول موعد من قبل الطبيب
      */
-    public function confirm($id)
-    {
-        
-        try {
-            if (!Auth::guard('doctor_web')->check()) {
+ public function confirm($id)
+{
+    try {
+        if (!Auth::guard('doctor_web')->check()) {
             return redirect()->back()->with('error', 'يجب تسجيل الدخول كطبيب أولاً.');
         }
-            
-           app(\App\Services\DoctorService::class)->acceptAppointment($id);
-            return redirect()->back()->with('success', 'تم تأكيد الموعد بنجاح.');
-        } catch (ValidationException $e) {
-            return redirect()->back()->withErrors($e->errors());
-        }
+
+        $appointment = $this->doctorService->acceptAppointment($id);
+
+        // إذا وصلت هنا، يعني تم التحديث بنجاح
+        return redirect()->back()->with('success', 'تم تأكيد الموعد بنجاح.');
+    } catch (ValidationException $e) {
+        return redirect()->back()->withErrors($e->errors());
+    } catch (\Exception $e) {
+        // خطأ عام - نجرب نعرف شو الخطأ
+        return redirect()->back()->with('error', 'حدث خطأ: ' . $e->getMessage());
     }
+}
+
 
     /**
      * رفض موعد من قبل الطبيب
@@ -86,7 +92,7 @@ class DoctorPanelController extends Controller
             if (!Auth::guard('doctor_web')->check()) {
             return redirect()->back()->with('error', 'يجب تسجيل الدخول كطبيب أولاً.');
         }
-            app(\App\Services\DoctorService::class)->rejectAppointment($id);
+            $this->doctorService->rejectAppointment($id);
             return redirect()->back()->with('success', 'تم إلغاء الموعد.');
         } catch (ValidationException $e) {
             return redirect()->back()->withErrors($e->errors());

@@ -29,6 +29,7 @@ class DoctorRegisterController extends Controller
             'password'=> Hash::make($request->password),
         ]);
 
+        $doctor->assignRole('doctor');
         Auth::guard('doctor_web')->login($doctor);
 
         return redirect()->route('doctor.dashboard');
