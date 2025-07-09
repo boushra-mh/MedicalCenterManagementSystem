@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\WEB\Doctor;
+namespace App\Http\Controllers\WEB\Admin\Doctor;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\API\Doctor\DoctorRequest;
@@ -27,9 +27,9 @@ class DoctorController extends Controller
     }
     
 
-    /**
-     * ➕ عرض نموذج إنشاء طبيب
-     */
+        /**
+         * ➕ عرض نموذج إنشاء طبيب
+         */
     public function create()
     {
         $specialties = Specialty::all();

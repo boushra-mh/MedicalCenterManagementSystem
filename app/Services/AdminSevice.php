@@ -19,9 +19,9 @@ class AdminSevice
      */
     public function deleteAppointments($id)
     {
-            $date = now()->subMonth();
+        $date = now()->subMonth();
         $appointment = Appointment::where('id', $id)
-        ->where('date','<', $date)
+            ->where('date', '<', $date)
             ->withTrashed()
             ->first();
         $appointment->forceDelete();
@@ -41,25 +41,29 @@ class AdminSevice
         // $appointments = Appointment::count();
         // $appointmentsWithTrashed = Appointment::onlyTrashed()->count();
 
-       return [
-        'total_doctors' => Doctor::count(),
-        'total_patients' => User::count(),
-        'total_appointments' => Appointment::count(),
-        'total_appointmentsWithTrashed' => Appointment::onlyTrashed()->count()
-    ];
+        return  [
+            'total_doctors' => Doctor::count(),
+            'total_patients' => User::count(),
+            'total_appointments' => Appointment::count(),
+            'total_appointmentsWithTrashed' => Appointment::onlyTrashed()->count()
+        ];
     }
-    public function toggleDoctorStatus($id )
+
+    /*
+     * !SECTION
+     * 🔄 تحديث حالة الطبيب
+     */
+    public function toggleDoctorStatus($id)
     {
-    $doctor = Doctor::findOrFail($id);
+        $doctor = Doctor::findOrFail($id);
 
         if ($doctor->status == StatusEnum::Active) {
             $doctor->status = StatusEnum::InActive;
-        } elseif($doctor->status == StatusEnum::InActive) {
-
-              $doctor->status = StatusEnum::Active;
+        } elseif ($doctor->status == StatusEnum::InActive) {
+            $doctor->status = StatusEnum::Active;
         }
 
         $doctor->save();
-     return $doctor;        
+        return $doctor;
     }
 }

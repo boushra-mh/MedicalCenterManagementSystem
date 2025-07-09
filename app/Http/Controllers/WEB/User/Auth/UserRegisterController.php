@@ -5,9 +5,8 @@
 namespace App\Http\Controllers\WEB\User\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\API\Patient\Auth\patientRegisterRequest;
 use App\Models\User;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
 
 class UserRegisterController extends Controller
@@ -17,19 +16,12 @@ class UserRegisterController extends Controller
         return view('user.auth.register');
     }
 
-    public function register(Request $request)
+    public function register(patientRegisterRequest $request)
     {
-        $request->validate([
-            'name' => 'required|string|max:255',
-            'email' => 'required|email|unique:users,email',
-            'password' => 'required|min:6|confirmed',
-        ]);
+       $data=$request->validated();
 
-        $user = User::create([
-            'name' => $request->name,
-            'email'=> $request->email,
-            'password'=> Hash::make($request->password),
-        ]);
+        $user = User::create($data);
+
         $user->assignRole('user');
 
         Auth::login($user);

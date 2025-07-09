@@ -6,7 +6,7 @@ use App\Http\Controllers\WEB\Admin\AdminPanelController;
 use App\Http\Controllers\WEB\Admin\Specialty\SpecialtyController;
 use App\Http\Controllers\WEB\Admin\Patient\PatientController;
 use App\Http\Controllers\WEB\Admin\Appointments\AppointmentController;
-use App\Http\Controllers\WEB\Doctor\DoctorController;
+use App\Http\Controllers\WEB\Admin\Doctor\DoctorController;
 
 // ✅ صفحة تسجيل دخول الأدمن
 Route::get('admin/login', [AdminLoginController::class, 'showLoginForm'])->name('admin.login');

@@ -30,7 +30,20 @@ class DoctorLoginController extends Controller
     {
         Auth::guard('doctor_web')->logout();
 
+        /**
+         * SECTION -
+         * هنا يقوم Laravel
+         *  بـ إبطال الجلسة الحالية
+         *  أي حذف جميع بيانات الجلسة
+         *  مثل بيانات المستخدم والرسائل المؤقتة flash data)
+         *  منع إعادة استخدام هذه الجلسة في المستقبل
+         */
         $request->session()->invalidate();
+
+        /**
+         * إعادة إنشاء CSRF token جديد
+         * بعد تسجيل الخروج، من الأفضل توليد رمز جديد لتعزيز الأمان
+         */
         $request->session()->regenerateToken();
 
         return redirect()->route('doctor.login');

@@ -18,9 +18,9 @@ return Application::configure(basePath: dirname(__DIR__))
           then:function()
         {
           Route::prefix('api')->middleware('api')->group(function () {
-        require base_path('routes/admin.php');
-        require base_path('routes/doctor.php');
-        require base_path('routes/patient.php');
+        require base_path('routes/api/admin.php');
+        require base_path('routes/api/doctor.php');
+        require base_path('routes/api/patient.php');
     });
 
         }

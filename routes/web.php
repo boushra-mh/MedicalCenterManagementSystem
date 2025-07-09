@@ -15,6 +15,6 @@ Route::get('lang/{locale}', function ($locale) {
 })->name('lang.switch');
 
 // استدعاء ملفات الروتس المفصولة
-require __DIR__.'/admin_web.php';
-require __DIR__.'/doctor_web.php';
-require __DIR__.'/patient_web.php';
+require __DIR__.'/web/admin.php';
+require __DIR__.'/web/doctor.php';
+require __DIR__.'/web/patient.php';

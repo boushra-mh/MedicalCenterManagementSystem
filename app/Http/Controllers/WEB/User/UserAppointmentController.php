@@ -18,11 +18,11 @@ class UserAppointmentController extends Controller
     public function __construct(AppointmentService $appointmentService)
     {
         $this->appointmentService = $appointmentService;
-       
     }
 
-
-    // عرض كل المواعيد مع الفلترة
+    /**
+     * 📋 عرض قائمة المواعيد
+     */
     public function index(Request $request)
     {
         $userId = Auth::id();
@@ -34,15 +34,19 @@ class UserAppointmentController extends Controller
         return view('user.appointments.index', compact('appointments'));
     }
 
-    // عرض نموذج حجز موعد جديد
+    /**
+     * ➕ عرض نموذج إنشاء موعد جديد
+     */
     public function create()
     {
         $doctors = Doctor::where('status', 'active')->get();
 
-       return view('user.appointments.create', compact('doctors'));
+        return view('user.appointments.create', compact('doctors'));
     }
 
-    // معالجة طلب حجز موعد جديد
+    /**
+     * 💾 حفظ موعد جديد
+     */
     public function store(AppointmentRequest $request)
     {
         $data = $request->validated();
@@ -53,7 +57,7 @@ class UserAppointmentController extends Controller
         return redirect()->route('user.appointments.index')->with('success', 'تم حجز الموعد بنجاح');
     }
 
-    // إلغاء موعد
+    // 🧹 إلغاء موعد
     public function cancel($id)
     {
         $userId = Auth::id();
@@ -63,13 +67,17 @@ class UserAppointmentController extends Controller
 
         return redirect()->back()->with('success', 'تم إلغاء الموعد بنجاح');
     }
+
+    /**
+     * 🗑️ حذف طبيب
+     * باستخدام  ال sofyDelete
+     */
     public function destroy($id)
-{
-    $userId = auth('user')->id();
+    {
+        $userId = auth('user')->id();
 
-    $this->appointmentService->deleteByUser($userId, $id);
+        $this->appointmentService->deleteByUser($userId, $id);
 
-    return redirect()->back()->with('success', 'تم حذف الموعد بنجاح.');
-}
-
+        return redirect()->back()->with('success', 'تم حذف الموعد بنجاح.');
+    }
 }

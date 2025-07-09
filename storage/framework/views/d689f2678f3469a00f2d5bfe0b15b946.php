@@ -5,7 +5,43 @@
 <?php $__env->startSection('content'); ?>
 <div class="container mt-4">
     <h2 class="mb-4">قائمة المواعيد</h2>
+ 
+    <form method="GET" action="<?php echo e(route('doctor.appointments.index')); ?>" class="mb-4 row g-3 align-items-center">
+        <div class="col-md-3">
+            <label for="status" class="form-label">الحالة</label>
+            <select name="status" id="status" class="form-select">
+                <option value="">الكل</option>
+                <option value="pending" <?php if(request('status') == 'pending'): echo 'selected'; endif; ?>>معلق</option>
+                <option value="confirmed" <?php if(request('status') == 'confirmed'): echo 'selected'; endif; ?>>مؤكد</option>
+                <option value="canceled" <?php if(request('status') == 'canceled'): echo 'selected'; endif; ?>>ملغي</option>
+            </select>
+        </div>
 
+        <div class="col-md-3">
+            <label for="date" class="form-label">تاريخ الموعد</label>
+            <input type="date" name="date" id="date" class="form-control" value="<?php echo e(request('date')); ?>">
+        </div>
+
+        <div class="col-md-3">
+            <label for="from_date" class="form-label">من تاريخ</label>
+            <input type="date" name="from_date" id="from_date" class="form-control" value="<?php echo e(request('from_date')); ?>">
+        </div>
+
+        <div class="col-md-3">
+            <label for="to_date" class="form-label">إلى تاريخ</label>
+            <input type="date" name="to_date" id="to_date" class="form-control" value="<?php echo e(request('to_date')); ?>">
+        </div>
+
+        <div class="col-md-3">
+            <label for="time" class="form-label">الوقت</label>
+            <input type="time" name="time" id="time" class="form-control" value="<?php echo e(request('time')); ?>">
+        </div>
+
+        <div class="col-md-3 d-flex align-items-end">
+            <button type="submit" class="btn btn-primary">فلترة</button>
+            <a href="<?php echo e(route('doctor.appointments.index')); ?>" class="btn btn-secondary ms-2">إعادة تعيين</a>
+        </div>
+    </form>
     <?php if(session('success')): ?>
         <div class="alert alert-success"><?php echo e(session('success')); ?></div>
     <?php endif; ?>

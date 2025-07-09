@@ -16,7 +16,7 @@ class DoctorService
      */
     public function getById($id)
     {
-        return Doctor::where("id", $id)->first();
+        return Doctor::where('id', $id)->first();
     }
 
     /**
@@ -24,7 +24,7 @@ class DoctorService
      */
     public function getAllDoctors()
     {
-        return Doctor::all(); 
+        return Doctor::all();
     }
 
     /**
@@ -37,7 +37,7 @@ class DoctorService
             'name' => $data['name'],
             'email' => $data['email'],
             'password' => bcrypt($data['password']),
-            'status'=>StatusEnum::Active->value
+            'status' => StatusEnum::Active->value
         ]);
         $doctor->save();
 
@@ -80,12 +80,13 @@ class DoctorService
     }
 
     /**
-     * رفض موعد من قبل الطبيب 
+     * رفض موعد من قبل الطبيب
      * تتحقق أن الموعد موجود وهو في الحالة "قيد الانتظار"
      * ثم يتم تحديث الحالة إلى ملغي
      */
     public function rejectAppointment($id)
-    {   $doctor = auth('doctor_web')->id() ?? auth('doctor')->id() ;
+    {
+        $doctor = auth('doctor_web')->id() ?? auth('doctor')->id();
 
         $appointment = Appointment::byDoctor($doctor)
             ->where('id', $id)
@@ -110,12 +111,11 @@ class DoctorService
      */
     public function acceptAppointment($id)
     {
-        
-       $doctor =auth('doctor_web')->id()?? auth('doctor')->id();
-           $appointment = Appointment::byDoctor($doctor)
-        ->where('id', $id)
-        ->pending()
-        ->first();
+        $doctor = auth('doctor_web')->id() ?? auth('doctor')->id();
+        $appointment = Appointment::byDoctor($doctor)
+            ->where('id', $id)
+            ->pending()
+            ->first();
 
         if (!$appointment) {
             throw ValidationException::withMessages([

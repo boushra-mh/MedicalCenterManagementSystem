@@ -8,6 +8,9 @@ use Illuminate\Support\Facades\Auth;
 
 class UserDashboardController extends Controller
 {
+    /**
+     * 📋 عرض قائمة المواعيد
+     */
     public function index()
     {
         $userId = Auth::id();
@@ -28,6 +31,10 @@ class UserDashboardController extends Controller
 
         return view('user.dashboard', compact('appointmentsToday', 'stats', 'specialties'));
     }
+
+    /**
+     * 📋 عرض قائمة الاطباء التابعين لتخصص معين
+     */
 
     public function showDoctors($id)
     {

@@ -42,49 +42,6 @@
         </div>
     </div>
 
-    {{-- ✅ نموذج التصفية --}}
-    <div class="card mb-4 shadow-sm">
-        <div class="card-body">
-            <form method="GET" action="{{ route('doctor.dashboard') }}" class="row g-3 align-items-end">
-                <div class="col-md-2">
-                    <label class="form-label">الحالة</label>
-                    <select name="status" class="form-select">
-                        <option value="">كل الحالات</option>
-                        <option value="pending" {{ request('status') == 'pending' ? 'selected' : '' }}>معلقة</option>
-                        <option value="confirmed" {{ request('status') == 'confirmed' ? 'selected' : '' }}>مؤكدة</option>
-                        <option value="canceled" {{ request('status') == 'canceled' ? 'selected' : '' }}>ملغاة</option>
-                    </select>
-                </div>
-
-                <div class="col-md-2">
-                    <label class="form-label">تاريخ الموعد</label>
-                    <input type="date" name="date" class="form-control" value="{{ request('date') }}">
-                </div>
-
-                <div class="col-md-2">
-                    <label class="form-label">الوقت</label>
-                    <input type="time" name="time" class="form-control" value="{{ request('time') }}">
-                </div>
-
-                <div class="col-md-2">
-                    <label class="form-label">من تاريخ</label>
-                    <input type="date" name="from_date" class="form-control" value="{{ request('from_date') }}">
-                </div>
-
-                <div class="col-md-2">
-                    <label class="form-label">إلى تاريخ</label>
-                    <input type="date" name="to_date" class="form-control" value="{{ request('to_date') }}">
-                </div>
-
-                <div class="col-md-1 d-grid">
-                    <button type="submit" class="btn btn-primary">🔍</button>
-                </div>
-                <div class="col-md-1 d-grid">
-                    <a href="{{ route('doctor.dashboard') }}" class="btn btn-secondary">🔄</a>
-                </div>
-            </form>
-        </div>
-    </div>
 
     {{-- ✅ جدول مواعيد اليوم --}}
     <h5 class="mb-3">مواعيد اليوم</h5>
