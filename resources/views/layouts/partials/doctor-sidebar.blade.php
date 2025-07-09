@@ -22,6 +22,11 @@
 
 
         </li>
+          <li class="nav-item mb-2">
+        <a class="nav-link {{ request()->routeIs('emails') ? 'active' : '' }}" href="{{ route('emails') }}">
+            📧 سجل الإيميلات
+        </a>
+    </li>
         <li>
             <a href="{{ route('doctor.profile') }}" class="nav-link {{ request()->routeIs('doctor.profile') ? 'active' : 'text-dark' }}">
                 👤 الملف الشخصي
@@ -33,5 +38,6 @@
                 <button class="nav-link text-danger border-0 bg-transparent">🚪 تسجيل الخروج</button>
             </form>
         </li>
+        
     </ul>
 </div>

@@ -36,7 +36,7 @@ class AdminPanelController extends Controller
     public function toggleStatusForDoctor($id): RedirectResponse
     {
         $doctor = $this->adminService->toggleDoctorStatus($id);
-event(new AppointmentStatusUpdated($doctor));
+
 
  return redirect()->back()->with('success', 'تم تحديث حالة الطبيب بنجاح');
 

@@ -22,6 +22,11 @@
 
 
         </li>
+          <li class="nav-item mb-2">
+        <a class="nav-link <?php echo e(request()->routeIs('emails') ? 'active' : ''); ?>" href="<?php echo e(route('emails')); ?>">
+            📧 سجل الإيميلات
+        </a>
+    </li>
         <li>
             <a href="<?php echo e(route('doctor.profile')); ?>" class="nav-link <?php echo e(request()->routeIs('doctor.profile') ? 'active' : 'text-dark'); ?>">
                 👤 الملف الشخصي
@@ -33,6 +38,7 @@
                 <button class="nav-link text-danger border-0 bg-transparent">🚪 تسجيل الخروج</button>
             </form>
         </li>
+        
     </ul>
 </div>
 <?php /**PATH D:\Work_Programm\xampp\htdocs\Tamkeen_Training\Medical-center-management-center\resources\views/layouts/partials/doctor-sidebar.blade.php ENDPATH**/ ?>

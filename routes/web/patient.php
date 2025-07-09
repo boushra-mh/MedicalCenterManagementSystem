@@ -16,6 +16,11 @@ Route::prefix('user')->group(function () {
 
     // ✅ راوتات محمية للمريض المسجل - تتطلب التوثيق والدور user
     Route::middleware(['auth', 'role:user'])->group(function () {
+
+        Route::get('/emails', [UserDashboardController::class, 'emails'])->name('emails');
+
+        Route::get('/appointment.status', [UserDashboardController::class, 'showEmailsStatus'])->name('appointment.status'); 
+
         Route::post('logout', [UserLoginController::class, 'logout'])->name('user.logout');              // تسجيل الخروج
 
         Route::get('dashboard', [UserDashboardController::class, 'index'])->name('user.dashboard');       // لوحة تحكم المريض

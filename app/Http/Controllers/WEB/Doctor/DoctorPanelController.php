@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers\WEB\Doctor;
 
+use App\Events\AppointmentStatusUpdated;
 use App\Http\Controllers\Controller;
 use App\Models\Appointment;
 use App\Services\DoctorService;
 use Illuminate\Http\Request;
+use App\Models\EmailLog;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\ValidationException;
 
@@ -67,7 +69,8 @@ class DoctorPanelController extends Controller
                 return redirect()->back()->with('error', 'يجب تسجيل الدخول كطبيب أولاً.');
             }
 
-            $this->doctorService->acceptAppointment($id);
+           $doctor= $this->doctorService->acceptAppointment($id);
+            event(new AppointmentStatusUpdated($doctor));
 
             return redirect()->back()->with('success', 'تم تأكيد الموعد بنجاح.');
         } catch (ValidationException $e) {
@@ -84,10 +87,24 @@ class DoctorPanelController extends Controller
             if (!Auth::guard('doctor_web')->check()) {
                 return redirect()->back()->with('error', 'يجب تسجيل الدخول كطبيب أولاً.');
             }
-            $this->doctorService->rejectAppointment($id);
+           $doctor= $this->doctorService->rejectAppointment($id);
+              event(new AppointmentStatusUpdated($doctor));
             return redirect()->back()->with('success', 'تم إلغاء الموعد.');
         } catch (ValidationException $e) {
             return redirect()->back()->withErrors($e->errors());
         }
     }
+    
+
+public function emails()
+{
+    $doctorEmail = auth('doctor_web')->user()->email;
+
+    $emails = EmailLog::where('to_email', $doctorEmail)
+        ->orderBy('created_at', 'desc')
+        ->paginate(10);
+
+    return view('doctor.dashboard.emails', compact('emails'));
+}
+
 }

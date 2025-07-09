@@ -60,6 +60,7 @@
                     <th>تاريخ الموعد</th>
                     <th>الوقت</th>
                     <th>الحالة</th>
+                    <th>الإجراءات</th>
                 </tr>
             </thead>
             <tbody>
@@ -84,6 +85,21 @@
                                 <?php echo e(ucfirst(__($statusValue))); ?>
 
                             </span>
+                        </td>
+                          <td>
+                            <?php if($statusValue === 'pending'): ?>
+                                <form action="<?php echo e(route('user.appointments.destroy', $appointment->id)); ?>" method="DELETE" style="display:inline-block;">
+                                    <?php echo csrf_field(); ?>
+                                    <button class="btn btn-sm btn-success" type="submit"> 🗑️ حذف </button>
+                                </form>
+
+                                <form action="<?php echo e(route('user.appointments.cancel', $appointment->id)); ?>" method="POST" style="display:inline-block;" onsubmit="return confirm('هل أنت متأكد من إلغاء الموعد؟');">
+                                    <?php echo csrf_field(); ?>
+                                    <button class="btn btn-sm btn-danger" type="submit">❌ إلغاء</button>
+                                </form>
+                            <?php else: ?>
+                                <span>—</span>
+                            <?php endif; ?>
                         </td>
                     </tr>
                 <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>

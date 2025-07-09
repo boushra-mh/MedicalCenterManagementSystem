@@ -57,6 +57,11 @@
                 </ul>
             </div>
         </li>
+          <li class="nav-item mb-2">
+        <a class="nav-link <?php echo e(request()->routeIs('email_logs') ? 'active' : ''); ?>" href="<?php echo e(route('admin.email_logs')); ?>">
+            📧 سجل الإيميلات
+        </a>
+    </li>
 
     </ul>
 

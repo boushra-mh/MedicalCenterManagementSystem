@@ -1,6 +1,7 @@
 
 
 <?php $__env->startSection('title', 'لوحة التحكم'); ?>
+
 <?php $__env->startSection('styles'); ?>
 <style>
     .cursor-pointer {
@@ -12,11 +13,12 @@
         box-shadow: 0 8px 16px rgba(0,0,0,0.2);
         text-decoration: none !important;
     }
-     .card {
+    .card {
         color: inherit;
     }
 </style>
 <?php $__env->stopSection(); ?>
+
 <?php $__env->startSection('content'); ?>
 <div class="container mt-4">
     <h2 class="mb-4">لوحة تحكم الطبيب</h2>
@@ -57,6 +59,7 @@
         </div>
     </div>
 
+   
 
     
     <h5 class="mb-3">مواعيد اليوم</h5>

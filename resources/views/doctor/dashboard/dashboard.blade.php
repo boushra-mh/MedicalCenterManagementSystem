@@ -1,6 +1,7 @@
 @extends('layouts.doctor.doctor')
 
 @section('title', 'لوحة التحكم')
+
 @section('styles')
 <style>
     .cursor-pointer {
@@ -12,11 +13,12 @@
         box-shadow: 0 8px 16px rgba(0,0,0,0.2);
         text-decoration: none !important;
     }
-     .card {
+    .card {
         color: inherit;
     }
 </style>
 @endsection
+
 @section('content')
 <div class="container mt-4">
     <h2 class="mb-4">لوحة تحكم الطبيب</h2>
@@ -57,6 +59,7 @@
         </div>
     </div>
 
+   
 
     {{-- ✅ جدول مواعيد اليوم --}}
     <h5 class="mb-3">مواعيد اليوم</h5>

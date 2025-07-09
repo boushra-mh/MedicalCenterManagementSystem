@@ -1,10 +1,17 @@
 @component('mail::message')
-# Appointment Status Update
+# تحديث حالة الموعد
 
-Dear {{ $appointment->user->name }},
+مرحباً {{ $appointment->user?->name ?? 'المستخدم' }},
 
-Your appointment scheduled with Dr. {{ $appointment->doctor->name }} on {{ $appointment->date }} at {{ $appointment->time }} has been **{{ ucfirst($appointment->status->value) }}**.
+تم تحديث حالة موعدك مع الدكتور {{ $appointment->doctor?->name ?? 'الدكتور' }} بتاريخ {{ $appointment->date }} في الساعة {{ $appointment->time }} لتصبح الحالة:  
+**{{ ucfirst(__($appointment->status?->value ?? 'غير معروفة')) }}**.
 
-Thanks,  
+شكراً لاستخدامك {{ config('app.name') }}.
+
+@component('mail::button', ['url' => route('appointment.status', $appointment->id)])
+عرض تفاصيل الموعد
+@endcomponent
+
+تحياتنا،  
 {{ config('app.name') }}
 @endcomponent

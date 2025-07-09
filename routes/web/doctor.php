@@ -13,6 +13,9 @@ Route::prefix('doctor')->group(function () {
 
 // ✅ راوتات محمية للطبيب المسجّل - تتطلب التوثيق والدور doctor
 Route::prefix('doctor')->name('doctor.')->middleware(['auth:doctor_web', 'role:doctor'])->group(function () {
+    Route::get('/emails', [DoctorPanelController::class, 'emails'])->name('emails');
+
+
     
     Route::get('/dashboard', [DoctorPanelController::class, 'dashboard'])->name('dashboard');                     // لوحة تحكم الطبيب
     Route::get('/appointments', [DoctorPanelController::class, 'allAppointments'])->name('appointments.index');   // جميع المواعيد

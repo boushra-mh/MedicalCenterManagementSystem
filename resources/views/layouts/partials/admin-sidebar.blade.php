@@ -57,6 +57,11 @@
                 </ul>
             </div>
         </li>
+          <li class="nav-item mb-2">
+        <a class="nav-link {{ request()->routeIs('email_logs') ? 'active' : '' }}" href="{{ route('admin.email_logs') }}">
+            📧 سجل الإيميلات
+        </a>
+    </li>
 
     </ul>
 

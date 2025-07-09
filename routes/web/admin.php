@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\WEB\Admin\EmailLogController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\WEB\Admin\Auth\AdminLoginController;
 use App\Http\Controllers\WEB\Admin\AdminPanelController;
@@ -20,6 +21,9 @@ Route::middleware(['auth:admin_web', 'role:admin'])->prefix('admin')->name('admi
 
     // ✅ لوحة التحكم الرئيسية للأدمن
     Route::get('/dashboard', [AdminPanelController::class, 'index'])->name('dashboard');
+
+     Route::get('/email_logs', [EmailLogController::class, 'index'])->name('email_logs');
+    Route::get('/email_logs/{id}', [EmailLogController::class, 'show'])->name('email_logs.show');
 
     // ✅ إدارة تخصصات الأطباء - تتطلب صلاحية manage_specialties
     Route::prefix('specialties')->name('specialties.')->middleware('permission:manage_specialties')->group(function () {

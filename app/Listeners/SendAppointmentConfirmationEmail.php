@@ -5,6 +5,7 @@ namespace App\Listeners;
 use App\Events\AppointmentBooked;
 
 use App\Mail\AppointmentConfirmedMail;
+use App\Models\EmailLog;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Support\Facades\Log;
@@ -25,20 +26,48 @@ class SendAppointmentConfirmationEmail
     /**
      * Handle the event.
      */
-    public function handle(AppointmentBooked $event): void
-    {
-              $appointment = $event->appointment;
+     
 
+public function handle(AppointmentBooked $event): void
+{
+    $appointment = $event->appointment;
 
-        Mail::to($appointment->user->email)->send(new AppointmentConfirmedMail($appointment));
+    // إرسال الإيميل للمريض
+    Mail::to($appointment->user->email)->send(new AppointmentConfirmedMail($appointment));
 
+    // تسجيل الإيميل للمريض في الجدول
+    EmailLog::create([
+        'to_email' => $appointment->user->email,
+        'subject' => 'Appointment Confirmed Mail',
+        'body' => view('emails.appointments.confirmed', [
+            'appointment' => $appointment,
+            'user' => $appointment->user,
+            'doctor' => $appointment->doctor,
+        ])->render(),
+        'emailable_type' => get_class($appointment),
+        'emailable_id' => $appointment->id,
+    ]);
+    Log::info('EmailLog created for: ' . $appointment->user->email);
 
-        Mail::to($appointment->doctor->email)->send(new AppointmentConfirmedMail($appointment));
+    // إرسال الإيميل للطبيب
+    Mail::to($appointment->doctor->email)->send(new AppointmentConfirmedMail($appointment));
 
-        // $message=['your appointement details on your email, check it :',$appointment->user->email];
-        // self::$message = "Appointment details sent to: {$appointment->user->email}";
-        self::$message = 'mailto:' . $appointment->user->email;
+    // تسجيل الإيميل للطبيب في الجدول
+    EmailLog::create([
+        'to_email' => $appointment->doctor->email,
+        'subject' => 'Appointment Confirmed Mail',
+        'body' => view('emails.appointments.confirmed', [
+            'appointment' => $appointment,
+            'user' => $appointment->user,
+            'doctor' => $appointment->doctor,
+        ])->render(),
+        'emailable_type' => get_class($appointment),
+        'emailable_id' => $appointment->id,
+    ]);
 
-    }
+    // حفظ رسالة بسيطة (اختيارية)
+    self::$message = 'mailto:' . $appointment->user->email;
+}
+
     
 }

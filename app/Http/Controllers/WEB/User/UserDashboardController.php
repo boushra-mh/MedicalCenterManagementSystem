@@ -4,6 +4,7 @@ namespace App\Http\Controllers\WEB\User;
 use App\Http\Controllers\Controller;
 use App\Models\Appointment;
 use App\Models\Specialty;
+use App\Models\EmailLog;
 use Illuminate\Support\Facades\Auth;
 
 class UserDashboardController extends Controller
@@ -41,4 +42,25 @@ class UserDashboardController extends Controller
         $specialty = Specialty::with('doctors')->findOrFail($id);
         return view('user.doctors.doctors_by_specialty', compact('specialty'));
     }
+    public function emails()
+{
+    $userEmail = auth('user')->user()->email;
+
+    $emails = EmailLog::where('to_email', $userEmail)
+        ->orderBy('created_at', 'desc')
+        ->paginate(10);
+
+    return view('user.emails', compact('emails'));
+}
+    public function showEmailsStatus()
+{
+    $userEmail = auth('user')->user()->email;
+
+    $emails = EmailLog::where('to_email', $userEmail)
+        ->orderBy('created_at', 'desc')
+        ->paginate(10);
+
+    return view('emails.appointment.status', compact('emails'));
+}
+
 }
