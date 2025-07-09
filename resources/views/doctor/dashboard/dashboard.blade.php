@@ -1,7 +1,22 @@
 @extends('layouts.doctor.doctor')
 
 @section('title', 'لوحة التحكم')
-
+@section('styles')
+<style>
+    .cursor-pointer {
+        cursor: pointer;
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+    .cursor-pointer:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+        text-decoration: none !important;
+    }
+     .card {
+        color: inherit;
+    }
+</style>
+@endsection
 @section('content')
 <div class="container mt-4">
     <h2 class="mb-4">لوحة تحكم الطبيب</h2>
@@ -9,7 +24,7 @@
     {{-- ✅ بطاقات الإحصائيات --}}
     <div class="row mb-4">
         <div class="col-md-3">
-            <div class="card text-center bg-info text-white shadow-sm">
+            <div class="card text-center bg-info text-white shadow-sm cursor-pointer">
                 <div class="card-body">
                     <h6>مواعيد اليوم</h6>
                     <h4>{{ $stats['today'] }}</h4>
@@ -17,7 +32,7 @@
             </div>
         </div>
         <div class="col-md-3">
-            <div class="card text-center bg-success text-white shadow-sm">
+            <div class="card text-center bg-success text-white shadow-sm cursor-pointer">
                 <div class="card-body">
                     <h6>المؤكدة</h6>
                     <h4>{{ $stats['confirmed'] }}</h4>
@@ -25,7 +40,7 @@
             </div>
         </div>
         <div class="col-md-3">
-            <div class="card text-center bg-danger text-white shadow-sm">
+            <div class="card text-center bg-danger text-white shadow-sm cursor-pointer">
                 <div class="card-body">
                     <h6>الملغاة</h6>
                     <h4>{{ $stats['cancelled'] }}</h4>
@@ -33,7 +48,7 @@
             </div>
         </div>
         <div class="col-md-3">
-            <div class="card text-center bg-warning text-dark shadow-sm">
+            <div class="card text-center bg-warning text-dark shadow-sm cursor-pointer">
                 <div class="card-body">
                     <h6>المعلّقة</h6>
                     <h4>{{ $stats['pending'] }}</h4>

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\WEB\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Doctor;
 use App\Enums\StatusEnum;
+use App\Events\AppointmentStatusUpdated;
 use App\Services\AdminSevice;
 use App\Services\DoctorService;
 use Illuminate\Http\RedirectResponse;
@@ -35,7 +36,9 @@ class AdminPanelController extends Controller
     public function toggleStatusForDoctor($id): RedirectResponse
     {
         $doctor = $this->adminService->toggleDoctorStatus($id);
+event(new AppointmentStatusUpdated($doctor));
+
  return redirect()->back()->with('success', 'تم تحديث حالة الطبيب بنجاح');
-       
+
     }
 }

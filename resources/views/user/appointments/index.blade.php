@@ -60,6 +60,7 @@
                     <th>تاريخ الموعد</th>
                     <th>الوقت</th>
                     <th>الحالة</th>
+                    <th>الإجراءات</th>
                 </tr>
             </thead>
             <tbody>
@@ -83,6 +84,21 @@
                             <span class="badge bg-{{ $statusColors[$statusValue] ?? 'secondary' }}">
                                 {{ ucfirst(__($statusValue)) }}
                             </span>
+                        </td>
+                          <td>
+                            @if($statusValue === 'pending')
+                                <form action="{{ route('user.appointments.destroy', $appointment->id) }}" method="DELETE" style="display:inline-block;">
+                                    @csrf
+                                    <button class="btn btn-sm btn-success" type="submit"> 🗑️ حذف </button>
+                                </form>
+
+                                <form action="{{ route('user.appointments.cancel', $appointment->id) }}" method="POST" style="display:inline-block;" onsubmit="return confirm('هل أنت متأكد من إلغاء الموعد؟');">
+                                    @csrf
+                                    <button class="btn btn-sm btn-danger" type="submit">❌ إلغاء</button>
+                                </form>
+                            @else
+                                <span>—</span>
+                            @endif
                         </td>
                     </tr>
                 @endforeach

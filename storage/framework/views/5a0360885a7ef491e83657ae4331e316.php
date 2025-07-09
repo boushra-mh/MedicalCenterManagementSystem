@@ -27,12 +27,11 @@
                 <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
             </tbody>
         </table>
-     
-    <?php endif; ?>
-            <div class="d-flex justify-content-center">
+             <div class="d-flex justify-content-center">
     <?php echo e($patients->links()); ?>
 
 </div>
+    <?php endif; ?>
 
 </div>
 <?php $__env->stopSection(); ?>

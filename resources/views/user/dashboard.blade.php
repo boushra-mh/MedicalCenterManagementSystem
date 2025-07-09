@@ -1,7 +1,22 @@
 @extends('layouts.user.user')
 
 @section('title', 'لوحة التحكم')
-
+@section('styles')
+<style>
+    .cursor-pointer {
+        cursor: pointer;
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+    .cursor-pointer:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+        text-decoration: none !important;
+    }
+     .card {
+        color: inherit;
+    }
+</style>
+@endsection
 @section('content')
 <div class="container">
     <h2 class="mb-4">لوحة التحكم</h2>
@@ -9,7 +24,7 @@
     <!-- بطاقات الإحصائيات -->
     <div class="row text-center">
         <div class="col-md-3 mb-3">
-            <div class="card bg-primary text-white">
+            <div class="card bg-primary text-white cursor-pointer">
                 <div class="card-body">
                     <h5>كل المواعيد</h5>
                     <h3>{{ $stats['total'] }}</h3>
@@ -17,7 +32,7 @@
             </div>
         </div>
         <div class="col-md-3 mb-3">
-            <div class="card bg-success text-white">
+            <div class="card bg-success text-white cursor-pointer">
                 <div class="card-body">
                     <h5>مواعيد مؤكدة</h5>
                     <h3>{{ $stats['confirmed'] }}</h3>
@@ -25,7 +40,7 @@
             </div>
         </div>
         <div class="col-md-3 mb-3">
-            <div class="card bg-danger text-white">
+            <div class="card bg-danger text-white cursor-pointer">
                 <div class="card-body">
                     <h5>مواعيد ملغاة</h5>
                     <h3>{{ $stats['canceled'] }}</h3>
@@ -33,7 +48,7 @@
             </div>
         </div>
         <div class="col-md-3 mb-3">
-            <div class="card bg-warning text-dark">
+            <div class="card bg-warning text-dark cursor-pointer">
                 <div class="card-body">
                     <h5>مواعيد معلقة</h5>
                     <h3>{{ $stats['pending'] }}</h3>

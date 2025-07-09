@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\WEB\User;
 
+use App\Events\AppointmentBooked;
 use App\Http\Controllers\Controller;
 // لو عندك طلب تحقق مخصص
 use App\Http\Requests\API\Patient\AppointmentRequest;
@@ -52,7 +53,9 @@ class UserAppointmentController extends Controller
         $data = $request->validated();
         $data['user_id'] = Auth::id();
 
-        $this->appointmentService->bookAppointment($data);
+       $appointment= $this->appointmentService->bookAppointment($data);
+        event(new AppointmentBooked($appointment));
+
 
         return redirect()->route('user.appointments.index')->with('success', 'تم حجز الموعد بنجاح');
     }

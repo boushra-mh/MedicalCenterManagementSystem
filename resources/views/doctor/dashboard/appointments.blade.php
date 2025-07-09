@@ -1,4 +1,4 @@
-@extends('layouts.doctor.doctor') {{-- تأكد من استخدام اللayout الصحيح --}}
+@extends('layouts.doctor.doctor')
 
 @section('title', 'قائمة المواعيد')
 
