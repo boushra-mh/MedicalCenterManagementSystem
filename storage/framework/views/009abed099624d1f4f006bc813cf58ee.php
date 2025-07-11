@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title><?php echo $__env->yieldContent('title', 'تسجيل دخول الطبيب'); ?></title>
+    <title><?php echo $__env->yieldContent('title', __('messages.doctor_login')); ?></title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.rtl.min.css" rel="stylesheet" />
     <style>
         body {
@@ -16,7 +16,7 @@
 
     <nav class="navbar navbar-dark bg-primary">
         <div class="container">
-            <a class="navbar-brand" href="<?php echo e(route('doctor.login')); ?>">لوحة تحكم الطبيب</a>
+            <a class="navbar-brand" href="<?php echo e(route('doctor.login')); ?>"><?php echo e(__('messages.doctor_panel')); ?></a>
         </div>
     </nav>
 

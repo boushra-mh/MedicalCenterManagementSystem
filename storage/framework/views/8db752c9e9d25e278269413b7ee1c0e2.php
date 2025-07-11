@@ -2,7 +2,7 @@
 <html lang="ar">
 <head>
     <meta charset="UTF-8">
-    <title><?php echo $__env->yieldContent('title', 'تسجيل دخول'); ?></title>
+    <title><?php echo $__env->yieldContent('title', __('messages.admin_login')); ?></title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body class="bg-light">

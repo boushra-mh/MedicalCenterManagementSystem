@@ -1,6 +1,6 @@
 
 
-<?php $__env->startSection('title', 'تسجيل دخول الطبيب'); ?>
+<?php $__env->startSection('title', __('messages.doctor_login')); ?>
 
 <?php $__env->startSection('content'); ?>
 <div class="container mt-5">
@@ -8,19 +8,19 @@
         <div class="col-md-5">
             <div class="card shadow">
                 <div class="card-header text-center bg-primary text-white">
-                    <h4>تسجيل دخول الطبيب</h4>
+                    <h4><?php echo e(__('messages.doctor_login')); ?>  </h4>
                 </div>
                 <div class="card-body">
                     <form method="POST" action="<?php echo e(route('doctor.login')); ?>">
                         <?php echo csrf_field(); ?>
 
                         <div class="mb-3">
-                            <label for="email" class="form-label">البريد الإلكتروني</label>
+                            <label for="email" class="form-label"><?php echo e(__('messages.email')); ?></label>
                             <input type="email" name="email" value="<?php echo e(old('email')); ?>" class="form-control" required>
                         </div>
 
                         <div class="mb-3">
-                            <label for="password" class="form-label">كلمة المرور</label>
+                            <label for="password" class="form-label"><?php echo e(__('messages.password')); ?></label>
                             <input type="password" name="password" class="form-control" required>
                         </div>
 
@@ -29,7 +29,7 @@
                         <?php endif; ?>
 
                         <div class="d-grid">
-                            <button type="submit" class="btn btn-primary">دخول</button>
+                            <button type="submit" class="btn btn-primary"><?php echo e(__('messages.doctor_login')); ?></button>
                         </div>
                     </form>
                 </div>

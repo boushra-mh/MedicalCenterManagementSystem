@@ -1,18 +1,18 @@
-<?php $__env->startSection('title', 'تسجيل دخول الإدارة'); ?>
+<?php $__env->startSection('title', __('messages.admin_login')); ?>
 
 <?php $__env->startSection('content'); ?>
 <div class="container d-flex justify-content-center align-items-center" style="min-height: 90vh;">
     <div class="col-md-6">
         <div class="card shadow">
             <div class="card-header bg-primary text-white text-center">
-                <h4>تسجيل دخول الإدارة</h4>
+                <h4><?php echo e(__('messages.admin_login')); ?> </h4>
             </div>
             <div class="card-body">
                 <form method="POST" action="<?php echo e(url('admin/login')); ?>">
                     <?php echo csrf_field(); ?>
 
                     <div class="mb-3">
-                        <label for="email" class="form-label">البريد الإلكتروني</label>
+                        <label for="email" class="form-label"><?php echo e(__('messages.email')); ?></label>
                         <input type="email" name="email" id="email" class="form-control" value="<?php echo e(old('email')); ?>" required autofocus>
                         <?php $__errorArgs = ['email'];
 $__bag = $errors->getBag($__errorArgs[1] ?? 'default');
@@ -27,7 +27,7 @@ unset($__errorArgs, $__bag); ?>
                     </div>
 
                     <div class="mb-3">
-                        <label for="password" class="form-label">كلمة المرور</label>
+                        <label for="password" class="form-label"><?php echo e(__('messages.password')); ?></label>
                         <input type="password" name="password" id="password" class="form-control" required>
                         <?php $__errorArgs = ['password'];
 $__bag = $errors->getBag($__errorArgs[1] ?? 'default');
@@ -42,7 +42,7 @@ unset($__errorArgs, $__bag); ?>
                     </div>
 
                     <div class="d-grid">
-                        <button type="submit" class="btn btn-primary">تسجيل الدخول</button>
+                        <button type="submit" class="btn btn-primary"><?php echo e(__('messages.admin_login')); ?></button>
                     </div>
                 </form>
 

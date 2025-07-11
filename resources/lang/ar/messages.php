@@ -100,70 +100,66 @@ return [
     'admin' => 'المدير',
     'settings' => 'الإعدادات',
     'logout' => 'تسجيل الخروج',
-
-
     'profile' => 'الملف الشخصي',
-
-
     'my_appointments' => 'مواعيدي',
     'book_appointment' => 'حجز موعد',
-        'create_specialty' => 'إنشاء تخصص',
+    'create_specialty' => 'إنشاء تخصص',
     'name_en' => 'الاسم باللغة الإنجليزية',
     'name_ar' => 'الاسم باللغة العربية',
     'create' => 'إنشاء',
     'back' => 'رجوع',
-
-    'edit_specialty'   => 'تعديل تخصص',
-
-
+    'edit_specialty' => 'تعديل تخصص',
     'add_new_specialty' => 'إضافة تخصص جديد',
-
     'confirm_delete' => 'هل أنت متأكد من الحذف؟',
-
-
-
     'are_you_sure_delete' => 'هل أنت متأكد من حذف الموعد؟',
     'are_you_sure_cancel' => 'هل أنت متأكد من إلغاء الموعد؟',
-
     'doctors_in_specialty' => 'الأطباء في تخصص :specialty',
     'no_doctors_in_specialty' => 'لا يوجد أطباء حاليًا في هذا التخصص.',
-       'choose_specialty' => 'اختر التخصص لرؤية الأطباء',
+    'choose_specialty' => 'اختر التخصص لرؤية الأطباء',
     'view_doctors' => 'عرض الأطباء',
     'dashboard_title' => 'لوحة التحكم',
-
     'confirmed_appointments' => 'مواعيد مؤكدة',
     'canceled_appointments' => 'مواعيد ملغاة',
     'pending_appointments' => 'مواعيد معلقة',
     'view_email_logs' => 'عرض سجل الإيميلات المرسلة',
-
     'statuses' => [
         'pending' => 'معلق',
         'confirmed' => 'مؤكد',
         'canceled' => 'ملغي',
     ],
     'medical_specialties' => 'التخصصات الطبية',
-
     'no_specialties' => 'لا توجد تخصصات متاحة.',
-
     'email_messages_log' => 'سجل الرسائل الإلكترونية',
     'no_emails' => 'لا توجد رسائل حالياً.',
     'recipient_email' => 'البريد المستلم',
-
     'sent_date' => 'تاريخ الإرسال',
     'view_content' => 'عرض المحتوى',
-
-
-
-
-
-
-
+    'patient_panel' => 'لوحة تحكم المريض',
+    'system_title' => 'نظام إدارة المركز الطبي',
+    'hero_title' => 'منصة متكاملة لإدارة المركز الطبي',
+    'hero_subtitle' => 'تحكم كامل بالأطباء، المرضى، المواعيد، التخصصات، وسجلات الإيميلات.',
+    'get_started' => 'ابدأ الآن',
+    'features' => 'مميزات النظام',
+    'feature_appointments' => 'إدارة المواعيد',
+    'feature_appointments_desc' => 'إمكانية الحجز، التأكيد، الإلغاء مع إشعارات تلقائية عبر البريد الإلكتروني.',
+    'feature_doctors' => 'إدارة الأطباء',
+    'feature_doctors_desc' => 'إضافة أطباء، تحديد التخصصات، وضبط مواعيد العمل.',
+    'feature_emails' => 'سجل الرسائل',
+    'feature_emails_desc' => 'عرض كافة الرسائل المرسلة للمرضى والأطباء مع أرشفة.',
+    'feature_roles' => 'صلاحيات وأدوار متعددة',
+    'feature_roles_desc' => 'مدير، طبيب، ومريض – كل منهم لديه لوحة مخصصة.',
+    'feature_lang' => 'دعم اللغات',
+    'feature_lang_desc' => 'واجهة تدعم العربية والإنجليزية مع تغيير مباشر.',
+    'login_by_role' => 'تسجيل الدخول حسب الدور',
+    'admin_login' => 'تسجيل دخول المدير',
+    'doctor_login' => 'تسجيل دخول الطبيب',
+    'patient_login' => 'تسجيل دخول المريض',
+    'or_register' => 'أو إنشاء حساب جديد',
+    'copyright' => 'جميع الحقوق محفوظة - نظام إدارة المركز الطبي',
+    'medical_image_alt' => 'صورة طبية',
+    'patient_register' => 'تسجيل حساب جديد للمريض',
+    'password_confirmation' => 'تأكيد كلمة المرور',
+    'select_doctor' => 'اختر الطبيب',
+    'choose_doctor' => '-- اختر الطبيب --',
+    'book' => 'حجز',
 ];
-
-
-
-
-
-
-
-

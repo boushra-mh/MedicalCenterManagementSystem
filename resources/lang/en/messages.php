@@ -83,7 +83,7 @@ return [
     'hello_user' => 'Hello :name,',
     'user' => 'User',
     'the_doctor' => 'the doctor',
-    'appointment_updated_to' => 'Your appointment with :doctor on :date at :time has been updated to:  
+    'appointment_updated_to' => 'Your appointment with :doctor on :date at :time has been updated to:
 **:status**.',
     'thank_you_for_using' => 'Thank you for using :app.',
     'view_appointment_details' => 'View Appointment Details',
@@ -99,52 +99,67 @@ return [
     'appointment_list' => 'Appointment List',
     'admin' => 'Admin',
     'settings' => 'Settings',
-
     'profile' => 'Profile',
     'logout' => 'Logout',
-     'my_appointments' => 'My Appointments',
+    'my_appointments' => 'My Appointments',
     'book_appointment' => 'Book Appointment',
-
     'create_specialty' => 'Create Specialty',
     'name_en' => 'Name in English',
     'name_ar' => 'Name in Arabic',
     'create' => 'Create',
     'back' => 'Back',
-
     'confirm_delete' => 'Are you sure you want to delete?',
-        'add_new_specialty' => 'Add New Specialty',
-  
-        'edit_specialty'   => 'Edit Specialty',
-            'are_you_sure_delete' => 'Are you sure you want to delete this appointment?',
+    'add_new_specialty' => 'Add New Specialty',
+    'edit_specialty' => 'Edit Specialty',
+    'are_you_sure_delete' => 'Are you sure you want to delete this appointment?',
     'are_you_sure_cancel' => 'Are you sure you want to cancel this appointment?',
-
-        'doctors_in_specialty' => 'Doctors in :specialty Specialty',
+    'doctors_in_specialty' => 'Doctors in :specialty Specialty',
     'no_doctors_in_specialty' => 'There are currently no doctors in this specialty.',
-        'choose_specialty' => 'Choose Specialty to View Doctors',
+    'choose_specialty' => 'Choose Specialty to View Doctors',
     'view_doctors' => 'View Doctors',
-      'dashboard_title' => 'Dashboard',
-    
+    'dashboard_title' => 'Dashboard',
     'confirmed_appointments' => 'Confirmed Appointments',
     'canceled_appointments' => 'Canceled Appointments',
     'pending_appointments' => 'Pending Appointments',
     'view_email_logs' => 'View Sent Email Logs',
-    
     'statuses' => [
         'pending' => 'Pending',
         'confirmed' => 'Confirmed',
         'canceled' => 'Canceled',
     ],
     'medical_specialties' => 'Medical Specialties',
-    
     'no_specialties' => 'No specialties available.',
-
     'email_messages_log' => 'Email Messages Log',
     'no_emails' => 'No emails currently.',
     'recipient_email' => 'Recipient Email',
-  
     'sent_date' => 'Sent Date',
     'view_content' => 'View Content',
-
-        
-
+    'system_title' => 'Medical Center Management System',
+    'hero_title' => 'A Complete Platform to Manage Your Medical Center',
+    'hero_subtitle' => 'Full control over doctors, patients, appointments, specialties, and email logs.',
+    'get_started' => 'Get Started',
+    'features' => 'System Features',
+    'feature_appointments' => 'Appointment Management',
+    'feature_appointments_desc' => 'Book, confirm, and cancel appointments with automatic email notifications.',
+    'feature_doctors' => 'Doctor Management',
+    'feature_doctors_desc' => 'Add doctors, assign specialties, and set working hours.',
+    'feature_emails' => 'Email Logs',
+    'feature_emails_desc' => 'View all emails sent to patients and doctors with smart archiving.',
+    'feature_roles' => 'Multiple Roles & Permissions',
+    'feature_roles_desc' => 'Admin, Doctor, and Patient — each has their own dedicated dashboard.',
+    'feature_lang' => 'Language Support',
+    'feature_lang_desc' => 'Interface supports both Arabic and English with easy switching.',
+    'login_by_role' => 'Login by Role',
+    'admin_login' => 'Admin Login',
+    'doctor_login' => 'Doctor Login',
+    'patient_login' => 'Patient Login',
+    'or_register' => 'Or create a new account',
+    'copyright' => 'All rights reserved - Medical Center Management System',
+    'medical_image_alt' => 'Medical Illustration',
+    'patient_panel' => 'patient  panel',
+    'patient_register' => 'Patient Register',
+    'password_confirmation' => 'password confirmation',
+    'select_doctor' => 'Select Doctor',
+    'choose_doctor' => '-- Choose Doctor --',
+    'book' => 'Book',
 ];

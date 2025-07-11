@@ -58,12 +58,7 @@
         </div>
     </div>
 
-    {{-- زر سجل الإيميلات --}}
-    <div class="mb-4 text-end">
-        <a href="{{ route('emails') }}" class="btn btn-outline-primary shadow-sm">
-            📧 {{ __('messages.view_email_logs') }}
-        </a>
-    </div>
+
 
     <!-- جدول مواعيد اليوم -->
     <div class="mt-5">
