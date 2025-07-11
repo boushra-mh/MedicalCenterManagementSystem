@@ -1,22 +1,22 @@
 @extends('layouts.admin.admin')
 
-@section('title', 'قائمة المواعيد')
+@section('title', __('messages.appointments_list'))
 
 @section('content')
 <div class="container mt-5">
-    <h2 class="mb-4">جميع المواعيد</h2>
+    <h2 class="mb-4">{{ __('messages.all_appointments') }}</h2>
 
     @if($appointments->isEmpty())
-        <div class="alert alert-info text-center">لا يوجد مواعيد حالياً.</div>
+        <div class="alert alert-info text-center">{{ __('messages.no_appointments') }}</div>
     @else
         <table class="table table-bordered table-hover">
             <thead>
                 <tr>
-                    <th>المريض</th>
-                    <th>الطبيب</th>
-                    <th>التاريخ</th>
-                    <th>الوقت</th>
-                    <th>الحالة</th>
+                    <th>{{ __('messages.patient') }}</th>
+                    <th>{{ __('messages.doctor') }}</th>
+                    <th>{{ __('messages.date') }}</th>
+                    <th>{{ __('messages.time') }}</th>
+                    <th>{{ __('messages.status') }}</th>
                 </tr>
             </thead>
             <tbody>
@@ -26,15 +26,16 @@
                         <td>{{ $appointment->doctor?->name ?? '-' }}</td>
                         <td>{{ $appointment->date }}</td>
                         <td>{{ $appointment->time }}</td>
-                        <td>{{ $appointment->status }}</td>
+                       <td>{{ __('messages.' . $appointment->status->value) }}</td>
+
                     </tr>
                 @endforeach
             </tbody>
         </table>
-        <div class="d-flex justify-content-center">
-    {{ $appointments->links() }}
-</div>
 
+        <div class="d-flex justify-content-center">
+            {{ $appointments->links() }}
+        </div>
     @endif
 </div>
 @endsection

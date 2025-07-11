@@ -1,6 +1,6 @@
 @extends('layouts.user.user')
 
-@section('title', 'لوحة التحكم')
+@section('title', __('messages.dashboard_title', [], app()->getLocale()))
 @section('styles')
 <style>
     .cursor-pointer {
@@ -12,21 +12,22 @@
         box-shadow: 0 8px 16px rgba(0,0,0,0.2);
         text-decoration: none !important;
     }
-     .card {
+    .card {
         color: inherit;
     }
 </style>
 @endsection
+
 @section('content')
 <div class="container">
-    <h2 class="mb-4">لوحة التحكم</h2>
+    <h2 class="mb-4">{{ __('messages.dashboard_title') }}</h2>
 
     <!-- بطاقات الإحصائيات -->
     <div class="row text-center">
         <div class="col-md-3 mb-3">
             <div class="card bg-primary text-white cursor-pointer">
                 <div class="card-body">
-                    <h5>كل المواعيد</h5>
+                    <h5>{{ __('messages.all_appointments') }}</h5>
                     <h3>{{ $stats['total'] }}</h3>
                 </div>
             </div>
@@ -34,7 +35,7 @@
         <div class="col-md-3 mb-3">
             <div class="card bg-success text-white cursor-pointer">
                 <div class="card-body">
-                    <h5>مواعيد مؤكدة</h5>
+                    <h5>{{ __('messages.confirmed_appointments') }}</h5>
                     <h3>{{ $stats['confirmed'] }}</h3>
                 </div>
             </div>
@@ -42,7 +43,7 @@
         <div class="col-md-3 mb-3">
             <div class="card bg-danger text-white cursor-pointer">
                 <div class="card-body">
-                    <h5>مواعيد ملغاة</h5>
+                    <h5>{{ __('messages.canceled_appointments') }}</h5>
                     <h3>{{ $stats['canceled'] }}</h3>
                 </div>
             </div>
@@ -50,31 +51,32 @@
         <div class="col-md-3 mb-3">
             <div class="card bg-warning text-dark cursor-pointer">
                 <div class="card-body">
-                    <h5>مواعيد معلقة</h5>
+                    <h5>{{ __('messages.pending_appointments') }}</h5>
                     <h3>{{ $stats['pending'] }}</h3>
                 </div>
             </div>
         </div>
     </div>
-     {{-- ✅ زر سجل الإيميلات --}}
+
+    {{-- زر سجل الإيميلات --}}
     <div class="mb-4 text-end">
         <a href="{{ route('emails') }}" class="btn btn-outline-primary shadow-sm">
-            📧 عرض سجل الإيميلات المرسلة
+            📧 {{ __('messages.view_email_logs') }}
         </a>
     </div>
 
     <!-- جدول مواعيد اليوم -->
     <div class="mt-5">
-        <h4>مواعيد اليوم</h4>
+        <h4>{{ __('messages.today_appointments') }}</h4>
         @if($appointmentsToday->isEmpty())
-            <div class="alert alert-info">لا يوجد مواعيد اليوم.</div>
+            <div class="alert alert-info">{{ __('messages.no_appointments_today') }}</div>
         @else
             <table class="table table-bordered text-center">
                 <thead class="table-light">
                     <tr>
-                        <th>الطبيب</th>
-                        <th>الوقت</th>
-                        <th>الحالة</th>
+                        <th>{{ __('messages.doctor') }}</th>
+                        <th>{{ __('messages.time') }}</th>
+                        <th>{{ __('messages.status') }}</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -95,7 +97,7 @@
                             <td>{{ $appointment->time }}</td>
                             <td>
                                 <span class="badge bg-{{ $colors[$status] ?? 'secondary' }}">
-                                    {{ __($status) }}
+                                    {{ __('messages.statuses.' . $status) }}
                                 </span>
                             </td>
                         </tr>
@@ -107,18 +109,20 @@
 
     <!-- عرض قائمة التخصصات -->
     <div class="mt-5">
-        <h4>التخصصات الطبية</h4>
+        <h4>{{ __('messages.medical_specialties') }}</h4>
         @if(!empty($specialties) && $specialties->isNotEmpty())
             <ul class="list-group">
                 @foreach($specialties as $specialty)
                     <li class="list-group-item d-flex justify-content-between align-items-center">
                         {{ $specialty->name }}
-                        <a href="{{ route('specialties.doctors', $specialty->id) }}" class="btn btn-sm btn-primary">عرض الأطباء</a>
+                        <a href="{{ route('specialties.doctors', $specialty->id) }}" class="btn btn-sm btn-primary">
+                            {{ __('messages.view_doctors') }}
+                        </a>
                     </li>
                 @endforeach
             </ul>
         @else
-            <div class="alert alert-info">لا توجد تخصصات متاحة.</div>
+            <div class="alert alert-info">{{ __('messages.no_specialties') }}</div>
         @endif
     </div>
 </div>

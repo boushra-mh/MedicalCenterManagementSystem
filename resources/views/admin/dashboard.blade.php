@@ -1,7 +1,6 @@
-
 @extends('layouts.admin.admin')
 
-@section('title', 'لوحة تحكم الإدارة')
+@section('title', __('messages.admin_panel'))
 
 @section('styles')
 <style>
@@ -23,8 +22,8 @@
 @section('content')
 <div class="container mt-5">
     <div class="d-flex justify-content-between align-items-center mb-4">
-        <h2 class="fw-bold">لوحة تحكم الإدارة</h2>
-        <span class="text-muted">مرحباً بك 👋</span>
+        <h2 class="fw-bold">{{ __('messages.admin_panel') }}</h2>
+        <span class="text-muted">{{ __('messages.welcome_message') }}</span>
     </div>
 
     <div class="row g-4">
@@ -34,7 +33,7 @@
                 <div class="card bg-primary text-white shadow-sm cursor-pointer">
                     <div class="card-body text-center">
                         <i class="bi bi-person-badge fs-1 mb-2"></i>
-                        <h5>عدد الأطباء</h5>
+                        <h5>{{ __('messages.total_doctors') }}</h5>
                         <h3>{{ $statsArray['total_doctors'] }}</h3>
                     </div>
                 </div>
@@ -47,7 +46,7 @@
                 <div class="card bg-success text-white shadow-sm cursor-pointer">
                     <div class="card-body text-center">
                         <i class="bi bi-people fs-1 mb-2"></i>
-                        <h5>عدد المرضى</h5>
+                        <h5>{{ __('messages.total_patients') }}</h5>
                         <h3>{{ $statsArray['total_patients'] }}</h3>
                     </div>
                 </div>
@@ -60,7 +59,7 @@
                 <div class="card bg-info text-white shadow-sm cursor-pointer">
                     <div class="card-body text-center">
                         <i class="bi bi-calendar-check fs-1 mb-2"></i>
-                        <h5>عدد المواعيد</h5>
+                        <h5>{{ __('messages.total_appointments') }}</h5>
                         <h3>{{ $statsArray['total_appointments'] }}</h3>
                     </div>
                 </div>
@@ -73,7 +72,7 @@
                 <div class="card bg-danger text-white shadow-sm cursor-pointer">
                     <div class="card-body text-center">
                         <i class="bi bi-trash fs-1 mb-2"></i>
-                        <h5>المواعيد المحذوفة</h5>
+                        <h5>{{ __('messages.trashed_appointments') }}</h5>
                         <h3>{{ $statsArray['total_appointmentsWithTrashed'] }}</h3>
                     </div>
                 </div>
@@ -84,7 +83,7 @@
     <!-- رسم بياني -->
     <div class="card mt-5 shadow-sm">
         <div class="card-header bg-light fw-bold">
-            إحصائيات مرئية
+            {{ __('messages.chart_title') }}
         </div>
         <div class="card-body d-flex justify-content-center">
             <div style="width: 320px; height: 320px;">
@@ -96,17 +95,19 @@
 @endsection
 
 @section('scripts')
-<!-- Bootstrap icons (اختياري) -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
-
-<!-- Chart.js -->
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
     const ctx = document.getElementById('pieChart').getContext('2d');
     const pieChart = new Chart(ctx, {
         type: 'pie',
         data: {
-            labels: ['الأطباء', 'المرضى', 'المواعيد', 'المواعيد المحذوفة'],
+            labels: [
+                '{{ __('messages.total_doctors') }}',
+                '{{ __('messages.total_patients') }}',
+                '{{ __('messages.total_appointments') }}',
+                '{{ __('messages.trashed_appointments') }}'
+            ],
             datasets: [{
                 data: [
                     {{ $statsArray['total_doctors'] }},
@@ -114,12 +115,7 @@
                     {{ $statsArray['total_appointments'] }},
                     {{ $statsArray['total_appointmentsWithTrashed'] }}
                 ],
-                backgroundColor: [
-                    '#0d6efd',
-                    '#198754',
-                    '#0dcaf0',
-                    '#dc3545'
-                ],
+                backgroundColor: ['#0d6efd', '#198754', '#0dcaf0', '#dc3545'],
                 borderColor: '#fff',
                 borderWidth: 2,
             }]

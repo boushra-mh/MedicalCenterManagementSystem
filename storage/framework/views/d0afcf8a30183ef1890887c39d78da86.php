@@ -1,6 +1,6 @@
 
 
-<?php $__env->startSection('title', 'لوحة التحكم'); ?>
+<?php $__env->startSection('title', __('messages.doctor_dashboard')); ?>
 
 <?php $__env->startSection('styles'); ?>
 <style>
@@ -21,14 +21,14 @@
 
 <?php $__env->startSection('content'); ?>
 <div class="container mt-4">
-    <h2 class="mb-4">لوحة تحكم الطبيب</h2>
+    <h2 class="mb-4"><?php echo e(__('messages.doctor_dashboard')); ?></h2>
 
     
     <div class="row mb-4">
         <div class="col-md-3">
             <div class="card text-center bg-info text-white shadow-sm cursor-pointer">
                 <div class="card-body">
-                    <h6>مواعيد اليوم</h6>
+                    <h6><?php echo e(__('messages.today_appointments')); ?></h6>
                     <h4><?php echo e($stats['today']); ?></h4>
                 </div>
             </div>
@@ -36,7 +36,7 @@
         <div class="col-md-3">
             <div class="card text-center bg-success text-white shadow-sm cursor-pointer">
                 <div class="card-body">
-                    <h6>المؤكدة</h6>
+                    <h6><?php echo e(__('messages.confirmed')); ?></h6>
                     <h4><?php echo e($stats['confirmed']); ?></h4>
                 </div>
             </div>
@@ -44,7 +44,7 @@
         <div class="col-md-3">
             <div class="card text-center bg-danger text-white shadow-sm cursor-pointer">
                 <div class="card-body">
-                    <h6>الملغاة</h6>
+                    <h6><?php echo e(__('messages.cancelled')); ?></h6>
                     <h4><?php echo e($stats['cancelled']); ?></h4>
                 </div>
             </div>
@@ -52,27 +52,25 @@
         <div class="col-md-3">
             <div class="card text-center bg-warning text-dark shadow-sm cursor-pointer">
                 <div class="card-body">
-                    <h6>المعلّقة</h6>
+                    <h6><?php echo e(__('messages.pending')); ?></h6>
                     <h4><?php echo e($stats['pending']); ?></h4>
                 </div>
             </div>
         </div>
     </div>
 
-   
-
     
-    <h5 class="mb-3">مواعيد اليوم</h5>
+    <h5 class="mb-3"><?php echo e(__('messages.today_appointments')); ?></h5>
     <?php if($appointmentsToday->isEmpty()): ?>
-        <div class="alert alert-info text-center">لا توجد مواعيد لليوم.</div>
+        <div class="alert alert-info text-center"><?php echo e(__('messages.no_appointments_today')); ?></div>
     <?php else: ?>
         <table class="table table-bordered table-striped text-center align-middle shadow-sm">
             <thead class="table-dark">
                 <tr>
-                    <th>اسم المريض</th>
-                    <th>التاريخ</th>
-                    <th>الوقت</th>
-                    <th>الحالة</th>
+                    <th><?php echo e(__('messages.patient_name')); ?></th>
+                    <th><?php echo e(__('messages.date')); ?></th>
+                    <th><?php echo e(__('messages.time')); ?></th>
+                    <th><?php echo e(__('messages.status')); ?></th>
                 </tr>
             </thead>
             <tbody>
@@ -94,7 +92,7 @@
                         <td><?php echo e($appointment->time); ?></td>
                         <td>
                             <span class="badge bg-<?php echo e($statusColors[$statusValue] ?? 'secondary'); ?>">
-                                <?php echo e(ucfirst(__($statusValue))); ?>
+                                <?php echo e(ucfirst(__("messages.$statusValue"))); ?>
 
                             </span>
                         </td>

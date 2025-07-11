@@ -1,19 +1,18 @@
 <!DOCTYPE html>
-<html lang="{{ app()->getLocale() }}" dir="{{ app()->getLocale() == 'ar' ? 'rtl' : 'ltr' }}">
+<html lang="{{ app()->getLocale() }}" dir="{{ app()->getLocale() === 'ar' ? 'rtl' : 'ltr' }}">
 <head>
     <meta charset="UTF-8">
-    <title>@yield('title', 'Admin Panel')</title>
+    <title>@yield('title', __('messages.admin_panel'))</title>
 
-    {{-- Bootstrap 5 RTL أو LTR حسب اللغة --}}
-    @if(app()->getLocale() == 'ar')
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.rtl.min.css" rel="stylesheet">
-    @else
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    @endif
+    {{-- Bootstrap RTL or LTR --}}
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap{{ app()->getLocale() === 'ar' ? '.rtl' : '' }}.min.css" rel="stylesheet">
 
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    {{-- أي CSS إضافي --}}
+    {{-- Fonts --}}
+    <link href="https://fonts.googleapis.com/css2?family=Cairo&display=swap" rel="stylesheet">
+
+    {{-- Custom Styles --}}
     <style>
         body {
             font-family: 'Cairo', sans-serif;
@@ -36,15 +35,15 @@
 </head>
 
 <body>
-    {{-- رأس الصفحة (Navbar علوي ثابت) --}}
+    {{-- Navbar --}}
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <div class="container-fluid">
-            <a class="navbar-brand fw-bold" href="{{ route('admin.dashboard') }}">لوحة الإدارة</a>
+            <a class="navbar-brand fw-bold" href="{{ route('admin.dashboard') }}">{{ __('messages.admin_panel') }}</a>
 
-            {{-- زر تغيير اللغة --}}
+            {{-- Language Switcher --}}
             <div class="dropdown ms-auto">
                 <button class="btn btn-outline-light dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                    🌐 {{ app()->getLocale() == 'ar' ? 'العربية' : 'English' }}
+                    🌐 {{ app()->getLocale() === 'ar' ? 'العربية' : 'English' }}
                 </button>
                 <ul class="dropdown-menu dropdown-menu-end">
                     <li><a class="dropdown-item" href="{{ route('lang.switch', 'ar') }}">العربية</a></li>
@@ -54,23 +53,19 @@
         </div>
     </nav>
 
-    {{-- محتوى الصفحة مقسم إلى Sidebar ومحتوى رئيسي --}}
+    {{-- Layout --}}
     <div class="d-flex">
-        {{-- الشريط الجانبي --}}
+        {{-- Sidebar --}}
         @include('layouts.partials.admin-sidebar')
 
-        {{-- محتوى الصفحة --}}
+        {{-- Main Content --}}
         <div class="flex-grow-1 p-4">
             @yield('content')
         </div>
     </div>
 
-    {{-- ملفات JS --}}
-    @if(app()->getLocale() == 'ar')
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    @else
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    @endif
+    {{-- Scripts --}}
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
     @yield('scripts')
 </body>

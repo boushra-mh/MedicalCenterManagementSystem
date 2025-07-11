@@ -1,17 +1,17 @@
 
 
-<?php $__env->startSection('title', 'سجل الإيميلات'); ?>
+<?php $__env->startSection('title', __('messages.email_logs')); ?>
 
 <?php $__env->startSection('content'); ?>
 <div class="container mt-4">
-    <h4>📧 سجل الرسائل المرسلة</h4>
+    <h4>📧 <?php echo e(__('messages.sent_emails_log')); ?></h4>
     <table class="table table-bordered mt-3 text-center">
         <thead class="table-dark">
             <tr>
-                <th>المرسل إليه</th>
-                <th>الموضوع</th>
-                <th>التاريخ</th>
-                <th>عرض</th>
+                <th><?php echo e(__('messages.recipient')); ?></th>
+                <th><?php echo e(__('messages.subject')); ?></th>
+                <th><?php echo e(__('messages.date')); ?></th>
+                <th><?php echo e(__('messages.view')); ?></th>
             </tr>
         </thead>
         <tbody>
@@ -20,7 +20,7 @@
                     <td><?php echo e($email->to_email); ?></td>
                     <td><?php echo e($email->subject); ?></td>
                     <td><?php echo e($email->created_at->format('Y-m-d H:i')); ?></td>
-                    <td><a href="<?php echo e(route('admin.email_logs.show', $email->id)); ?>" class="btn btn-sm btn-info">عرض</a></td>
+                    <td><a href="<?php echo e(route('admin.email_logs.show', $email->id)); ?>" class="btn btn-sm btn-info"><?php echo e(__('messages.view')); ?></a></td>
                 </tr>
             <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
         </tbody>

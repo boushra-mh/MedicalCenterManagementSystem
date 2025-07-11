@@ -1,21 +1,19 @@
-
-
-<?php $__env->startSection('title', 'سجل الإيميلات'); ?>
+<?php $__env->startSection('title', __('messages.email_logs')); ?>
 
 <?php $__env->startSection('content'); ?>
 <div class="container mt-4">
-    <h2 class="mb-4">📧 سجل الرسائل الإلكترونية</h2>
+    <h2 class="mb-4">📧 <?php echo e(__('messages.email_messages_log')); ?></h2>
 
     <?php if($emails->isEmpty()): ?>
-        <div class="alert alert-info text-center">لا توجد رسائل حالياً.</div>
+        <div class="alert alert-info text-center"><?php echo e(__('messages.no_emails')); ?></div>
     <?php else: ?>
         <table class="table table-bordered table-hover text-center">
             <thead class="table-dark">
                 <tr>
-                    <th>البريد المستلم</th>
-                    <th>العنوان</th>
-                    <th>المحتوى</th>
-                    <th>تاريخ الإرسال</th>
+                    <th><?php echo e(__('messages.recipient_email')); ?></th>
+                    <th><?php echo e(__('messages.subject')); ?></th>
+                    <th><?php echo e(__('messages.content')); ?></th>
+                    <th><?php echo e(__('messages.sent_date')); ?></th>
                 </tr>
             </thead>
             <tbody>
@@ -25,7 +23,8 @@
                         <td><?php echo e($email->subject); ?></td>
                         <td>
                             <button class="btn btn-sm btn-outline-info" data-bs-toggle="collapse" data-bs-target="#body<?php echo e($loop->index); ?>">
-                                عرض المحتوى
+                                <?php echo e(__('messages.view_content')); ?>
+
                             </button>
                             <div id="body<?php echo e($loop->index); ?>" class="collapse mt-2 text-start">
                                 <?php echo $email->body; ?>
@@ -44,4 +43,4 @@
 </div>
 <?php $__env->stopSection(); ?>
 
-<?php echo $__env->make('layouts.doctor.doctor', array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?><?php /**PATH D:\Work_Programm\xampp\htdocs\Tamkeen_Training\Medical-center-management-center\resources\views/user/emails.blade.php ENDPATH**/ ?>
+<?php echo $__env->make('layouts.user.user', array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?><?php /**PATH D:\Work_Programm\xampp\htdocs\Tamkeen_Training\Medical-center-management-center\resources\views/user/emails.blade.php ENDPATH**/ ?>

@@ -9,7 +9,7 @@
 
 - {{ __('Doctor') }}: {{ $doctor->name }}
 - {{ __('Date') }}: {{ $appointment->date }}
-- {{ __('Time') }}: {{ $appointment->time }}
+- {{ __('time') }}: {{ $appointment->time }}
 
 {{ __('Thank you for choosing our medical center!') }}
 

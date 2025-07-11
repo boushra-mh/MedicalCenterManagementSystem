@@ -1,6 +1,6 @@
 @extends('layouts.doctor.doctor')
 
-@section('title', 'لوحة التحكم')
+@section('title', __('messages.doctor_dashboard'))
 
 @section('styles')
 <style>
@@ -21,14 +21,14 @@
 
 @section('content')
 <div class="container mt-4">
-    <h2 class="mb-4">لوحة تحكم الطبيب</h2>
+    <h2 class="mb-4">{{ __('messages.doctor_dashboard') }}</h2>
 
     {{-- ✅ بطاقات الإحصائيات --}}
     <div class="row mb-4">
         <div class="col-md-3">
             <div class="card text-center bg-info text-white shadow-sm cursor-pointer">
                 <div class="card-body">
-                    <h6>مواعيد اليوم</h6>
+                    <h6>{{ __('messages.today_appointments') }}</h6>
                     <h4>{{ $stats['today'] }}</h4>
                 </div>
             </div>
@@ -36,7 +36,7 @@
         <div class="col-md-3">
             <div class="card text-center bg-success text-white shadow-sm cursor-pointer">
                 <div class="card-body">
-                    <h6>المؤكدة</h6>
+                    <h6>{{ __('messages.confirmed') }}</h6>
                     <h4>{{ $stats['confirmed'] }}</h4>
                 </div>
             </div>
@@ -44,7 +44,7 @@
         <div class="col-md-3">
             <div class="card text-center bg-danger text-white shadow-sm cursor-pointer">
                 <div class="card-body">
-                    <h6>الملغاة</h6>
+                    <h6>{{ __('messages.cancelled') }}</h6>
                     <h4>{{ $stats['cancelled'] }}</h4>
                 </div>
             </div>
@@ -52,27 +52,25 @@
         <div class="col-md-3">
             <div class="card text-center bg-warning text-dark shadow-sm cursor-pointer">
                 <div class="card-body">
-                    <h6>المعلّقة</h6>
+                    <h6>{{ __('messages.pending') }}</h6>
                     <h4>{{ $stats['pending'] }}</h4>
                 </div>
             </div>
         </div>
     </div>
 
-   
-
     {{-- ✅ جدول مواعيد اليوم --}}
-    <h5 class="mb-3">مواعيد اليوم</h5>
+    <h5 class="mb-3">{{ __('messages.today_appointments') }}</h5>
     @if($appointmentsToday->isEmpty())
-        <div class="alert alert-info text-center">لا توجد مواعيد لليوم.</div>
+        <div class="alert alert-info text-center">{{ __('messages.no_appointments_today') }}</div>
     @else
         <table class="table table-bordered table-striped text-center align-middle shadow-sm">
             <thead class="table-dark">
                 <tr>
-                    <th>اسم المريض</th>
-                    <th>التاريخ</th>
-                    <th>الوقت</th>
-                    <th>الحالة</th>
+                    <th>{{ __('messages.patient_name') }}</th>
+                    <th>{{ __('messages.date') }}</th>
+                    <th>{{ __('messages.time') }}</th>
+                    <th>{{ __('messages.status') }}</th>
                 </tr>
             </thead>
             <tbody>
@@ -94,7 +92,7 @@
                         <td>{{ $appointment->time }}</td>
                         <td>
                             <span class="badge bg-{{ $statusColors[$statusValue] ?? 'secondary' }}">
-                                {{ ucfirst(__($statusValue)) }}
+                                {{ ucfirst(__("messages.$statusValue")) }}
                             </span>
                         </td>
                     </tr>

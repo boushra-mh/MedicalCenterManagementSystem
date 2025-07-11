@@ -1,28 +1,28 @@
 
 
-<?php $__env->startSection('title', 'المواعيد المحذوفة مؤقتاً'); ?>
+<?php $__env->startSection('title', __('messages.deleted_appointments')); ?>
 
 <?php $__env->startSection('content'); ?>
 <div class="container mt-5">
-    <h2 class="mb-4 text-danger">🗑️ قائمة المواعيد المحذوفة مؤقتاً</h2>
+    <h2 class="mb-4 text-danger">🗑️ <?php echo e(__('messages.deleted_appointments_list')); ?></h2>
 
     <?php if(session('success')): ?>
         <div class="alert alert-success text-center"><?php echo e(session('success')); ?></div>
     <?php endif; ?>
 
     <?php if($appointments->isEmpty()): ?>
-        <div class="alert alert-warning text-center">لا يوجد مواعيد محذوفة حالياً.</div>
+        <div class="alert alert-warning text-center"><?php echo e(__('messages.no_deleted_appointments')); ?></div>
     <?php else: ?>
         <div class="table-responsive">
             <table class="table table-bordered table-striped align-middle text-center">
                 <thead class="table-dark">
                     <tr>
-                        <th>اسم المريض</th>
-                        <th>اسم الطبيب</th>
-                        <th>تاريخ الموعد</th>
-                        <th>الوقت</th>
-                        <th>تاريخ الحذف</th>
-                        <th>الإجراء</th>
+                        <th><?php echo e(__('messages.patient_name')); ?></th>
+                        <th><?php echo e(__('messages.doctor_name')); ?></th>
+                        <th><?php echo e(__('messages.appointment_date')); ?></th>
+                        <th><?php echo e(__('messages.time')); ?></th>
+                        <th><?php echo e(__('messages.deleted_at')); ?></th>
+                        <th><?php echo e(__('messages.action')); ?></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -34,11 +34,12 @@
                             <td><?php echo e($appointment->time); ?></td>
                             <td><?php echo e($appointment->deleted_at->format('Y-m-d H:i')); ?></td>
                             <td>
-                                <form action="<?php echo e(route('admin.appointments.forceDelete', $appointment->id)); ?>" method="POST" onsubmit="return confirm('⚠️ هل أنت متأكد أنك تريد حذف هذا الموعد نهائياً؟');">
+                                <form action="<?php echo e(route('admin.appointments.forceDelete', $appointment->id)); ?>" method="POST" onsubmit="return confirm('<?php echo e(__('messages.confirm_force_delete')); ?>');">
                                     <?php echo csrf_field(); ?>
                                     <?php echo method_field('DELETE'); ?>
                                     <button class="btn btn-sm btn-danger">
-                                        حذف نهائي 🗑️
+                                        🗑️ <?php echo e(__('messages.force_delete')); ?>
+
                                     </button>
                                 </form>
                             </td>

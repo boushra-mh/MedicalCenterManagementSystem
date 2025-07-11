@@ -1,17 +1,21 @@
 @component('mail::message')
-# تحديث حالة الموعد
+# {{ __('messages.appointment_status_updated') }}
 
-مرحباً {{ $appointment->user?->name ?? 'المستخدم' }},
+{{ __('messages.hello_user', ['name' => $appointment->user?->name ?? __('messages.user')]) }}
 
-تم تحديث حالة موعدك مع الدكتور {{ $appointment->doctor?->name ?? 'الدكتور' }} بتاريخ {{ $appointment->date }} في الساعة {{ $appointment->time }} لتصبح الحالة:  
-**{{ ucfirst(__($appointment->status?->value ?? 'غير معروفة')) }}**.
+{{ __('messages.appointment_updated_to', [
+    'doctor' => $appointment->doctor?->name ?? __('messages.the_doctor'),
+    'date' => $appointment->date,
+    'time' => $appointment->time,
+    'status' => ucfirst(__("messages." . ($appointment->status?->value ?? 'unknown')))
+]) }}
 
-شكراً لاستخدامك {{ config('app.name') }}.
+{{ __('messages.thank_you_for_using', ['app' => config('app.name')]) }}
 
 @component('mail::button', ['url' => route('appointment.status', $appointment->id)])
-عرض تفاصيل الموعد
+{{ __('messages.view_appointment_details') }}
 @endcomponent
 
-تحياتنا،  
+{{ __('messages.regards') }},  
 {{ config('app.name') }}
 @endcomponent

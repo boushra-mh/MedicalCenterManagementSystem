@@ -1,17 +1,17 @@
 @extends('layouts.admin.admin')
 
-@section('title', 'سجل الإيميلات')
+@section('title', __('messages.email_logs'))
 
 @section('content')
 <div class="container mt-4">
-    <h4>📧 سجل الرسائل المرسلة</h4>
+    <h4>📧 {{ __('messages.sent_emails_log') }}</h4>
     <table class="table table-bordered mt-3 text-center">
         <thead class="table-dark">
             <tr>
-                <th>المرسل إليه</th>
-                <th>الموضوع</th>
-                <th>التاريخ</th>
-                <th>عرض</th>
+                <th>{{ __('messages.recipient') }}</th>
+                <th>{{ __('messages.subject') }}</th>
+                <th>{{ __('messages.date') }}</th>
+                <th>{{ __('messages.view') }}</th>
             </tr>
         </thead>
         <tbody>
@@ -20,7 +20,7 @@
                     <td>{{ $email->to_email }}</td>
                     <td>{{ $email->subject }}</td>
                     <td>{{ $email->created_at->format('Y-m-d H:i') }}</td>
-                    <td><a href="{{ route('admin.email_logs.show', $email->id) }}" class="btn btn-sm btn-info">عرض</a></td>
+                    <td><a href="{{ route('admin.email_logs.show', $email->id) }}" class="btn btn-sm btn-info">{{ __('messages.view') }}</a></td>
                 </tr>
             @endforeach
         </tbody>

@@ -1,21 +1,21 @@
-@extends('layouts.doctor.doctor')
+@extends('layouts.user.user')
 
-@section('title', 'سجل الإيميلات')
+@section('title', __('messages.email_logs'))
 
 @section('content')
 <div class="container mt-4">
-    <h2 class="mb-4">📧 سجل الرسائل الإلكترونية</h2>
+    <h2 class="mb-4">📧 {{ __('messages.email_messages_log') }}</h2>
 
     @if($emails->isEmpty())
-        <div class="alert alert-info text-center">لا توجد رسائل حالياً.</div>
+        <div class="alert alert-info text-center">{{ __('messages.no_emails') }}</div>
     @else
         <table class="table table-bordered table-hover text-center">
             <thead class="table-dark">
                 <tr>
-                    <th>البريد المستلم</th>
-                    <th>العنوان</th>
-                    <th>المحتوى</th>
-                    <th>تاريخ الإرسال</th>
+                    <th>{{ __('messages.recipient_email') }}</th>
+                    <th>{{ __('messages.subject') }}</th>
+                    <th>{{ __('messages.content') }}</th>
+                    <th>{{ __('messages.sent_date') }}</th>
                 </tr>
             </thead>
             <tbody>
@@ -25,7 +25,7 @@
                         <td>{{ $email->subject }}</td>
                         <td>
                             <button class="btn btn-sm btn-outline-info" data-bs-toggle="collapse" data-bs-target="#body{{ $loop->index }}">
-                                عرض المحتوى
+                                {{ __('messages.view_content') }}
                             </button>
                             <div id="body{{ $loop->index }}" class="collapse mt-2 text-start">
                                 {!! $email->body !!}

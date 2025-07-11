@@ -1,25 +1,25 @@
 @extends('layouts.admin.admin')
 
-@section('title', 'قائمة الأطباء')
+@section('title', __('messages.doctors_list'))
 
 @section('content')
 <div class="container mt-4">
-    <h2>قائمة الأطباء</h2>
+    <h2>{{ __('messages.doctors_list') }}</h2>
 
     @if(session('success'))
         <div class="alert alert-success">{{ session('success') }}</div>
     @endif
 
-    <a href="{{ route('admin.doctors.create') }}" class="btn btn-primary mb-3">إضافة طبيب جديد</a>
+    <a href="{{ route('admin.doctors.create') }}" class="btn btn-primary mb-3">{{ __('messages.add_new_doctor') }}</a>
 
     <table class="table table-bordered table-striped">
         <thead>
             <tr>
-                <th>الاسم</th>
-                <th>البريد الإلكتروني</th>
-                <th>التخصصات</th>
-                <th>الحالة</th>
-                <th>الإجراءات</th>
+                <th>{{ __('messages.name') }}</th>
+                <th>{{ __('messages.email') }}</th>
+                <th>{{ __('messages.specialties') }}</th>
+                <th>{{ __('messages.status') }}</th>
+                <th>{{ __('messages.actions') }}</th>
             </tr>
         </thead>
         <tbody>
@@ -40,24 +40,25 @@
                                 class="badge border-0 {{ $doctor->status == \App\Enums\StatusEnum::Active->value ? 'bg-success' : 'bg-secondary' }}"
                                 style="cursor: pointer;"
                             >
-                                {{ $doctor->status == \App\Enums\StatusEnum::Active->value ? 'نشط' : 'غير نشط' }}
+                                {{ $doctor->status == \App\Enums\StatusEnum::Active->value ? __('messages.active') : __('messages.inactive') }}
                             </button>
                         </form>
                     </td>
                     <td>
-                        <a href="{{ route('admin.doctors.edit', $doctor->id) }}" class="btn btn-sm btn-warning">تعديل</a>
+                        <a href="{{ route('admin.doctors.edit', $doctor->id) }}" class="btn btn-sm btn-warning">{{ __('messages.edit') }}</a>
 
-                        <form action="{{ route('admin.doctors.destroy', $doctor->id) }}" method="POST" style="display:inline-block" onsubmit="return confirm('هل أنت متأكد من حذف هذا الطبيب؟');">
+                        <form action="{{ route('admin.doctors.destroy', $doctor->id) }}" method="POST" style="display:inline-block" onsubmit="return confirm('{{ __('messages.confirm_delete_doctor') }}');">
                             @csrf
                             @method('DELETE')
-                            <button class="btn btn-sm btn-danger" type="submit">حذف</button>
+                            <button class="btn btn-sm btn-danger" type="submit">{{ __('messages.delete') }}</button>
                         </form>
                     </td>
                 </tr>
             @empty
-                <tr><td colspan="5" class="text-center">لا يوجد أطباء حتى الآن.</td></tr>
+                <tr><td colspan="5" class="text-center">{{ __('messages.no_doctors_yet') }}</td></tr>
             @endforelse
         </tbody>
     </table>
 </div>
 @endsection
+     

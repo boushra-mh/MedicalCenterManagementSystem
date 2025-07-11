@@ -3,10 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <title><?php echo $__env->yieldContent('title', 'لوحة المريض'); ?></title>
-    
+
     <!-- Bootstrap RTL -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.rtl.min.css" rel="stylesheet">
-    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <style>
@@ -35,14 +37,15 @@
     <div class="d-flex">
         <!-- الشريط الجانبي -->
         <div class="sidebar p-3">
-            <h5 class="text-white mb-4">👨‍⚕️ المريض</h5>
-            <a href="<?php echo e(route('user.dashboard')); ?>">🏠 لوحة التحكم</a>
-            <a href="<?php echo e(route('user.appointments.index')); ?>">📋 مواعيدي</a>
-            <a href="<?php echo e(route('user.appointments.create')); ?>">➕ حجز موعد</a>
-            <a href="<?php echo e(route('user.logout')); ?>"
-               onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-               🚪 تسجيل الخروج
-            </a>
+      <h5 class="text-white mb-4">👨‍⚕️ <?php echo e(__('messages.patient')); ?></h5>
+<a href="<?php echo e(route('user.dashboard')); ?>">🏠 <?php echo e(__('messages.dashboard')); ?></a>
+<a href="<?php echo e(route('user.appointments.index')); ?>">📋 <?php echo e(__('messages.my_appointments')); ?></a>
+<a href="<?php echo e(route('user.appointments.create')); ?>">➕ <?php echo e(__('messages.book_appointment')); ?></a>
+<a href="<?php echo e(route('user.logout')); ?>"
+   onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+   🚪 <?php echo e(__('messages.logout')); ?>
+
+</a>
             <form id="logout-form" action="<?php echo e(route('user.logout')); ?>" method="POST" class="d-none">
                 <?php echo csrf_field(); ?>
             </form>

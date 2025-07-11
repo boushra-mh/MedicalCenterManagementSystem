@@ -1,22 +1,22 @@
 
 
-<?php $__env->startSection('title', 'قائمة المواعيد'); ?>
+<?php $__env->startSection('title', __('messages.appointments_list')); ?>
 
 <?php $__env->startSection('content'); ?>
 <div class="container mt-5">
-    <h2 class="mb-4">جميع المواعيد</h2>
+    <h2 class="mb-4"><?php echo e(__('messages.all_appointments')); ?></h2>
 
     <?php if($appointments->isEmpty()): ?>
-        <div class="alert alert-info text-center">لا يوجد مواعيد حالياً.</div>
+        <div class="alert alert-info text-center"><?php echo e(__('messages.no_appointments')); ?></div>
     <?php else: ?>
         <table class="table table-bordered table-hover">
             <thead>
                 <tr>
-                    <th>المريض</th>
-                    <th>الطبيب</th>
-                    <th>التاريخ</th>
-                    <th>الوقت</th>
-                    <th>الحالة</th>
+                    <th><?php echo e(__('messages.patient')); ?></th>
+                    <th><?php echo e(__('messages.doctor')); ?></th>
+                    <th><?php echo e(__('messages.date')); ?></th>
+                    <th><?php echo e(__('messages.time')); ?></th>
+                    <th><?php echo e(__('messages.status')); ?></th>
                 </tr>
             </thead>
             <tbody>
@@ -26,16 +26,17 @@
                         <td><?php echo e($appointment->doctor?->name ?? '-'); ?></td>
                         <td><?php echo e($appointment->date); ?></td>
                         <td><?php echo e($appointment->time); ?></td>
-                        <td><?php echo e($appointment->status); ?></td>
+                       <td><?php echo e(__('messages.' . $appointment->status->value)); ?></td>
+
                     </tr>
                 <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
             </tbody>
         </table>
+
         <div class="d-flex justify-content-center">
-    <?php echo e($appointments->links()); ?>
+            <?php echo e($appointments->links()); ?>
 
-</div>
-
+        </div>
     <?php endif; ?>
 </div>
 <?php $__env->stopSection(); ?>

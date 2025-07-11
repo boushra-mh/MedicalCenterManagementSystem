@@ -1,28 +1,28 @@
 @extends('layouts.admin.admin')
 
-@section('title', 'المواعيد المحذوفة مؤقتاً')
+@section('title', __('messages.deleted_appointments'))
 
 @section('content')
 <div class="container mt-5">
-    <h2 class="mb-4 text-danger">🗑️ قائمة المواعيد المحذوفة مؤقتاً</h2>
+    <h2 class="mb-4 text-danger">🗑️ {{ __('messages.deleted_appointments_list') }}</h2>
 
     @if(session('success'))
         <div class="alert alert-success text-center">{{ session('success') }}</div>
     @endif
 
     @if($appointments->isEmpty())
-        <div class="alert alert-warning text-center">لا يوجد مواعيد محذوفة حالياً.</div>
+        <div class="alert alert-warning text-center">{{ __('messages.no_deleted_appointments') }}</div>
     @else
         <div class="table-responsive">
             <table class="table table-bordered table-striped align-middle text-center">
                 <thead class="table-dark">
                     <tr>
-                        <th>اسم المريض</th>
-                        <th>اسم الطبيب</th>
-                        <th>تاريخ الموعد</th>
-                        <th>الوقت</th>
-                        <th>تاريخ الحذف</th>
-                        <th>الإجراء</th>
+                        <th>{{ __('messages.patient_name') }}</th>
+                        <th>{{ __('messages.doctor_name') }}</th>
+                        <th>{{ __('messages.appointment_date') }}</th>
+                        <th>{{ __('messages.time') }}</th>
+                        <th>{{ __('messages.deleted_at') }}</th>
+                        <th>{{ __('messages.action') }}</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -34,11 +34,11 @@
                             <td>{{ $appointment->time }}</td>
                             <td>{{ $appointment->deleted_at->format('Y-m-d H:i') }}</td>
                             <td>
-                                <form action="{{ route('admin.appointments.forceDelete', $appointment->id) }}" method="POST" onsubmit="return confirm('⚠️ هل أنت متأكد أنك تريد حذف هذا الموعد نهائياً؟');">
+                                <form action="{{ route('admin.appointments.forceDelete', $appointment->id) }}" method="POST" onsubmit="return confirm('{{ __('messages.confirm_force_delete') }}');">
                                     @csrf
                                     @method('DELETE')
                                     <button class="btn btn-sm btn-danger">
-                                        حذف نهائي 🗑️
+                                        🗑️ {{ __('messages.force_delete') }}
                                     </button>
                                 </form>
                             </td>

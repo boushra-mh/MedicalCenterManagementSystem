@@ -1,20 +1,20 @@
 @extends('layouts.admin.admin')
 
-@section('title', 'قائمة المرضى')
+@section('title', __('messages.patients_list'))
 
 @section('content')
 <div class="container mt-5">
-    <h2 class="mb-4">قائمة المرضى</h2>
+    <h2 class="mb-4">{{ __('messages.patients_list') }}</h2>
 
     @if($patients->isEmpty())
-        <div class="alert alert-warning text-center">لا يوجد مرضى حالياً.</div>
+        <div class="alert alert-warning text-center">{{ __('messages.no_patients_yet') }}</div>
     @else
         <table class="table table-bordered table-striped">
             <thead>
                 <tr>
-                    <th>الاسم</th>
-                    <th>البريد الإلكتروني</th>
-                    <th>تاريخ التسجيل</th>
+                    <th>{{ __('messages.name') }}</th>
+                    <th>{{ __('messages.email') }}</th>
+                    <th>{{ __('messages.registration_date') }}</th>
                 </tr>
             </thead>
             <tbody>
@@ -27,9 +27,9 @@
                 @endforeach
             </tbody>
         </table>
-             <div class="d-flex justify-content-center">
-    {{ $patients->links() }}
-</div>
+        <div class="d-flex justify-content-center">
+            {{ $patients->links() }}
+        </div>
     @endif
 
 </div>

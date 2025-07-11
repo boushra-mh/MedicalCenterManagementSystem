@@ -30,6 +30,7 @@ class SendAppointmentConfirmationEmail
 
 public function handle(AppointmentBooked $event): void
 {
+        Log::info('SendAppointmentConfirmationEmail listener triggered');
     $appointment = $event->appointment;
 
     // إرسال الإيميل للمريض
@@ -65,7 +66,7 @@ public function handle(AppointmentBooked $event): void
         'emailable_id' => $appointment->id,
     ]);
 
-    // حفظ رسالة بسيطة (اختيارية)
+
     self::$message = 'mailto:' . $appointment->user->email;
 }
 
