@@ -162,4 +162,10 @@ return [
     'select_doctor' => 'اختر الطبيب',
     'choose_doctor' => '-- اختر الطبيب --',
     'book' => 'حجز',
+    'restore'=> 'استرجاع',
+    'final delete'=> 'حذف نهائي',
+    'trashed_specialties'=> 'التخصصات المؤرشفة',
+    'trashed_specialties_list'=> ' قائمة التخصصات المؤرشفة',
+    'no_trashed_specialties'=> 'لايوجد تخصصات مؤرشفة',
+
 ];

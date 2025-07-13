@@ -31,6 +31,7 @@ class AppointmentStatusMail extends Mailable
         return new Envelope(
             subject: 'Appointment Status Mail',
             
+            
         );
     }
 
@@ -41,6 +42,9 @@ class AppointmentStatusMail extends Mailable
     {
         return new Content(
             markdown: 'emails.appointment.status',
+             with: [
+            'appointment' => $this->appointment,
+        ],
             
         );
     }

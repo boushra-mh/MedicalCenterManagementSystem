@@ -38,8 +38,7 @@ Route::prefix('doctor')
         // ❌ إلغاء موعد معين
         Route::post('/appointments/{id}/cancel', [DoctorPanelController::class, 'cancel'])->name('appointments.cancel');
 
-        // 👤 صفحة الملف الشخصي للطبيب (اختياري)
-        Route::get('/profile', function () {
-            return view('doctor.dashboard.profile');
-        })->name('profile');
+        // 👤 صفحة الملف الشخصي للطبيب 
+      Route::get('/profile', [DoctorPanelController::class, 'profile'])->name('profile');
+
     });

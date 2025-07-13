@@ -1,3 +1,7 @@
+@php
+    use App\Enums\StatusEnum;
+@endphp
+
 @extends('layouts.admin.admin')
 
 @section('title', __('messages.doctors_list'))
@@ -33,20 +37,14 @@
                         @endforeach
                     </td>
                     <td>
-                        <form action="{{ route('admin.doctors.toggleStatus', $doctor->id) }}" method="POST">
-                            @csrf
-                            @method('PATCH')
-                            <button type="submit"
-                                class="badge border-0 {{ $doctor->status == \App\Enums\StatusEnum::Active->value ? 'bg-success' : 'bg-secondary' }}"
-                                style="cursor: pointer;"
-                            >
-                                {{ $doctor->status == \App\Enums\StatusEnum::Active->value ? __('messages.active') : __('messages.inactive') }}
-                            </button>
-                        </form>
+                        <button
+                            class="btn btn-sm toggle-status-btn {{ $doctor->status == StatusEnum::Active ? 'btn-success' : 'btn-secondary' }}"
+                            data-id="{{ $doctor->id }}">
+                            {{ $doctor->status == StatusEnum::Active ? __('messages.active') : __('messages.inactive') }}
+                        </button>
                     </td>
                     <td>
                         <a href="{{ route('admin.doctors.edit', $doctor->id) }}" class="btn btn-sm btn-warning">{{ __('messages.edit') }}</a>
-
                         <form action="{{ route('admin.doctors.destroy', $doctor->id) }}" method="POST" style="display:inline-block" onsubmit="return confirm('{{ __('messages.confirm_delete_doctor') }}');">
                             @csrf
                             @method('DELETE')
@@ -61,4 +59,47 @@
     </table>
 </div>
 @endsection
-     
+
+@push('scripts')
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    const buttons = document.querySelectorAll('.toggle-status-btn');
+
+    buttons.forEach(button => {
+        button.addEventListener('click', function () {
+            const doctorId = this.getAttribute('data-id');
+            const token = '{{ csrf_token() }}';
+            const btn = this;
+
+            fetch(`/admin/doctors/${doctorId}/toggle-status`, {
+                method: 'PATCH',
+                headers: {
+                    'X-CSRF-TOKEN': token,
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json',
+                },
+            })
+            .then(response => {
+                if (!response.ok) throw new Error('Network error');
+                return response.json();
+            })
+            .then(data => {
+                if (data.status === 'active') {
+                    btn.classList.remove('btn-secondary');
+                    btn.classList.add('btn-success');
+                    btn.textContent = '{{ __("messages.active") }}';
+                } else {
+                    btn.classList.remove('btn-success');
+                    btn.classList.add('btn-secondary');
+                    btn.textContent = '{{ __("messages.inactive") }}';
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('حدث خطأ أثناء تحديث الحالة');
+            });
+        });
+    });
+});
+</script>
+@endpush

@@ -33,12 +33,15 @@ class AdminPanelController extends Controller
 
         return view('admin.dashboard', compact('statsArray'));
     }
-    public function toggleStatusForDoctor($id): RedirectResponse
-    {
-        $doctor = $this->adminService->toggleDoctorStatus($id);
 
+    public function toggleStatusForDoctor($id)
+{
+    $doctor = $this->adminService->toggleDoctorStatus($id);
 
- return redirect()->back()->with('success', 'تم تحديث حالة الطبيب بنجاح');
+    return response()->json([
+        'message' => 'تم تحديث حالة الطبيب بنجاح',
+        'status' => $doctor->status === StatusEnum::Active ? 'active' : 'inactive',
 
-    }
+    ]);
+}
 }

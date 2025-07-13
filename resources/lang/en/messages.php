@@ -162,4 +162,10 @@ return [
     'select_doctor' => 'Select Doctor',
     'choose_doctor' => '-- Choose Doctor --',
     'book' => 'Book',
+    'restore'=> 'restore',
+    'final delete'=> 'final delete',
+    'trashed_specialties'=> 'archive specialties',
+    'deleted_specialties'=> 'deleted specialties',
+    'trashed_specialties_list'=> 'trashed specialties list',
+    'no_trashed_specialties'=> 'no trashed specialties',
 ];

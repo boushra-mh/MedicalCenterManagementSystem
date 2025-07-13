@@ -60,7 +60,7 @@ class UserDashboardController extends Controller
         ->orderBy('created_at', 'desc')
         ->paginate(10);
 
-    return view('emails.appointment.status', compact('emails'));
+    return view('emails.appointment.html', compact('emails'));
 }
 
 }

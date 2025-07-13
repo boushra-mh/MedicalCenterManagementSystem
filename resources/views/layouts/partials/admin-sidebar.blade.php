@@ -45,6 +45,7 @@
                 <ul class="list-unstyled small ps-3">
                     <li><a href="{{ route('admin.specialties.index') }}" class="nav-link text-dark">📋 {{ __('messages.specialty_list') }}</a></li>
                     <li><a href="{{ route('admin.specialties.create') }}" class="nav-link text-dark">➕ {{ __('messages.add_specialty') }}</a></li>
+                                        <li><a href="{{ route('admin.specialties.trashed') }}" class="nav-link text-dark">♻️ {{ __('messages.trashed_specialties') }}</a></li>
                 </ul>
             </div>
         </li>

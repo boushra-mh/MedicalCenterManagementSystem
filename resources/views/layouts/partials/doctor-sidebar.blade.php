@@ -27,7 +27,7 @@
 
         <!-- 📧 سجل الإيميلات -->
         <li class="nav-item mb-2">
-            <a class="nav-link {{ request()->routeIs('emails') ? 'active' : '' }}" href="{{ route('emails') }}">
+            <a class="nav-link {{ request()->routeIs('doctor.emails') ? 'active' : '' }}" href="{{ route('doctor.emails') }}">
                 📧 {{ __('messages.email_logs') }}
             </a>
         </li>
@@ -46,6 +46,6 @@
                 <button class="nav-link text-danger border-0 bg-transparent">🚪 {{ __('messages.logout') }}</button>
             </form>
         </li>
-        
+
     </ul>
 </div>

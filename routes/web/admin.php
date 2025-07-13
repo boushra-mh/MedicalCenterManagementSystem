@@ -40,6 +40,9 @@ Route::middleware(['auth:admin_web', 'role:admin'])
                 Route::get('/{id}/edit', [SpecialtyController::class, 'edit'])->name('edit');     // صفحة تعديل تخصص
                 Route::put('/{id}', [SpecialtyController::class, 'update'])->name('update');      // حفظ التعديلات
                 Route::delete('/{id}', [SpecialtyController::class, 'destroy'])->name('destroy'); // حذف التخصص
+              Route::post('/{id}', [SpecialtyController::class, 'restore'])->name('restore'); // حذف التخصص
+                Route::get('/trashed', [SpecialtyController::class, 'trashed'])->name('trashed');  
+              Route::delete('/{id}/force-delete', [SpecialtyController::class, 'forceDelete'])->name('forceDelete');
             });
 
         // 👨‍⚕️ إدارة الأطباء - تتطلب صلاحية manage_doctors

@@ -79,6 +79,9 @@
             <a class="nav-link {{ request()->routeIs('emails') ? 'active' : '' }}" href="{{ route('emails') }}">
                 📧 {{ __('messages.email_logs') }}
             </a>
+              {{-- <a class="nav-link {{ request()->routeIs('appointment_status') ? 'active' : '' }}" href="{{ route('appointment_status') }}">
+                📧 {{ __('messages.appointment_status') }}
+            </a> --}}
         
             <a href="{{ route('user.logout') }}"
                onclick="event.preventDefault(); document.getElementById('logout-form').submit();">

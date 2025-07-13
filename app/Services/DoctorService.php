@@ -24,7 +24,7 @@ class DoctorService
      */
     public function getAllDoctors()
     {
-        return Doctor::all();
+        return Doctor::get();
     }
 
     /**

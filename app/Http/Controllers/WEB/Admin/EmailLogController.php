@@ -17,13 +17,5 @@ class EmailLogController extends Controller
         $email = EmailLog::findOrFail($id);
         return view('admin.email_logs.show', compact('email'));
     }
-    public function indexStatus()
-    {
-        // جلب الايميلات المرسلة لليوزر الحالي
-        $emailLogs = EmailLog::where('to_email', auth('user')->user()->email)
-                             ->orderBy('created_at', 'desc')
-                             ->paginate(10);
 
-        return view('emails.appointment.status', compact('emailLogs'));
-    }
 }

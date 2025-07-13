@@ -3,6 +3,7 @@ namespace App\Http\Controllers\WEB\Admin\Specialty;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\API\Admin\Specialty\SpecialtyStoreRequest;
+use App\Models\Specialty;
 use App\Services\SpecialtyService;
 use Illuminate\Http\Request;
 
@@ -51,6 +52,11 @@ class SpecialtyController extends Controller
         $specialty = $this->specialtyService->getById($id);
         return view('specialty.edit', compact('specialty'));
     }
+     public function trashed()
+    {
+        $specialties = Specialty::onlyTrashed()->get();
+        return view('specialty.trashed', compact('specialties'));
+    }
 
     /**
      * 🔄 تحديث بيانات التخصص
@@ -69,5 +75,27 @@ class SpecialtyController extends Controller
     {
         $this->specialtyService->delete($id);
         return redirect()->route('admin.specialties.index')->with('success', 'Specialty deleted successfully.');
+    }
+     /**
+     * إعادة تخزين تخصص
+     */
+
+    public function restore($id)
+{
+    $specialty = Specialty::onlyTrashed()->findOrFail($id);
+     $specialty ->restore();
+     
+
+    return redirect()->route('admin.specialties.index')->with('success', 'Specialty restored successfully.');
+}
+    /**
+     * 🗑️ حذف المواعيد بشكل نهائي
+     */
+    public function forceDelete($id)
+    {
+        $specialty = specialty::onlyTrashed()->findOrFail($id);
+        $specialty->forceDelete();
+
+        return redirect()->route('admin.specialties.trashed')->with('success', 'تم حذف الموعد نهائياً');
     }
 }

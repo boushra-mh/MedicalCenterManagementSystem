@@ -6,8 +6,8 @@
 <div class="container">
     <h2>{{ __('messages.specialties') }}</h2>
 
-    @if(session('success')) 
-        <div class="alert alert-success">{{ session('success') }}</div> 
+    @if(session('success'))
+        <div class="alert alert-success">{{ session('success') }}</div>
     @endif
 
     <a href="{{ route('admin.specialties.create') }}" class="btn btn-primary mb-3">
@@ -34,10 +34,11 @@
                             {{ __('messages.edit') }}
                         </a>
                         <form action="{{ route('admin.specialties.destroy', $specialty->id) }}" method="POST" style="display:inline;" onsubmit="return confirm('{{ __('messages.confirm_delete') }}')">
-                            @csrf 
+                            @csrf
                             @method('DELETE')
                             <button class="btn btn-sm btn-danger">{{ __('messages.delete') }}</button>
                         </form>
+                       
                     </td>
                 </tr>
             @endforeach

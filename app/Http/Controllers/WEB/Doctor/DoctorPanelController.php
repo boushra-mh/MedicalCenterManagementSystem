@@ -69,8 +69,8 @@ class DoctorPanelController extends Controller
                 return redirect()->back()->with('error', 'يجب تسجيل الدخول كطبيب أولاً.');
             }
 
-           $doctor= $this->doctorService->acceptAppointment($id);
-            event(new AppointmentStatusUpdated($doctor));
+          $appointment= $this->doctorService->acceptAppointment($id);
+            event(new AppointmentStatusUpdated($appointment));
 
             return redirect()->back()->with('success', 'تم تأكيد الموعد بنجاح.');
         } catch (ValidationException $e) {
@@ -87,14 +87,14 @@ class DoctorPanelController extends Controller
             if (!Auth::guard('doctor_web')->check()) {
                 return redirect()->back()->with('error', 'يجب تسجيل الدخول كطبيب أولاً.');
             }
-           $doctor= $this->doctorService->rejectAppointment($id);
-              event(new AppointmentStatusUpdated($doctor));
+          $appointment= $this->doctorService->rejectAppointment($id);
+              event(new AppointmentStatusUpdated($appointment));
             return redirect()->back()->with('success', 'تم إلغاء الموعد.');
         } catch (ValidationException $e) {
             return redirect()->back()->withErrors($e->errors());
         }
     }
-    
+
 
 public function emails()
 {
@@ -105,6 +105,10 @@ public function emails()
         ->paginate(10);
 
     return view('doctor.dashboard.emails', compact('emails'));
+}
+public function profile()
+{
+    return view('doctor.dashboard.profile');
 }
 
 }
